@@ -1,5 +1,5 @@
 import {SignInForm} from "@/components/ui-custom/SignInForm";
 
-export default function SignInPage() {
+export default function SignIn() {
   return <SignInForm />;
 }
