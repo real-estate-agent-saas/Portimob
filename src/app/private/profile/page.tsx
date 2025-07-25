@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getUserProfile } from "@/services/profile/profile";
+import { Logout } from "@/services/auth"; 
 import { ROUTES } from "@/config/routes";
 
 export default function ProfilePage() {
@@ -15,14 +16,28 @@ export default function ProfilePage() {
       .finally(() => setLoading(false));
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await Logout(); 
+      window.location.href = ROUTES.public.signIn; 
+    } catch (error) {
+      alert("Erro ao fazer logout. Tente novamente.");
+    }
+  };
+
   if (loading) return <p>Carregando...</p>;
-  if (!user) return (window.location.href = ROUTES.public.signIn);
+  if (!user) {
+    window.location.href = ROUTES.public.signIn;
+    return null;
+  }
+
   return (
     <div>
       <h1>Perfil</h1>
-      <p>Nome: {user.id}</p>
+      <p>ID: {user.id}</p>
       <p>Nome: {user.name}</p>
       <p>Email: {user.email}</p>
+      <button onClick={handleLogout}>Logout</button> 
     </div>
   );
 }

@@ -14,59 +14,35 @@ import { Home, Eye, EyeOff } from "lucide-react";
 // Serviços e constantes
 import { ROUTES } from "@/config/routes";
 import { Messages } from "@/lib/constants/messages";
+import { Register, Login } from "@/services/auth";
 
 export function SignUpForm() {
-  
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false); // Usado para desativar o botão durante o envio
   const [error, setError] = useState(""); // Para exibir mensagens de erro
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Para mostrar/ocultar a senha
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Função chamada ao enviar o formulário
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault(); // Evita recarregar a página
+    e.preventDefault();
+    setError("");
 
-    setError(""); // Limpa erro anterior
-
-    // Validação: as senhas precisam coincidir
     if (password !== confirmPassword) {
       setError("As senhas não coincidem");
       return;
     }
 
     try {
-      setLoading(true); // Ativa loading no botão
-
-      // Faz a requisição POST para o backend NestJS
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
-        method: "POST", // Método HTTP para criar um novo usuário
-        headers: {
-          "Content-Type": "application/json", // Define o tipo de conteúdo como JSON
-        },
-        body: JSON.stringify({
-          // Converte os dados do formulário para JSON para enviar para o backend
-          name,
-          email,
-          password,
-        }),
-      });
-
-      // Se a resposta for inválida
-      if (!response.ok) {
-        const { message } = await response.json(); // Extrai mensagem do backend
-        throw new Error(message || Messages.auth.signUpError);
-      }
-
-      // Cadastro com sucesso redireciona para a tela de login
-      window.location.href = ROUTES.public.signIn;
+      setLoading(true);
+      await Register({ name, email, password });
+      await Login({ email, password });
     } catch (err: any) {
       setError(err.message || Messages.auth.signUpError);
     } finally {
-      setLoading(false); // Ativa o botão
+      setLoading(false);
     }
   }
 
