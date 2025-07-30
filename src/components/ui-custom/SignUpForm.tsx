@@ -14,7 +14,7 @@ import { Home, Eye, EyeOff } from "lucide-react";
 // Serviços e constantes
 import { ROUTES } from "@/config/routes";
 import { Messages } from "@/lib/constants/messages";
-import { Register, Login } from "@/services/auth";
+import { Register, Login } from "@/services/auth/auth";
 
 export function SignUpForm() {
   const [name, setName] = useState("");

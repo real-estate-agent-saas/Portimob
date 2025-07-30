@@ -1,188 +1,120 @@
 "use client";
 
-// Importando React e hooks
+// Next and React imports
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { differenceInYears } from "date-fns";
+import { toast } from "sonner";
 
-// Importando serviços
+// Types and Services
+import { ProfileFormData } from "@/types/profileFormData";
 import { getUserProfile } from "@/services/profile/profile";
-import { Logout } from "@/services/auth";
-import { ROUTES } from "@/config/routes";
 
-// Importando componentes
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Phone, Mail, MapPin, Calendar, Award, Edit } from "lucide-react";
+// Components
+import Header from "@/components/profile/Header";
+import ContactCard from "@/components/profile/ContactCard";
+import ProfessionalInfoCard from "@/components/profile/ProfessionalInfoCard";
+import SocialMediaCard from "@/components/profile/SocialMediaCard";
+import PersonalInfoCard from "@/components/profile/PersonalInfoCard";
 
+// ---------------------------- Profile Component ----------------------------
 export default function Profile() {
-  const [user, setUser] = useState<any>(null);
+  // State to hold user data and loading state
+  const [userData, setUserData] = useState<ProfileFormData | null>(null);
+
+  // State to manage loading states with skeletons
   const [loading, setLoading] = useState(true);
 
+  // State to manage editing state
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Fetch user profile data on component mount
   useEffect(() => {
-    getUserProfile()
-      .then(setUser)
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
+    async function fetchProfile() {
+      try {
+        const response = await getUserProfile();
+        setUserData(response);
+      } catch (error) {
+        console.error("Erro ao buscar perfil do usuário:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProfile();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await Logout();
-      window.location.href = ROUTES.public.signIn;
-    } catch (error) {
-      alert("Erro ao fazer logout. Tente novamente.");
+  // Initialize form with react-hook-form and set default types
+  const form = useForm<ProfileFormData>({
+    defaultValues: {} as ProfileFormData, // inicia vazio, será populado no reset
+  });
+
+  // Reset form with user data when it is fetched
+  useEffect(() => {
+    if (userData) {
+      form.reset({
+        name: userData.name,
+        jobTitle: userData.jobTitle || "Corretor de Imóveis",
+        email: userData.email,
+        startDate: userData.startDate || "2020-01-15",
+        publicEmail: userData.publicEmail,
+        whatsapp: userData.whatsapp,
+        phone: userData.phone,
+        instagram: userData.instagram,
+        facebook: userData.facebook,
+        linkedin: userData.linkedin,
+        creci: userData.creci,
+        bio: userData.bio || "Descreva sua experiência e especialidades...",
+        gender: userData.gender,
+        profileImage:
+          userData.profileImage || "photo-1581091226825-a6a2a5aee158",
+      });
     }
+  }, [userData, form]);
+
+  const calcularExperiencia = (dataInicio: string) => {
+    if (!dataInicio) return "0 anos";
+    const anos = differenceInYears(new Date(), new Date(dataInicio));
+    return anos === 1 ? "1 ano de experiência" : `${anos} anos de experiência`;
   };
 
-  if (loading) return <p>Carregando...</p>;
-  if (!user) {
-    window.location.href = ROUTES.public.signIn;
-    return null;
-  }
+  const onSubmit = (data: ProfileFormData) => {
+    toast.success("Perfil atualizado com sucesso!");
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    form.reset();
+    setIsEditing(false);
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-6 py-8">
-        {/* Header com Avatar */}
-        <Card className="mb-8">
-          <CardContent className="pt-8">
-            <div className="flex flex-col items-center text-center mb-8">
-              <Avatar className="w-32 h-32 mb-4 ring-4 ring-primary/20">
-                <AvatarImage
-                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop&crop=face"
-                  alt="Foto do Corretor"
-                />
-                <AvatarFallback className="text-2xl">MC</AvatarFallback>
-              </Avatar>
-
-              <h1 className="text-3xl font-bold text-foreground mb-2">
-                {user.name}
-              </h1>
-              <p className="text-xl text-muted-foreground mb-4">
-                Corretora de Imóveis Especialista
-              </p>
-
-              <div className="flex gap-2 mb-6">
-                <Badge variant="secondary" className="px-3 py-1">
-                  <Award className="w-4 h-4 mr-2" />
-                  CRECI: 12345-SP
-                </Badge>
-                <Badge variant="outline" className="px-3 py-1">
-                  5 anos de experiência
-                </Badge>
-              </div>
-
-              <Button variant="hero" className="gap-2">
-                <Edit className="w-4 h-4" />
-                Editar Perfil
-              </Button>
-
-              <Button variant="hero" className="gap-2">
-                <Edit className="w-4 h-4" />
-                Sair
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Header */}
+        <Header
+          form={form}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+          onSubmit={onSubmit}
+          handleCancel={handleCancel}
+          loading={loading}
+        />
 
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Informações de Contato */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Phone className="w-5 h-5 text-primary" />
-                Informações de Contato
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Email</p>
-                  <p className="text-muted-foreground">{user.email}</p>
-                </div>
-              </div>
+          {/* Contact Info */}
+          <ContactCard form={form} isEditing={isEditing} loading={loading}/>
 
-              <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Telefone</p>
-                  <p className="text-muted-foreground">(11) 99999-9999</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <MapPin className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Região de Atuação</p>
-                  <p className="text-muted-foreground">São Paulo - SP</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Informações Profissionais */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-primary" />
-                Informações Profissionais
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Data de Cadastro</p>
-                  <p className="text-muted-foreground">15 de Janeiro, 2020</p>
-                </div>
-              </div>
-
-              <div>
-                <p className="font-medium mb-2">Especialidades</p>
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">Residencial</Badge>
-                  <Badge variant="secondary">Comercial</Badge>
-                  <Badge variant="secondary">Luxury</Badge>
-                  <Badge variant="secondary">Investimentos</Badge>
-                </div>
-              </div>
-
-              <div>
-                <p className="font-medium">Imobiliária</p>
-                <p className="text-muted-foreground">Imóveis Premium Ltda</p>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Professional Info */}
+          <ProfessionalInfoCard form={form} isEditing={isEditing} loading={loading} />
         </div>
 
-        {/* Estatísticas */}
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>Estatísticas de Vendas</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center">
-                <p className="text-3xl font-bold text-primary">142</p>
-                <p className="text-muted-foreground">Imóveis Vendidos</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-bold text-primary">95%</p>
-                <p className="text-muted-foreground">Taxa de Satisfação</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-bold text-primary">38</p>
-                <p className="text-muted-foreground">Imóveis Ativos</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-bold text-primary">R$ 25M</p>
-                <p className="text-muted-foreground">Volume de Vendas</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="grid md:grid-cols-2 gap-6 mt-6">
+          {/* Social Media */}
+          <SocialMediaCard form={form} isEditing={isEditing} loading={loading} /> 
+
+          {/* Personal Info */}
+          <PersonalInfoCard form={form} isEditing={isEditing} loading={loading} />
+        </div>
       </div>
     </div>
   );

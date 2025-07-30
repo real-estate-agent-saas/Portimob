@@ -14,7 +14,7 @@ import { Home, Eye, EyeOff } from "lucide-react";
 // Services and constants
 import { ROUTES } from "@/config/routes";
 import { Messages } from "@/lib/constants/messages";
-import { Login } from "@/services/auth";
+import { Login } from "@/services/auth/auth";
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
