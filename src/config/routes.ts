@@ -1,15 +1,16 @@
 // Rotas de navegação da aplicação
 export const ROUTES = {
   public: {
-    home: '/',
-    signUp: '/public/signUp',
-    signIn: '/public/signIn',
-    forgotPassword: '/public/forgotPassword',
+    home: "/",
+    signUp: "/signUp",
+    signIn: "/signIn",
+    forgotPassword: "/forgotPassword",
+    pricing: "/procing",
   },
   private: {
-    dashboard: '/private/dashboard',
-    profile: '/private/profile',
-    property: (id: string) => `/private/properties/${id}`,
+    dashboard: "/dashboard",
+    profile: "/profile",
+    property: (id: string) => `/properties/${id}`,
   },
   tenant: (slug: string) => ({
     home: `/${slug}`,

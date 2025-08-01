@@ -1,3 +1,3 @@
 export default function Dashboard() {
-  return <h1>Peniz</h1>;
+  return <h1>Página de Dashboard</h1>;
 }

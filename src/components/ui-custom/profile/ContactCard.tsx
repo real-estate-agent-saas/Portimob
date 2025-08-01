@@ -1,7 +1,7 @@
 // UI components
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../ui/skeleton";
 import {
   Form,
   FormControl,
@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/form";
 import { Phone, Mail, MessageCircle } from "lucide-react";
 
-// Hooks and Types
+// Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
 import { ProfileFormData } from "@/types/profileFormData";
+import { getFieldValueOrFallback } from "@/lib/utils/formatters";
 
 // Interface
 interface ContactCardProps {
@@ -52,7 +53,7 @@ export default function ContactCard({
                   <div>
                     <p className="font-medium">Email</p>
                     <p className="text-muted-foreground">
-                      {form.watch("publicEmail")}
+                      {getFieldValueOrFallback(form.watch("publicEmail"))}
                     </p>
                   </div>
                 </>
@@ -68,7 +69,7 @@ export default function ContactCard({
                   <div>
                     <p className="font-medium">WhatsApp</p>
                     <p className="text-muted-foreground">
-                      {form.watch("whatsapp")}
+                      {getFieldValueOrFallback(form.watch("whatsapp"))}
                     </p>
                   </div>
                 </>
@@ -84,7 +85,7 @@ export default function ContactCard({
                   <div>
                     <p className="font-medium">Telefone</p>
                     <p className="text-muted-foreground">
-                      {form.watch("phone")}
+                      {getFieldValueOrFallback(form.watch("phone"))}
                     </p>
                   </div>
                 </>
@@ -96,7 +97,7 @@ export default function ContactCard({
             <div className="space-y-4">
               <FormField
                 control={form.control}
-                name="email"
+                name="publicEmail"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>

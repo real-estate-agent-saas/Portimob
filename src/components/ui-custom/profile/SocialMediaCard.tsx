@@ -1,7 +1,8 @@
 // UI components
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../ui/skeleton";
+import { AtSign } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -11,10 +12,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-// Hooks and Types
+// Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
 import { ProfileFormData } from "@/types/profileFormData";
-import { AtSign } from "lucide-react";
+import { getFieldValueOrFallback } from "@/lib/utils/formatters";
 
 interface SocialMediaCardProps {
   form: UseFormReturn<ProfileFormData>;
@@ -31,7 +32,7 @@ export default function SocialMediaCard({
     <Card>
       <CardHeader>
         {loading ? (
-            <Skeleton className="w-60 h-8"/>
+          <Skeleton className="w-60 h-8" />
         ) : (
           <>
             <CardTitle className="flex items-center gap-2">
@@ -55,19 +56,19 @@ export default function SocialMediaCard({
                 <div>
                   <p className="font-medium">Instagram</p>
                   <p className="text-muted-foreground">
-                    {form.watch("instagram")}
+                    {getFieldValueOrFallback(form.watch("instagram"))}
                   </p>
                 </div>
                 <div>
                   <p className="font-medium">Facebook</p>
                   <p className="text-muted-foreground">
-                    {form.watch("facebook")}
+                    {getFieldValueOrFallback(form.watch("facebook"))}
                   </p>
                 </div>
                 <div>
                   <p className="font-medium">LinkedIn</p>
                   <p className="text-muted-foreground">
-                    {form.watch("linkedin")}
+                    {getFieldValueOrFallback(form.watch("linkedin"))}
                   </p>
                 </div>
               </>

@@ -1,8 +1,7 @@
 export type ProfileFormData = {
-  name: string;
-  email: string;
-  jobTitle?: string;
-  startDate?: string;
+  name?: string;
+  email?: string;
+  careerStartDate?: string | null;
   publicEmail?: string;
   whatsapp?: string;
   phone?: string;

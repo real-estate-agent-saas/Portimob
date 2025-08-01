@@ -1,6 +1,7 @@
 // UI components
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Skeleton } from "../../ui/skeleton";
 import {
   Select,
   SelectContent,
@@ -18,10 +19,10 @@ import {
 } from "@/components/ui/form";
 import { UserRound } from "lucide-react";
 
-// Hooks and Types
+// Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
 import { ProfileFormData } from "@/types/profileFormData";
-import { Skeleton } from "../ui/skeleton";
+import { getFieldValueOrFallback } from "@/lib/utils/formatters";
 
 interface PersonalInfoCardProps {
   form: UseFormReturn<ProfileFormData>;
@@ -61,12 +62,14 @@ export default function PersonalInfoCard({
                 <div>
                   <p className="font-medium">Gênero</p>
                   <p className="text-muted-foreground capitalize">
-                    {form.watch("gender")}
+                    {getFieldValueOrFallback(form.watch("gender"))}
                   </p>
                 </div>
                 <div>
                   <p className="font-medium">Descrição do Perfil</p>
-                  <p className="text-muted-foreground">{form.watch("bio")}</p>
+                  <p className="text-muted-foreground">
+                    {getFieldValueOrFallback(form.watch("bio"))}
+                  </p>
                 </div>
               </>
             )}
@@ -83,7 +86,6 @@ export default function PersonalInfoCard({
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -91,11 +93,9 @@ export default function PersonalInfoCard({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="masculino">Masculino</SelectItem>
-                        <SelectItem value="feminino">Feminino</SelectItem>
-                        <SelectItem value="prefiro-nao-informar">
-                          Prefiro não informar
-                        </SelectItem>
+                        <SelectItem value="Masculino">Masculino</SelectItem>
+                        <SelectItem value="Feminino">Feminino</SelectItem>
+                        <SelectItem value="Outros">Outros</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

@@ -3,19 +3,19 @@
 // Next and React imports
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { differenceInYears } from "date-fns";
 import { toast } from "sonner";
+import { format, parseISO } from "date-fns";
 
 // Types and Services
 import { ProfileFormData } from "@/types/profileFormData";
-import { getUserProfile } from "@/services/profile/profile";
+import { getUserProfile, updateUserProfile } from "@/services/profile/profile";
 
 // Components
-import Header from "@/components/profile/Header";
-import ContactCard from "@/components/profile/ContactCard";
-import ProfessionalInfoCard from "@/components/profile/ProfessionalInfoCard";
-import SocialMediaCard from "@/components/profile/SocialMediaCard";
-import PersonalInfoCard from "@/components/profile/PersonalInfoCard";
+import Header from "@/components/ui-custom/profile/Header";
+import ContactCard from "@/components/ui-custom/profile/ContactCard";
+import ProfessionalInfoCard from "@/components/ui-custom/profile/ProfessionalInfoCard";
+import SocialMediaCard from "@/components/ui-custom/profile/SocialMediaCard";
+import PersonalInfoCard from "@/components/ui-custom/profile/PersonalInfoCard";
 
 // ---------------------------- Profile Component ----------------------------
 export default function Profile() {
@@ -53,9 +53,10 @@ export default function Profile() {
     if (userData) {
       form.reset({
         name: userData.name,
-        jobTitle: userData.jobTitle || "Corretor de Imóveis",
         email: userData.email,
-        startDate: userData.startDate || "2020-01-15",
+        careerStartDate: userData.careerStartDate
+          ? format(parseISO(userData.careerStartDate), "yyyy-MM-dd")
+          : "",
         publicEmail: userData.publicEmail,
         whatsapp: userData.whatsapp,
         phone: userData.phone,
@@ -63,25 +64,34 @@ export default function Profile() {
         facebook: userData.facebook,
         linkedin: userData.linkedin,
         creci: userData.creci,
-        bio: userData.bio || "Descreva sua experiência e especialidades...",
+        bio: userData.bio,
         gender: userData.gender,
-        profileImage:
-          userData.profileImage || "photo-1581091226825-a6a2a5aee158",
+        profileImage: userData.profileImage,
       });
     }
   }, [userData, form]);
 
-  const calcularExperiencia = (dataInicio: string) => {
-    if (!dataInicio) return "0 anos";
-    const anos = differenceInYears(new Date(), new Date(dataInicio));
-    return anos === 1 ? "1 ano de experiência" : `${anos} anos de experiência`;
+  // Execute when submiting the form
+  const onSubmit = async (data: ProfileFormData) => {
+    try {
+      // Converter a data para o formato ISO se existir
+      const payload = {
+        ...data,
+        careerStartDate: data.careerStartDate
+          ? new Date(data.careerStartDate).toISOString()
+          : null,
+      };
+
+      const updatedProfile = await updateUserProfile(payload);
+      setUserData(updatedProfile); // Atualiza os dados locais
+      setIsEditing(false); // Sai do modo de edição
+      toast.success("Perfil atualizado com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao atualizar perfil.");
+    }
   };
 
-  const onSubmit = (data: ProfileFormData) => {
-    toast.success("Perfil atualizado com sucesso!");
-    setIsEditing(false);
-  };
-
+  // Reset form and exit editing mode
   const handleCancel = () => {
     form.reset();
     setIsEditing(false);
@@ -102,18 +112,30 @@ export default function Profile() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Contact Info */}
-          <ContactCard form={form} isEditing={isEditing} loading={loading}/>
+          <ContactCard form={form} isEditing={isEditing} loading={loading} />
 
           {/* Professional Info */}
-          <ProfessionalInfoCard form={form} isEditing={isEditing} loading={loading} />
+          <ProfessionalInfoCard
+            form={form}
+            isEditing={isEditing}
+            loading={loading}
+          />
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 mt-6">
           {/* Social Media */}
-          <SocialMediaCard form={form} isEditing={isEditing} loading={loading} /> 
+          <SocialMediaCard
+            form={form}
+            isEditing={isEditing}
+            loading={loading}
+          />
 
           {/* Personal Info */}
-          <PersonalInfoCard form={form} isEditing={isEditing} loading={loading} />
+          <PersonalInfoCard
+            form={form}
+            isEditing={isEditing}
+            loading={loading}
+          />
         </div>
       </div>
     </div>

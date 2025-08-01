@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "../../ui/skeleton";
 import {
   Form,
   FormControl,
@@ -13,11 +14,16 @@ import {
 } from "@/components/ui/form";
 import { Calendar, Award, X, Plus } from "lucide-react";
 
-// Hooks and Types
+// Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
 import { ProfileFormData } from "@/types/profileFormData";
 import { useState } from "react";
-import { Skeleton } from "../ui/skeleton";
+import {
+  getFieldValueOrFallback,
+  formatDateOrFallback,
+} from "@/lib/utils/formatters";
+import { format, parseISO } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface ProfessionalInfoCardProps {
   form: UseFormReturn<ProfileFormData>;
@@ -86,8 +92,10 @@ export default function ProfessionalInfoCard({
                 <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground" />
                   <div>
-                    <p className="font-medium">Data de Início na área</p>
-                    <p className="text-muted-foreground">15 de Janeiro, 2020</p>
+                    <p className="font-medium">Data de Início na Corretagem</p>
+                    <p className="text-muted-foreground">
+                      {formatDateOrFallback(form.watch("careerStartDate"))}
+                    </p>
                   </div>
                 </div>
 
@@ -109,12 +117,17 @@ export default function ProfessionalInfoCard({
             <div className="space-y-4">
               <FormField
                 control={form.control}
-                name="startDate"
+                name="careerStartDate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Data de Início na área</FormLabel>
+                    <FormLabel>Data de Início na Corretagem</FormLabel>
                     <FormControl>
-                      <Input type="date" {...field} className="w-60" />
+                      <Input
+                        type="date"
+                        {...field}
+                        value={field.value ?? ""}
+                        className="w-60"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

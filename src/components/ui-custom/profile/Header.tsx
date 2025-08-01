@@ -1,6 +1,7 @@
-// Hooks and Types
+// Hooks, Types and utils
 import { UseFormReturn } from "react-hook-form";
 import { ProfileFormData } from "@/types/profileFormData";
+import { calculateExperienceTime } from "@/lib/utils/utils";
 
 // Assets
 import blankProfilePicture from "@/assets/profile/blankProfilePicture.png";
@@ -21,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Value } from "@radix-ui/react-select";
 
 // Interface for component props
 interface ProfileHeaderProps {
@@ -54,7 +56,12 @@ export default function Header({
                   src={form.watch("profileImage") || blankProfilePicture.src}
                   alt="Foto do Corretor"
                 />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>
+                  <img
+                    src={blankProfilePicture.src}
+                    alt="Foto padrão"
+                  />
+                </AvatarFallback>
               </Avatar>
             )}
 
@@ -91,16 +98,19 @@ export default function Header({
                     {form.watch("name")}
                   </h1>
                   <p className="text-xl text-muted-foreground mb-4">
-                    {form.watch("jobTitle") || "Corretor de Imóveis"}
+                    {`${
+                      form.watch("gender") === "Feminino"
+                        ? "Corretora"
+                        : "Corretor"
+                    } de Imóveis `}
                   </p>
                   <div className="flex gap-2 mb-6">
                     <Badge variant="secondary" className="px-3 py-1">
                       <Award className="w-4 h-4 mr-2" />
-                      CRECI: {form.watch("creci")}
+                      CRECI: {form.watch("creci") ? form.watch("creci") : "N/A"}
                     </Badge>
                     <Badge variant="outline" className="px-3 py-1">
-                      {/* {calcularExperiencia(form.watch("startDate"))} */}
-                      Experiência
+                      {calculateExperienceTime(form.watch("careerStartDate"))}
                     </Badge>
                   </div>
                 </>
@@ -139,26 +149,12 @@ export default function Header({
 
                 <FormField
                   control={form.control}
-                  name="jobTitle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Cargo</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
                   name="creci"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>CRECI</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} value={field.value ?? ""} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

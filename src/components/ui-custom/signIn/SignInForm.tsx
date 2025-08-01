@@ -3,44 +3,39 @@
 // Next and React imports
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-// Componentes de UI
+// UI components and icons
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Home, Eye, EyeOff } from "lucide-react";
 
-// Serviços e constantes
+// Services and constants
 import { ROUTES } from "@/config/routes";
 import { Messages } from "@/lib/constants/messages";
-import { Register, Login } from "@/services/auth/auth";
+import { Login } from "@/services/auth/auth";
 
-export function SignUpForm() {
-  const [name, setName] = useState("");
+export function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false); // Usado para desativar o botão durante o envio
-  const [error, setError] = useState(""); // Para exibir mensagens de erro
-  const [showPassword, setShowPassword] = useState(false); // Para mostrar/ocultar a senha
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
 
-    if (password !== confirmPassword) {
-      setError("As senhas não coincidem");
-      return;
-    }
-
     try {
       setLoading(true);
-      await Register({ name, email, password });
-      await Login({ email, password });
+      await Login({ email, password }); // usa a função com axios e cookies
+      router.push(ROUTES.private.dashboard);
     } catch (err: any) {
-      setError(err.message || Messages.auth.signUpError);
+      setError(err.message || Messages.auth.signInError);
     } finally {
       setLoading(false);
     }
@@ -48,9 +43,7 @@ export function SignUpForm() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-6">
-      {/* Container centralizado */}
       <div className="w-full max-w-md">
-        {/* Logo + nome do sistema com link para a home */}
         <Link
           href={ROUTES.public.home}
           className="flex items-center justify-center space-x-2 mb-8"
@@ -63,27 +56,10 @@ export function SignUpForm() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl text-center">
-              Criar Conta Gratuita
-            </CardTitle>
+            <CardTitle className="text-2xl text-center">Fazer Login</CardTitle>
           </CardHeader>
           <CardContent>
-            {/* Formulário */}
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Campo Nome */}
-              <div className="space-y-2">
-                <Label htmlFor="name">Nome completo</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Seu nome completo"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* Campo Email */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -96,13 +72,12 @@ export function SignUpForm() {
                 />
               </div>
 
-              {/* Campo Senha */}
               <div className="space-y-2 relative">
                 <Label htmlFor="password">Senha</Label>
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Crie uma senha"
+                  placeholder="Sua senha"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -110,59 +85,32 @@ export function SignUpForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute right-3 top-8 text-muted-foreground cursor-pointer"
+                  className="absolute right-3 top-9 text-muted-foreground"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
 
-              {/* Campo Confirmar Senha */}
-              <div className="space-y-2 relative">
-                <Label htmlFor="confirmPassword">Confirmar senha</Label>
-                <Input
-                  id="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Confirme sua senha"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword((prev) => !prev)}
-                  className="absolute right-3 top-8 text-muted-foreground cursor-pointer"
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff size={18} />
-                  ) : (
-                    <Eye size={18} />
-                  )}
-                </button>
-              </div>
-
-              {/* Mensagem de erro, se houver */}
               {error && <p className="text-red-500 text-sm">{error}</p>}
 
-              {/* Botão de envio */}
               <Button
                 className="w-full"
                 variant="hero"
                 type="submit"
                 disabled={loading}
               >
-                {loading ? "Criando conta..." : "Criar Conta"}
+                {loading ? "Entrando..." : "Entrar"}
               </Button>
 
-              {/* Link para login */}
               <div className="text-center text-sm">
                 <span className="text-muted-foreground">
-                  Já tem uma conta?{" "}
+                  Não tem uma conta?{" "}
                 </span>
                 <Link
-                  href={ROUTES.public.signIn}
+                  href={ROUTES.public.signUp}
                   className="primary-text hover:underline"
                 >
-                  Fazer login
+                  Criar conta gratuita
                 </Link>
               </div>
             </form>
