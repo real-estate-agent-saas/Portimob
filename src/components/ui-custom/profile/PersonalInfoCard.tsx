@@ -21,11 +21,11 @@ import { UserRound } from "lucide-react";
 
 // Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
-import { ProfileFormData } from "@/types/profileFormData";
+import { profileFormValues } from "@/types/user/profileForm";
 import { getFieldValueOrFallback } from "@/lib/utils/formatters";
 
 interface PersonalInfoCardProps {
-  form: UseFormReturn<ProfileFormData>;
+  form: UseFormReturn<profileFormValues>;
   isEditing: boolean;
   loading: boolean;
 }
@@ -35,6 +35,9 @@ export default function PersonalInfoCard({
   isEditing,
   loading,
 }: PersonalInfoCardProps) {
+  //Form values to show
+  const { gender, bio } = form.watch();
+
   return (
     <Card>
       <CardHeader>
@@ -62,13 +65,13 @@ export default function PersonalInfoCard({
                 <div>
                   <p className="font-medium">Gênero</p>
                   <p className="text-muted-foreground capitalize">
-                    {getFieldValueOrFallback(form.watch("gender"))}
+                    {getFieldValueOrFallback(gender)}
                   </p>
                 </div>
                 <div>
                   <p className="font-medium">Descrição do Perfil</p>
                   <p className="text-muted-foreground">
-                    {getFieldValueOrFallback(form.watch("bio"))}
+                    {getFieldValueOrFallback(bio)}
                   </p>
                 </div>
               </>

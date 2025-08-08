@@ -5,6 +5,19 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "../../ui/skeleton";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
   Form,
   FormControl,
   FormField,
@@ -12,58 +25,46 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Calendar, Award, X, Plus } from "lucide-react";
+import { Calendar, Award, X, ChevronsUpDown, Check } from "lucide-react";
 
-// Hooks, Types and Utils
+//Next
 import { UseFormReturn } from "react-hook-form";
-import { ProfileFormData } from "@/types/profileFormData";
-import { useState } from "react";
-import {
-  getFieldValueOrFallback,
-  formatDateOrFallback,
-} from "@/lib/utils/formatters";
-import { format, parseISO } from "date-fns";
-import { ptBR } from "date-fns/locale";
 
+// Types
+import { profileFormValues } from "@/types/user/profileForm";
+
+// Utils
+import { formatDateOrFallback } from "@/lib/utils/formatters";
+
+// Hooks
+import useSpecialtyForm from "@/hooks/useSpecialtiesForm";
+import { Specialty } from "@/types/user/specialty";
+
+//Props
 interface ProfessionalInfoCardProps {
-  form: UseFormReturn<ProfileFormData>;
+  form: UseFormReturn<profileFormValues>;
   isEditing: boolean;
   loading: boolean;
+  setLoading: (state: boolean) => void;
 }
 
+//Component
 export default function ProfessionalInfoCard({
   form,
   isEditing,
   loading,
+  setLoading,
 }: ProfessionalInfoCardProps) {
-  const [specialties, setSpecialties] = useState<string[]>([
-    "Residencial",
-    "Comercial",
-    "Luxury",
-    "Investimentos",
-  ]);
-  const [novaEspecialidade, setNovaEspecialidade] = useState("");
+  const {
+    allSpecialties,
+    selectedSpecialties,
+    addSpecialty,
+    removeSpecialty,
+    openSpecialtiesList,
+    setOpenSpecialtiesList,
+  } = useSpecialtyForm(form, setLoading);
 
-  const adicionarEspecialidade = () => {
-    if (
-      novaEspecialidade.trim() &&
-      !specialties.includes(novaEspecialidade.trim())
-    ) {
-      setSpecialties([...specialties, novaEspecialidade.trim()]);
-      setNovaEspecialidade("");
-    }
-  };
-
-  const removerEspecialidade = (especialidade: string) => {
-    setSpecialties(specialties.filter((e) => e !== especialidade));
-  };
-
-  const handleCancel = () => {
-    form.reset();
-    setSpecialties(["Residencial", "Comercial", "Luxury", "Investimentos"]);
-    setNovaEspecialidade("");
-  };
-
+  const { careerStartDate } = form.watch();
   return (
     <Card>
       <CardHeader>
@@ -94,17 +95,21 @@ export default function ProfessionalInfoCard({
                   <div>
                     <p className="font-medium">Data de Início na Corretagem</p>
                     <p className="text-muted-foreground">
-                      {formatDateOrFallback(form.watch("careerStartDate"))}
+                      {formatDateOrFallback(careerStartDate)}
                     </p>
                   </div>
                 </div>
 
                 <div>
                   <p className="font-medium mb-2">Especialidades</p>
-                  <div className="flex flex-wrap gap-2">
-                    {specialties.map((specialty, index) => (
-                      <Badge key={index} variant="secondary">
-                        {specialty}
+                  <div className="flex gap-2 mt-2 flex-wrap">
+                    {selectedSpecialties.map((specialty) => (
+                      <Badge
+                        key={specialty.id}
+                        variant="secondary"
+                        className="flex items-center gap-1"
+                      >
+                        {specialty.name}
                       </Badge>
                     ))}
                   </div>
@@ -136,17 +141,17 @@ export default function ProfessionalInfoCard({
               <div>
                 <p className="font-medium mb-2">Especialidades</p>
                 <div className="flex flex-wrap gap-2 mb-3">
-                  {specialties.map((specialty, index) => (
+                  {selectedSpecialties.map((specialty) => (
                     <Badge
-                      key={index}
+                      key={specialty.id}
                       variant="secondary"
                       className="relative pr-8"
                     >
-                      {specialty}
+                      {specialty.name}
                       <button
                         type="button"
-                        onClick={() => removerEspecialidade(specialty)}
                         className="absolute right-1 top-0 h-full flex items-center text-muted-foreground hover:text-destructive"
+                        onClick={() => removeSpecialty(specialty.id)}
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -154,24 +159,51 @@ export default function ProfessionalInfoCard({
                   ))}
                 </div>
                 <div className="flex gap-2">
-                  <Input
-                    placeholder="Ex: Residencial, Comercial..."
-                    value={novaEspecialidade}
-                    onChange={(e) => setNovaEspecialidade(e.target.value)}
-                    onKeyPress={(e) =>
-                      e.key === "Enter" &&
-                      (e.preventDefault(), adicionarEspecialidade())
-                    }
-                    className="flex-1"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={adicionarEspecialidade}
+                  <Popover
+                    open={openSpecialtiesList}
+                    onOpenChange={setOpenSpecialtiesList}
                   >
-                    <Plus className="w-4 h-4" />
-                  </Button>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={openSpecialtiesList}
+                        className="w-full justify-between"
+                      >
+                        Adicionar Especialidade
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full p-0">
+                      <Command>
+                        <CommandInput placeholder="Buscar Especialidade..." />
+                        <CommandList>
+                          <CommandEmpty>
+                            Nenhuma especialidade encontrada.
+                          </CommandEmpty>
+                          <CommandGroup>
+                            {(() => {
+                              const selectedIds = new Set(
+                                selectedSpecialties.map((s) => s.id)
+                              );
+
+                              return allSpecialties
+                                .filter((option) => !selectedIds.has(option.id))
+                                .map((option) => (
+                                  <CommandItem
+                                    key={option.id}
+                                    value={option.name}
+                                    onSelect={() => addSpecialty(option.id)}
+                                  >
+                                    {option.name}
+                                  </CommandItem>
+                                ));
+                            })()}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                 </div>
               </div>
             </div>

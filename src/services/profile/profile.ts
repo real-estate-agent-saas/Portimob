@@ -1,38 +1,18 @@
 import api from "@/services/axios";
-import { ProfileFormData } from "@/types/profileFormData";
+import { profileAPIResponse, profileFormValues } from "@/types/user/profileForm";
+import { Specialty } from "@/types/user/specialty";
+import { handleApiCall } from "../apiWrapper";
 
-export async function updateUserProfile(data: ProfileFormData) {
-  try {
-    // Faz a requisição PATCH para atualizar o perfil do usuário
-    const response = await api.patch(`/user/update`, data);
-    return response.data;
-  } catch (err: any) {
-    if (err.response?.data?.message) {
-      if (Array.isArray(err.response.data.message)) {
-        throw new Error(err.response.data.message[0]);
-      } else {
-        throw new Error(err.response.data.message);
-      }
-    } else {
-      throw new Error("Falha ao atualizar usuário");
-    }
-  }
+// Updates User based on his JWT Token
+export async function updateUserProfile(data: profileFormValues) {
+  return handleApiCall<profileAPIResponse>(api.patch('/user/update', data));
 }
 
-export async function getUserProfile() {
-  try {
-    // Faz a requisição GET
-    const response = await api.get(`user/read`);
-    return response.data;
-  } catch (err: any) {
-    if (err.response?.data?.message) {
-      if (Array.isArray(err.response.data.message)) {
-        throw new Error(err.response.data.message[0]);
-      } else {
-        throw new Error(err.response.data.message);
-      }
-    } else {
-      throw new Error("Falha ao buscar usuário");
-    }
-  }
+export async function getUserProfile(): Promise<profileAPIResponse> {
+  return handleApiCall<profileAPIResponse>(api.get('/user/read'));
+}
+
+// Gets specialties related to the user
+export async function getAllSpecialties(): Promise<Specialty[]> {
+  return handleApiCall<Specialty[]>(api.get('/user/getAllSpecialties'));
 }

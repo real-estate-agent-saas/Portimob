@@ -1,6 +1,6 @@
 // Hooks, Types and utils
 import { UseFormReturn } from "react-hook-form";
-import { ProfileFormData } from "@/types/profileFormData";
+import { profileFormValues } from "@/types/user/profileForm";
 import { calculateExperienceTime } from "@/lib/utils/utils";
 
 // Assets
@@ -22,14 +22,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Value } from "@radix-ui/react-select";
 
 // Interface for component props
 interface ProfileHeaderProps {
-  form: UseFormReturn<ProfileFormData>;
+  form: UseFormReturn<profileFormValues>;
   isEditing: boolean;
   setIsEditing: (val: boolean) => void;
-  onSubmit: (values: ProfileFormData) => void;
+  onSubmit: (values: profileFormValues) => void;
   handleCancel: () => void;
   loading: boolean;
 }
@@ -43,6 +42,10 @@ export default function Header({
   handleCancel,
   loading,
 }: ProfileHeaderProps) {
+
+  //Form values to show
+  const { profileImage, creci, name, gender, careerStartDate } = form.watch();
+
   return (
     <Card className="mb-8">
       <CardContent className="pt-8">
@@ -53,14 +56,11 @@ export default function Header({
             ) : (
               <Avatar className="w-32 h-32 mb-4 ring-4 ring-primary/20">
                 <AvatarImage
-                  src={form.watch("profileImage") || blankProfilePicture.src}
+                  src={profileImage || blankProfilePicture.src}
                   alt="Foto do Corretor"
                 />
                 <AvatarFallback>
-                  <img
-                    src={blankProfilePicture.src}
-                    alt="Foto padrão"
-                  />
+                  <img src={blankProfilePicture.src} alt="Foto padrão" />
                 </AvatarFallback>
               </Avatar>
             )}
@@ -95,22 +95,20 @@ export default function Header({
               ) : (
                 <>
                   <h1 className="text-3xl font-bold text-foreground mb-2">
-                    {form.watch("name")}
+                    {name}
                   </h1>
                   <p className="text-xl text-muted-foreground mb-4">
                     {`${
-                      form.watch("gender") === "Feminino"
-                        ? "Corretora"
-                        : "Corretor"
+                      gender === "Feminino" ? "Corretora" : "Corretor"
                     } de Imóveis `}
                   </p>
                   <div className="flex gap-2 mb-6">
                     <Badge variant="secondary" className="px-3 py-1">
                       <Award className="w-4 h-4 mr-2" />
-                      CRECI: {form.watch("creci") ? form.watch("creci") : "N/A"}
+                      CRECI: {creci || "N/A"}
                     </Badge>
                     <Badge variant="outline" className="px-3 py-1">
-                      {calculateExperienceTime(form.watch("careerStartDate"))}
+                      {calculateExperienceTime(careerStartDate)}
                     </Badge>
                   </div>
                 </>

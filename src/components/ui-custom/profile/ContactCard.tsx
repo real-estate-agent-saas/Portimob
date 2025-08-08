@@ -14,12 +14,12 @@ import { Phone, Mail, MessageCircle } from "lucide-react";
 
 // Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
-import { ProfileFormData } from "@/types/profileFormData";
+import { profileFormValues } from "@/types/user/profileForm";
 import { getFieldValueOrFallback } from "@/lib/utils/formatters";
 
 // Interface
 interface ContactCardProps {
-  form: UseFormReturn<ProfileFormData>;
+  form: UseFormReturn<profileFormValues>;
   isEditing: boolean;
   loading: boolean;
 }
@@ -29,6 +29,9 @@ export default function ContactCard({
   isEditing,
   loading,
 }: ContactCardProps) {
+  //Form values to show
+  const { publicEmail, whatsapp, phone } = form.watch();
+
   return (
     <Card>
       <CardHeader>
@@ -53,7 +56,7 @@ export default function ContactCard({
                   <div>
                     <p className="font-medium">Email</p>
                     <p className="text-muted-foreground">
-                      {getFieldValueOrFallback(form.watch("publicEmail"))}
+                      {getFieldValueOrFallback(publicEmail)}
                     </p>
                   </div>
                 </>
@@ -69,7 +72,7 @@ export default function ContactCard({
                   <div>
                     <p className="font-medium">WhatsApp</p>
                     <p className="text-muted-foreground">
-                      {getFieldValueOrFallback(form.watch("whatsapp"))}
+                      {getFieldValueOrFallback(whatsapp)}
                     </p>
                   </div>
                 </>
@@ -85,7 +88,7 @@ export default function ContactCard({
                   <div>
                     <p className="font-medium">Telefone</p>
                     <p className="text-muted-foreground">
-                      {getFieldValueOrFallback(form.watch("phone"))}
+                      {getFieldValueOrFallback(phone)}
                     </p>
                   </div>
                 </>

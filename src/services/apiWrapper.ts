@@ -1,4 +1,6 @@
-export async function handleApiCall<T>(apiCall: Promise<any>): Promise<T> {
+export async function handleApiCall<T>(
+  apiCall: Promise<{ data: T }>
+): Promise<T> {
   try {
     const response = await apiCall;
     return response.data;

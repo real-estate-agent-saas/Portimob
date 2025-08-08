@@ -14,11 +14,11 @@ import {
 
 // Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
-import { ProfileFormData } from "@/types/profileFormData";
+import { profileFormValues } from "@/types/user/profileForm";
 import { getFieldValueOrFallback } from "@/lib/utils/formatters";
 
 interface SocialMediaCardProps {
-  form: UseFormReturn<ProfileFormData>;
+  form: UseFormReturn<profileFormValues>;
   isEditing: boolean;
   loading: boolean;
 }
@@ -28,6 +28,8 @@ export default function SocialMediaCard({
   isEditing,
   loading,
 }: SocialMediaCardProps) {
+  //Form values to show
+  const { instagram, facebook, linkedin } = form.watch();
   return (
     <Card>
       <CardHeader>
@@ -56,19 +58,19 @@ export default function SocialMediaCard({
                 <div>
                   <p className="font-medium">Instagram</p>
                   <p className="text-muted-foreground">
-                    {getFieldValueOrFallback(form.watch("instagram"))}
+                    {getFieldValueOrFallback(instagram)}
                   </p>
                 </div>
                 <div>
                   <p className="font-medium">Facebook</p>
                   <p className="text-muted-foreground">
-                    {getFieldValueOrFallback(form.watch("facebook"))}
+                    {getFieldValueOrFallback(facebook)}
                   </p>
                 </div>
                 <div>
                   <p className="font-medium">LinkedIn</p>
                   <p className="text-muted-foreground">
-                    {getFieldValueOrFallback(form.watch("linkedin"))}
+                    {getFieldValueOrFallback(linkedin)}
                   </p>
                 </div>
               </>
