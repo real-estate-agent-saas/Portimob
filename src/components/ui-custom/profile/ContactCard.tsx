@@ -105,7 +105,7 @@ export default function ContactCard({
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" {...field} />
+                      <Input type="email" {...field} placeholder="corretor@email.com" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

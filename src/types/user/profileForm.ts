@@ -3,8 +3,7 @@ import { Specialty } from "./specialty";
 // API Response for user data
 export type profileAPIResponse = {
   name?: string;
-  email?: string;
-  careerStartDate?: string | undefined;
+  careerStartDate?: string | null;
   publicEmail?: string;
   whatsapp?: string;
   phone?: string;

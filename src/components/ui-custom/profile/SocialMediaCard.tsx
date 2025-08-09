@@ -86,7 +86,7 @@ export default function SocialMediaCard({
                   <FormItem>
                     <FormLabel>Instagram</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="@usuário" />
+                      <Input {...field} placeholder="Link do seu perfil" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -100,7 +100,7 @@ export default function SocialMediaCard({
                   <FormItem>
                     <FormLabel>Facebook</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Nome no Facebook" />
+                      <Input {...field} placeholder="Link do seu perfil" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -114,7 +114,7 @@ export default function SocialMediaCard({
                   <FormItem>
                     <FormLabel>LinkedIn</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="usuario-linkedin" />
+                      <Input {...field} placeholder="Link do seu perfil" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

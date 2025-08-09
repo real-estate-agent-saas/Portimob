@@ -22,7 +22,7 @@ import { UserRound } from "lucide-react";
 // Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
 import { profileFormValues } from "@/types/user/profileForm";
-import { getFieldValueOrFallback } from "@/lib/utils/formatters";
+import { getFieldValueOrFallback, formatGender } from "@/lib/utils/formatters";
 
 interface PersonalInfoCardProps {
   form: UseFormReturn<profileFormValues>;
@@ -65,7 +65,7 @@ export default function PersonalInfoCard({
                 <div>
                   <p className="font-medium">Gênero</p>
                   <p className="text-muted-foreground capitalize">
-                    {getFieldValueOrFallback(gender)}
+                    {formatGender(getFieldValueOrFallback(gender))}
                   </p>
                 </div>
                 <div>
@@ -88,17 +88,17 @@ export default function PersonalInfoCard({
                     <FormLabel>Gênero</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={field.value ? field.value : ""}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Selecione o gênero" />
+                          <SelectValue placeholder="Selecione seu gênero" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="Masculino">Masculino</SelectItem>
-                        <SelectItem value="Feminino">Feminino</SelectItem>
-                        <SelectItem value="Outros">Outros</SelectItem>
+                        <SelectItem value="MASCULINO">Masculino</SelectItem>
+                        <SelectItem value="FEMININO">Feminino</SelectItem>
+                        <SelectItem value="OUTROS">Outros</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

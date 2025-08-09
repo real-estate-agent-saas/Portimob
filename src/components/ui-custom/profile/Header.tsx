@@ -99,7 +99,7 @@ export default function Header({
                   </h1>
                   <p className="text-xl text-muted-foreground mb-4">
                     {`${
-                      gender === "Feminino" ? "Corretora" : "Corretor"
+                      gender === "FEMININO" ? "Corretora" : "Corretor"
                     } de Imóveis `}
                   </p>
                   <div className="flex gap-2 mb-6">
@@ -152,7 +152,7 @@ export default function Header({
                     <FormItem>
                       <FormLabel>CRECI</FormLabel>
                       <FormControl>
-                        <Input {...field} value={field.value ?? ""} />
+                        <Input {...field} value={field.value ?? ""} placeholder="123456-F" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

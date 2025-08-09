@@ -15,7 +15,7 @@ import { Home, Eye, EyeOff } from "lucide-react";
 // Serviços e constantes
 import { ROUTES } from "@/config/routes";
 import { Messages } from "@/lib/constants/messages";
-import { Register, Login } from "@/services/auth/auth";
+import { Register } from "@/services/auth/auth";
 import { validatePassword } from "@/lib/utils/passwordValidation";
 
 export function SignUpForm() {
@@ -44,6 +44,7 @@ export function SignUpForm() {
     try {
       setLoading(true);
       await Register({ name, email, password });
+      router.push(ROUTES.public.signIn);
     } catch (err: any) {
       setError(err.message || Messages.auth.signUpError);
     } finally {

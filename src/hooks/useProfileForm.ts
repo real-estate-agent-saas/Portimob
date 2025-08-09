@@ -47,12 +47,12 @@ export default function useProfileForm() {
   // Reset form with user data when it is fetched
   useEffect(() => {
     if (userData) {
+      console.log(form);
       form.reset({
         name: userData.name,
-        email: userData.email,
         careerStartDate: userData.careerStartDate
           ? format(parseISO(userData.careerStartDate), "yyyy-MM-dd")
-          : "",
+          : null,
         publicEmail: userData.publicEmail,
         whatsapp: userData.whatsapp,
         phone: userData.phone,
@@ -76,7 +76,7 @@ export default function useProfileForm() {
         ...data,
         careerStartDate: data.careerStartDate
           ? new Date(data.careerStartDate).toISOString()
-          : '',
+          : null,
       };
 
       // Updates the user with the previously manipulated data

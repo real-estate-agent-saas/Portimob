@@ -34,7 +34,10 @@ import { UseFormReturn } from "react-hook-form";
 import { profileFormValues } from "@/types/user/profileForm";
 
 // Utils
-import { formatDateOrFallback } from "@/lib/utils/formatters";
+import {
+  formatDateOrFallback,
+  getFieldValueOrFallback,
+} from "@/lib/utils/formatters";
 
 // Hooks
 import useSpecialtyForm from "@/hooks/useSpecialtiesForm";
@@ -103,15 +106,17 @@ export default function ProfessionalInfoCard({
                 <div>
                   <p className="font-medium mb-2">Especialidades</p>
                   <div className="flex gap-2 mt-2 flex-wrap">
-                    {selectedSpecialties.map((specialty) => (
-                      <Badge
-                        key={specialty.id}
-                        variant="secondary"
-                        className="flex items-center gap-1"
-                      >
-                        {specialty.name}
-                      </Badge>
-                    ))}
+                    {selectedSpecialties && selectedSpecialties.length > 0
+                      ? selectedSpecialties.map((specialty) => (
+                          <Badge
+                            key={specialty.id}
+                            variant="secondary"
+                            className="flex items-center gap-1"
+                          >
+                            {specialty.name}
+                          </Badge>
+                        ))
+                      : 'Nenhuma especialidade definida'}
                   </div>
                 </div>
               </>
