@@ -14,8 +14,8 @@ import {
 
 // Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
-import { profileFormValues } from "@/types/user/profileForm";
-import { getFieldValueOrFallback } from "@/lib/utils/formatters";
+import { profileFormValues } from "@/lib/schemas/user/profileForm";
+import { getFieldValueOrFallback } from "@/lib/utils/formatters/UIformatters";
 
 interface SocialMediaCardProps {
   form: UseFormReturn<profileFormValues>;
@@ -86,7 +86,11 @@ export default function SocialMediaCard({
                   <FormItem>
                     <FormLabel>Instagram</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Link do seu perfil" />
+                      <Input
+                        {...field}
+                        placeholder="Link do seu perfil"
+                        maxLength={120}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -100,7 +104,11 @@ export default function SocialMediaCard({
                   <FormItem>
                     <FormLabel>Facebook</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Link do seu perfil" />
+                      <Input
+                        {...field}
+                        placeholder="Link do seu perfil"
+                        maxLength={120}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -114,7 +122,11 @@ export default function SocialMediaCard({
                   <FormItem>
                     <FormLabel>LinkedIn</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Link do seu perfil" />
+                      <Input
+                        {...field}
+                        placeholder="Link do seu perfil"
+                        maxLength={120}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

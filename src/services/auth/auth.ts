@@ -1,5 +1,5 @@
 import api from "@/services/axios";
-import { LoginData, RegisterData } from "@/types/user/auth";
+import { LoginData, RegisterData } from "@/lib/schemas/user/auth";
 import { handleApiCall } from "@/services/apiWrapper";
 
 

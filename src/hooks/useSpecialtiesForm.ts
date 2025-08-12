@@ -4,8 +4,8 @@ import { UseFormReturn } from "react-hook-form";
 import { useWatch } from "react-hook-form";
 
 // Types
-import { profileFormValues } from "@/types/user/profileForm";
-import { Specialty } from "@/types/user/specialty";
+import { profileFormValues } from "@/lib/schemas/user/profileForm";
+import { Specialty } from "@/lib/schemas/user/specialty";
 
 // Services
 import { getAllSpecialties } from "@/services/profile/profile";

@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "../../ui/skeleton";
+import { CustomInputMasked } from "@/components/ui/custom-imask-input";
 import {
   Form,
   FormControl,
@@ -12,10 +13,18 @@ import {
 } from "@/components/ui/form";
 import { Phone, Mail, MessageCircle } from "lucide-react";
 
-// Hooks, Types and Utils
+// Hooks
 import { UseFormReturn } from "react-hook-form";
-import { profileFormValues } from "@/types/user/profileForm";
-import { getFieldValueOrFallback } from "@/lib/utils/formatters";
+
+// Schema
+import { profileFormValues } from "@/lib/schemas/user/profileForm";
+
+// Formatters
+import {
+  getFieldValueOrFallback,
+  whatsappFormatter,
+  phoneFormatter
+} from "@/lib/utils/formatters/UIformatters";
 
 // Interface
 interface ContactCardProps {
@@ -72,7 +81,7 @@ export default function ContactCard({
                   <div>
                     <p className="font-medium">WhatsApp</p>
                     <p className="text-muted-foreground">
-                      {getFieldValueOrFallback(whatsapp)}
+                      {getFieldValueOrFallback(whatsappFormatter(whatsapp))}
                     </p>
                   </div>
                 </>
@@ -88,7 +97,7 @@ export default function ContactCard({
                   <div>
                     <p className="font-medium">Telefone</p>
                     <p className="text-muted-foreground">
-                      {getFieldValueOrFallback(phone)}
+                      {getFieldValueOrFallback(phoneFormatter(phone))}
                     </p>
                   </div>
                 </>
@@ -105,13 +114,16 @@ export default function ContactCard({
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" {...field} placeholder="corretor@email.com" />
+                      <Input
+                        type="email"
+                        {...field}
+                        placeholder="corretor@email.com"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="whatsapp"
@@ -119,7 +131,15 @@ export default function ContactCard({
                   <FormItem>
                     <FormLabel>WhatsApp</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="(11) 99999-9999" />
+                      <CustomInputMasked
+                        mask="(00) 00000-0000"
+                        value={field.value}
+                        onAccept={(value, mask) =>
+                          field.onChange(mask.unmaskedValue)
+                        }
+                        placeholder="(11) 99999-9999"
+                        type="tel"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -133,7 +153,15 @@ export default function ContactCard({
                   <FormItem>
                     <FormLabel>Telefone</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="(11) 3333-4444" />
+                      <CustomInputMasked
+                        mask="(00) 0000-0000"
+                        value={field.value}
+                        onAccept={(value, mask) =>
+                          field.onChange(mask.unmaskedValue)
+                        }
+                        placeholder="(11) 3333-4444"
+                        type="tel"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

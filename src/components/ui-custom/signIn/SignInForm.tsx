@@ -1,9 +1,12 @@
 "use client";
 
-// Next and React imports
+// Next / React imports
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
 // UI components and icons
 import { Button } from "@/components/ui/button";
@@ -12,27 +15,49 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Home, Eye, EyeOff } from "lucide-react";
 
-// Services and constants
-import { ROUTES } from "@/config/routes";
-import { Messages } from "@/lib/constants/messages";
+// Services
 import { Login } from "@/services/auth/auth";
 
+// Routes / Messages / Types
+import { ROUTES } from "@/config/routes";
+import { Messages } from "@/lib/constants/messages";
+
 export function SignInForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const router = useRouter();
+  // Validation with zod
+  const loginSchema = z.object({
+    email: z.string().email({ message: "Email inválido" }),
+    password: z
+      .string()
+      .min(8, { message: "A senha deve ter no mínimo 8 caracteres" })
+      .max(20, { message: "A senha deve ter no máximo 20 caracteres" })
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/, {
+        message:
+          "A senha deve conter pelo menos uma letra minúscula, uma maiúscula, um número e um caractere especial",
+      }),
+  });
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  type LoginSchema = z.infer<typeof loginSchema>;
+
+  // React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  // Login handler
+  async function handleLogin(data: LoginSchema) {
     setError("");
-
     try {
       setLoading(true);
-      await Login({ email, password }); // usa a função com axios e cookies
+      await Login(data);
       router.push(ROUTES.private.dashboard);
     } catch (err: any) {
       setError(err.message || Messages.auth.signInError);
@@ -59,33 +84,39 @@ export function SignInForm() {
             <CardTitle className="text-2xl text-center">Fazer Login</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
+              {/* EMAIL */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Seu@email.com"
                   required
+                  {...register("email")}
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
               </div>
 
+              {/* PASSWORD */}
               <div className="space-y-2 relative">
                 <Label htmlFor="password">Senha</Label>
                 <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
                   placeholder="Sua senha"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   required
+                  {...register("password")}
+                  type={showPassword ? "text" : "password"}
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
+                {/* SHOW PASSWORD */}
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute right-3 top-9 text-muted-foreground"
+                  className="absolute right-3 top-8 text-muted-foreground cursor-pointer"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>

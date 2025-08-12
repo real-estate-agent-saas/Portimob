@@ -31,17 +31,14 @@ import { Calendar, Award, X, ChevronsUpDown, Check } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 
 // Types
-import { profileFormValues } from "@/types/user/profileForm";
+import { profileFormValues } from "@/lib/schemas/user/profileForm";
 
 // Utils
-import {
-  formatDateOrFallback,
-  getFieldValueOrFallback,
-} from "@/lib/utils/formatters";
+import { dateFormatterOrFallback } from "@/lib/utils/formatters/dateFormatters";
 
 // Hooks
 import useSpecialtyForm from "@/hooks/useSpecialtiesForm";
-import { Specialty } from "@/types/user/specialty";
+import { Specialty } from "@/lib/schemas/user/specialty";
 
 //Props
 interface ProfessionalInfoCardProps {
@@ -98,7 +95,7 @@ export default function ProfessionalInfoCard({
                   <div>
                     <p className="font-medium">Data de Início na Corretagem</p>
                     <p className="text-muted-foreground">
-                      {formatDateOrFallback(careerStartDate)}
+                      {dateFormatterOrFallback(careerStartDate)}
                     </p>
                   </div>
                 </div>
@@ -116,7 +113,7 @@ export default function ProfessionalInfoCard({
                             {specialty.name}
                           </Badge>
                         ))
-                      : 'Nenhuma especialidade definida'}
+                      : "Nenhuma especialidade definida"}
                   </div>
                 </div>
               </>

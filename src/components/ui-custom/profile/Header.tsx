@@ -1,11 +1,3 @@
-// Hooks, Types and utils
-import { UseFormReturn } from "react-hook-form";
-import { profileFormValues } from "@/types/user/profileForm";
-import { calculateExperienceTime } from "@/lib/utils/utils";
-
-// Assets
-import blankProfilePicture from "@/assets/profile/blankProfilePicture.png";
-
 // UI Components
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +14,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+
+// Hooks
+import { UseFormReturn } from "react-hook-form";
+
+// Types
+import { profileFormValues } from "@/lib/schemas/user/profileForm";
+
+// Utils
+import { calculateExperienceTime } from "@/lib/utils/formatters/dateFormatters";
+
+// Assets
+import blankProfilePicture from "@/assets/profile/blankProfilePicture.png";
 
 // Interface for component props
 interface ProfileHeaderProps {
@@ -42,7 +46,6 @@ export default function Header({
   handleCancel,
   loading,
 }: ProfileHeaderProps) {
-
   //Form values to show
   const { profileImage, creci, name, gender, careerStartDate } = form.watch();
 
@@ -138,7 +141,7 @@ export default function Header({
                     <FormItem>
                       <FormLabel>Nome</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} maxLength={80} minLength={2} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -152,7 +155,13 @@ export default function Header({
                     <FormItem>
                       <FormLabel>CRECI</FormLabel>
                       <FormControl>
-                        <Input {...field} value={field.value ?? ""} placeholder="123456-F" />
+                        <Input
+                          {...field}
+                          value={field.value ?? ""}
+                          placeholder="Ex: 123456-F"
+                          minLength={6}
+                          maxLength={8}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

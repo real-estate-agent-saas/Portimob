@@ -1,6 +1,6 @@
 import api from "@/services/axios";
-import { profileAPIResponse, profileFormValues } from "@/types/user/profileForm";
-import { Specialty } from "@/types/user/specialty";
+import { profileAPIResponse, profileFormValues } from "@/lib/schemas/user/profileForm";
+import { Specialty } from "@/lib/schemas/user/specialty";
 import { handleApiCall } from "../apiWrapper";
 
 // Updates User based on his JWT Token

@@ -1,49 +1,76 @@
 "use client";
 
-// Next and React imports
+// Next / React imports
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
-// Componentes de UI
+// UI Components
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Home, Eye, EyeOff } from "lucide-react";
 
-// Serviços e constantes
-import { ROUTES } from "@/config/routes";
-import { Messages } from "@/lib/constants/messages";
+// Service
 import { Register } from "@/services/auth/auth";
-import { validatePassword } from "@/lib/utils/passwordValidation";
+
+// Routes
+import { ROUTES } from "@/config/routes";
+
+// Messages
+import { Messages } from "@/lib/constants/messages";
 
 export function SignUpForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false); // Usado para desativar o botão durante o envio
-  const [error, setError] = useState(""); // Para exibir mensagens de erro
-  const [showPassword, setShowPassword] = useState(false); // Para mostrar/ocultar a senha
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const router = useRouter();
+  // Validation schema
+  const registerSchema = z
+    .object({
+      name: z.string().min(1, "Nome é obrigatório"),
+      email: z.string().email("Email inválido"),
+      password: z
+        .string()
+        .min(8, "Senha deve ter pelo menos 8 caracteres")
+        .max(20, "Senha deve ter no máximo 20 caracteres")
+        .regex(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/,
+          "Senha deve conter letras maiúsculas, minúsculas, números e caracteres especiais"
+        ),
+      confirmPassword: z.string(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      path: ["confirmPassword"], // Associates password confirmation error to confirmPassword field
+      message: "As senhas não coincidem",
+    });
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  // Type for form data
+  type RegisterSchema = z.infer<typeof registerSchema>;
+
+  // Form handling
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  // Register handler
+  async function handleRegister(data: RegisterSchema) {
     setError("");
-
-    // Validação no frontend primeiro
-    const validation = validatePassword(password);
-    if (!validation.isValid) {
-      setError(validation.message || "Erro na validação da senha");
-      return;
-    }
-
     try {
       setLoading(true);
-      await Register({ name, email, password });
+      // Removes confirmPassword before sending data to the API
+      const { confirmPassword, ...registerData } = data;
+      await Register(registerData);
       router.push(ROUTES.public.signIn);
     } catch (err: any) {
       setError(err.message || Messages.auth.signUpError);
@@ -75,44 +102,38 @@ export function SignUpForm() {
           </CardHeader>
           <CardContent>
             {/* Formulário */}
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(handleRegister)} className="space-y-4">
               {/* Campo Nome */}
               <div className="space-y-2">
                 <Label htmlFor="name">Nome completo</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Seu nome completo"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
+                <Input placeholder="Seu nome completo" {...register("name")} />
+                {errors.name && (
+                  <p className="text-red-500 text-sm">{errors.name.message}</p>
+                )}
               </div>
 
               {/* Campo Email */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+                <Input placeholder="Seu@email.com" {...register("email")} />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
               </div>
 
               {/* Campo Senha */}
               <div className="space-y-2 relative">
                 <Label htmlFor="password">Senha</Label>
                 <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
                   placeholder="Crie uma senha"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
+                  {...register("password")}
+                  type={showPassword ? "text" : "password"}
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
@@ -126,13 +147,15 @@ export function SignUpForm() {
               <div className="space-y-2 relative">
                 <Label htmlFor="confirmPassword">Confirmar senha</Label>
                 <Input
-                  id="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirme sua senha"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
+                  {...register("confirmPassword")}
+                  type={showConfirmPassword ? "text" : "password"}
                 />
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-sm">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword((prev) => !prev)}

@@ -19,10 +19,13 @@ import {
 } from "@/components/ui/form";
 import { UserRound } from "lucide-react";
 
-// Hooks, Types and Utils
+// Hooks
 import { UseFormReturn } from "react-hook-form";
-import { profileFormValues } from "@/types/user/profileForm";
-import { getFieldValueOrFallback, formatGender } from "@/lib/utils/formatters";
+
+// Types and Utils
+import { profileFormValues } from "@/lib/schemas/user/profileForm";
+import { formatGender } from "@/lib/utils/formatters/apiFormatters";
+import { getFieldValueOrFallback } from "@/lib/utils/formatters/UIformatters";
 
 interface PersonalInfoCardProps {
   form: UseFormReturn<profileFormValues>;
@@ -117,6 +120,7 @@ export default function PersonalInfoCard({
                         {...field}
                         placeholder="Descreva sua experiência e especialidades..."
                         className="min-h-[100px]"
+                        maxLength={800}
                       />
                     </FormControl>
                     <FormMessage />
