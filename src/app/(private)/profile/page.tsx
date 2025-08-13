@@ -21,6 +21,7 @@ export default function Profile() {
     setIsEditing,
     onSubmit,
     handleCancel,
+    profileImage,
   } = useProfileForm();
 
   return (
@@ -34,6 +35,7 @@ export default function Profile() {
           onSubmit={onSubmit}
           handleCancel={handleCancel}
           loading={loading}
+          profileImage={profileImage}
         />
 
         <div className="grid md:grid-cols-2 gap-6">

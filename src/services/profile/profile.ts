@@ -8,6 +8,11 @@ export async function updateUserProfile(data: profileFormValues) {
   return handleApiCall<profileAPIResponse>(api.patch('/user/update', data));
 }
 
+export async function updateUserImage(profileImage: string) {
+  return handleApiCall<string>(api.patch('/user/update', {profileImage}));
+}
+
+// Gets User based on his JWT Token
 export async function getUserProfile(): Promise<profileAPIResponse> {
   return handleApiCall<profileAPIResponse>(api.get('/user/read'));
 }

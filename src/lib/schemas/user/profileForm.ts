@@ -34,11 +34,7 @@ export const profileFormSchema = z.object({
   creci: z.union([z.string().trim(), z.literal("")]).optional(),
   bio: z.union([z.string().trim(), z.literal("")]).optional(),
   gender: z.union([z.string(), z.literal("")]).optional(),
-  profileImage: z.union([z.string().trim(), z.literal("")]).optional(),
   specialties: z.array(z.number()).optional(),
 });
-
-
-
 
 export type profileFormValues = z.infer<typeof profileFormSchema>;

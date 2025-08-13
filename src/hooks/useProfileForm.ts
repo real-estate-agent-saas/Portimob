@@ -23,6 +23,7 @@ export default function useProfileForm() {
   const [userData, setUserData] = useState<profileAPIResponse>();
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [profileImage, setProfileImage] = useState<string>("");
 
   // React Hook Form with zod validation
   const form = useForm<profileFormValues>({
@@ -60,9 +61,9 @@ export default function useProfileForm() {
         creci: userData.creci ?? "",
         bio: userData.bio ?? "",
         gender: userData.gender ?? "",
-        profileImage: userData.profileImage ?? "",
         specialties: userData.specialties?.map((s) => s.id) ?? [],
       });
+      setProfileImage(userData.profileImage ?? "");
     }
   }, [userData, form]);
 
@@ -99,5 +100,6 @@ export default function useProfileForm() {
     setIsEditing,
     onSubmit,
     handleCancel,
+    profileImage
   };
 }

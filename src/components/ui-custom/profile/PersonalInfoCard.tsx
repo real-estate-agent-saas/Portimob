@@ -120,7 +120,7 @@ export default function PersonalInfoCard({
                         {...field}
                         placeholder="Descreva sua experiência e especialidades..."
                         className="min-h-[100px]"
-                        maxLength={800}
+                        maxLength={1000}
                       />
                     </FormControl>
                     <FormMessage />

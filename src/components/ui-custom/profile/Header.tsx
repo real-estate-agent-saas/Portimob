@@ -1,3 +1,5 @@
+"use client";
+
 // UI Components
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -14,11 +16,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
+
+// React / Next
+import { useEffect, useState } from "react";
+
+// Cloudinary imports
+import {
+  CldUploadButton,
+  CldImage,
+  type CloudinaryUploadWidgetResults,
+  CloudinaryUploadWidgetInfo,
+} from "next-cloudinary";
 
 // Hooks
 import { UseFormReturn } from "react-hook-form";
 
-// Types
+// Types / Schemas
 import { profileFormValues } from "@/lib/schemas/user/profileForm";
 
 // Utils
@@ -26,6 +40,9 @@ import { calculateExperienceTime } from "@/lib/utils/formatters/dateFormatters";
 
 // Assets
 import blankProfilePicture from "@/assets/profile/blankProfilePicture.png";
+
+// Services
+import { updateUserImage } from "@/services/profile/profile";
 
 // Interface for component props
 interface ProfileHeaderProps {
@@ -35,6 +52,7 @@ interface ProfileHeaderProps {
   onSubmit: (values: profileFormValues) => void;
   handleCancel: () => void;
   loading: boolean;
+  profileImage?: string;
 }
 
 // Main Profile Header Component
@@ -45,9 +63,37 @@ export default function Header({
   onSubmit,
   handleCancel,
   loading,
+  profileImage,
 }: ProfileHeaderProps) {
   //Form values to show
-  const { profileImage, creci, name, gender, careerStartDate } = form.watch();
+  const { creci, name, gender, careerStartDate } = form.watch();
+
+  const [profileImageId, setProfileImageId] = useState<string | undefined>(
+    profileImage
+  );
+
+  useEffect(() => {
+    setProfileImageId(profileImage);
+  }, [profileImage]);
+
+  const handleUploadSuccess = async (result: CloudinaryUploadWidgetResults) => {
+    if (
+      result.event === "success" &&
+      typeof result.info !== "string" &&
+      result.info?.public_id
+    ) {
+      const publicId = (result.info as CloudinaryUploadWidgetInfo).public_id;
+
+      try {
+        await updateUserImage(publicId);
+        setProfileImageId(publicId);
+        toast.success("Imagem atualizada com sucesso!");
+      } catch (error) {
+        console.error("Erro ao atualizar a imagem de perfil:", error);
+        toast.error("Erro ao atualizar a imagem de perfil.");
+      }
+    }
+  };
 
   return (
     <Card className="mb-8">
@@ -58,10 +104,21 @@ export default function Header({
               <Skeleton className="w-32 h-32 mb-4 rounded-full ring-4 ring-primary/20" />
             ) : (
               <Avatar className="w-32 h-32 mb-4 ring-4 ring-primary/20">
-                <AvatarImage
-                  src={profileImage || blankProfilePicture.src}
-                  alt="Foto do Corretor"
-                />
+                {profileImageId ? (
+                  <CldImage
+                    width="960"
+                    height="600"
+                    src={profileImageId}
+                    sizes="100vw"
+                    className="object-cover"
+                    alt="Foto de Perfil"
+                  />
+                ) : (
+                  <AvatarImage
+                    src={blankProfilePicture.src}
+                    alt="Foto padrão"
+                  />
+                )}
                 <AvatarFallback>
                   <img src={blankProfilePicture.src} alt="Foto padrão" />
                 </AvatarFallback>
@@ -69,17 +126,13 @@ export default function Header({
             )}
 
             {isEditing && (
-              <Button
-                type="button"
-                variant="secondary"
-                size="icon"
-                className="absolute bottom-0 right-0 rounded-full"
-                onClick={() => {
-                  // lógica de upload de imagem
-                }}
+              <CldUploadButton
+                onSuccess={handleUploadSuccess}
+                uploadPreset="uploadProfilePicture"
+                className="absolute bottom-0 right-0 rounded-full w-10 h-10 flex items-center justify-center bg-secondary hover:bg-secondary/80 transition cursor-pointer"
               >
                 <Camera className="w-4 h-4" />
-              </Button>
+              </CldUploadButton>
             )}
           </div>
 
