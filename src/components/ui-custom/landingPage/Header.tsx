@@ -28,10 +28,10 @@ export function Header() {
         
         <div className="flex items-center space-x-4">
           <Button variant="ghost" asChild>
-            <Link href={ROUTES.public.signIn}>Entrar</Link>
+            <Link href={ROUTES.public.signIn.path}>Entrar</Link>
           </Button>
           <Button variant="hero" asChild>
-            <Link href={ROUTES.public.signUp}>Cadastrar</Link>
+            <Link href={ROUTES.public.signUp.path}>Cadastrar</Link>
           </Button>
         </div>
       </div>

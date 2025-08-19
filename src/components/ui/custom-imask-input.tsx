@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Input } from "@/components/ui/input"; // Component to copy styles
-import { cn } from "@/lib/utils/utils"; // Lib for style Tailwind
+import { cn } from "@/lib/utils"; // Lib for style Tailwind
 import { IMaskInput } from "react-imask"; // Component to copy props
 
 // Extrai o className padrão do Input do shadcn

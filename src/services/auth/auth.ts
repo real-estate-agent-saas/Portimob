@@ -9,13 +9,9 @@ export async function Login(data: LoginData) {
 }
 
 export async function Register(data: RegisterData) {
-  return handleApiCall(api.post("/user/create", data));
+  return handleApiCall(api.post("/user", data));
 }
 
 export async function Logout() {
-  return handleApiCall(api.post("user/logout"));
-}
-
-export async function CheckAuth() {
-  return handleApiCall(api.get("/user/me"));
+  return handleApiCall(api.post("/logout"));
 }

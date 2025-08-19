@@ -24,8 +24,8 @@ import { UseFormReturn } from "react-hook-form";
 
 // Types and Utils
 import { profileFormValues } from "@/lib/schemas/user/profileForm";
-import { formatGender } from "@/lib/utils/formatters/apiFormatters";
-import { getFieldValueOrFallback } from "@/lib/utils/formatters/UIformatters";
+import { formatGender } from "@/lib/formatters/apiFormatters";
+import { getFieldValueOrFallback } from "@/lib/formatters/UIformatters";
 
 interface PersonalInfoCardProps {
   form: UseFormReturn<profileFormValues>;

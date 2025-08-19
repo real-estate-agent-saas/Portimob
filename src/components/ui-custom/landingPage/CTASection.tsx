@@ -23,7 +23,7 @@ export function CTASection() {
               className="text-lg px-8 py-4"
               asChild
             >
-              <Link href={ROUTES.public.signUp}>Criar Conta Gratuita</Link>
+              <Link href={ROUTES.public.signUp.path}>Criar Conta Gratuita</Link>
             </Button>
             <Button
               variant="outline"
@@ -31,7 +31,7 @@ export function CTASection() {
               className="text-lg px-8 py-4"
               asChild
             >
-              <Link href={ROUTES.public.signIn}>Fazer Login</Link>
+              <Link href={ROUTES.public.signIn.path}>Fazer Login</Link>
             </Button>
           </div>
         </Card>

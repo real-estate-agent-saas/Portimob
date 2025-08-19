@@ -58,7 +58,7 @@ export function SignInForm() {
     try {
       setLoading(true);
       await Login(data);
-      router.push(ROUTES.private.dashboard);
+      router.push(ROUTES.private.dashboard.path);
     } catch (err: any) {
       setError(err.message || Messages.auth.signInError);
     } finally {
@@ -70,7 +70,7 @@ export function SignInForm() {
     <div className="min-h-screen bg-background flex items-center justify-center px-6">
       <div className="w-full max-w-md">
         <Link
-          href={ROUTES.public.home}
+          href={ROUTES.public.home.path}
           className="flex items-center justify-center space-x-2 mb-8"
         >
           <div className="w-10 h-10 bg-primary-gradient rounded-lg flex items-center justify-center">
@@ -138,7 +138,7 @@ export function SignInForm() {
                   Não tem uma conta?{" "}
                 </span>
                 <Link
-                  href={ROUTES.public.signUp}
+                  href={ROUTES.public.signUp.path}
                   className="primary-text hover:underline"
                 >
                   Criar conta gratuita

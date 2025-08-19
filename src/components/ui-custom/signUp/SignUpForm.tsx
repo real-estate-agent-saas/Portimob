@@ -71,7 +71,7 @@ export function SignUpForm() {
       // Removes confirmPassword before sending data to the API
       const { confirmPassword, ...registerData } = data;
       await Register(registerData);
-      router.push(ROUTES.public.signIn);
+      router.push(ROUTES.public.signIn.path);
     } catch (err: any) {
       setError(err.message || Messages.auth.signUpError);
     } finally {
@@ -85,7 +85,7 @@ export function SignUpForm() {
       <div className="w-full max-w-md">
         {/* Logo + nome do sistema com link para a home */}
         <Link
-          href={ROUTES.public.home}
+          href={ROUTES.public.home.path}
           className="flex items-center justify-center space-x-2 mb-8"
         >
           <div className="w-10 h-10 bg-primary-gradient rounded-lg flex items-center justify-center">
@@ -188,7 +188,7 @@ export function SignUpForm() {
                   Já tem uma conta?{" "}
                 </span>
                 <Link
-                  href={ROUTES.public.signIn}
+                  href={ROUTES.public.signIn.path}
                   className="primary-text hover:underline"
                 >
                   Fazer login

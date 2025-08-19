@@ -36,13 +36,13 @@ import { UseFormReturn } from "react-hook-form";
 import { profileFormValues } from "@/lib/schemas/user/profileForm";
 
 // Utils
-import { calculateExperienceTime } from "@/lib/utils/formatters/dateFormatters";
+import { calculateExperienceTime } from "@/lib/formatters/dateFormatters";
 
 // Assets
 import blankProfilePicture from "@/assets/profile/blankProfilePicture.png";
 
 // Services
-import { updateUserImage } from "@/services/profile/profile";
+import { updateUserImage } from "@/services/user/profile";
 
 // Interface for component props
 interface ProfileHeaderProps {

@@ -13,14 +13,14 @@ type JwtPayload = {
 
 // Free access routes
 const publicRoutes = [
-  { path: ROUTES.public.signIn, whenAuthenticated: "redirect" }, //Redirect to home if authenticated
-  { path: ROUTES.public.signUp, whenAuthenticated: "redirect" },
-  { path: ROUTES.public.pricing, whenAuthenticated: "next" }, // Allow access to pricing page when authenticated
-  { path: ROUTES.public.home, whenAuthenticated: "next" },
+  { path: ROUTES.public.signIn.path, whenAuthenticated: "redirect" }, //Redirect to home if authenticated
+  { path: ROUTES.public.signUp.path, whenAuthenticated: "redirect" },
+  { path: ROUTES.public.pricing.path, whenAuthenticated: "next" }, // Allow access to pricing page when authenticated
+  { path: ROUTES.public.home.path, whenAuthenticated: "next" },
 ] as const; // Says to typeScript that the objects inside publicRoutes wont change their values so it can assume a more specific type to them
 
 // Redirect page when not authenticated
-const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = ROUTES.public.signIn;
+const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = ROUTES.public.signIn.path;
 
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname; // Get the current request path
@@ -47,7 +47,7 @@ export function middleware(request: NextRequest) {
     publicRoute.whenAuthenticated === "redirect"
   ) {
     const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = ROUTES.private.dashboard;
+    redirectUrl.pathname = ROUTES.private.dashboard.path;
     return NextResponse.redirect(redirectUrl);
   }
 

@@ -8,7 +8,7 @@ import SocialMediaCard from "@/components/ui-custom/profile/SocialMediaCard";
 import PersonalInfoCard from "@/components/ui-custom/profile/PersonalInfoCard";
 
 // Custom Hook
-import useProfileForm from "@/hooks/useProfileForm";
+import useProfileForm from "@/hooks/user/useProfileForm";
 
 // ---------------------------- Profile Component ----------------------------
 export default function Profile() {
@@ -40,7 +40,11 @@ export default function Profile() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Contact Info */}
-          <ContactCard form={form} isEditing={isEditing} loading={loading} />
+          <ContactCard 
+          form={form} 
+          isEditing={isEditing} 
+          loading={loading} 
+          />
 
           {/* Professional Info */}
           <ProfessionalInfoCard

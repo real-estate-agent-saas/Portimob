@@ -12,11 +12,11 @@ import {
 } from "@/lib/schemas/user/profileForm";
 
 // Services
-import { getUserProfile, updateUserProfile } from "@/services/profile/profile";
+import { getUserProfile, updateUserProfile } from "@/services/user/profile";
 
 // Utils
-import { extractDateFromISO, convertDateToISO } from "@/lib/utils/formatters/dateFormatters";
-import { convertEmptyStringsToNull } from "@/lib/utils/formatters/apiFormatters";
+import { extractDateFromISO, convertDateToISO } from "@/lib/formatters/dateFormatters";
+import { convertEmptyStringsToNull } from "@/lib/formatters/apiFormatters";
 
 // Custom Hook
 export default function useProfileForm() {

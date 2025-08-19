@@ -62,8 +62,8 @@ export function HowItWorksSection() {
         </div>
         
         <div className="text-center">
-          <Button variant="howItWorks" size="lg" className="text-lg px-8 py-4" asChild>
-            <Link href={ROUTES.public.signUp}>Começar Agora</Link>
+          <Button variant="yellow" size="lg" className="text-lg px-8 py-4" asChild>
+            <Link href={ROUTES.public.signUp.path}>Começar Agora</Link>
           </Button>
         </div>
       </div>

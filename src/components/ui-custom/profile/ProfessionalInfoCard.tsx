@@ -34,10 +34,10 @@ import { UseFormReturn } from "react-hook-form";
 import { profileFormValues } from "@/lib/schemas/user/profileForm";
 
 // Utils
-import { dateFormatterOrFallback } from "@/lib/utils/formatters/dateFormatters";
+import { dateFormatterOrFallback } from "@/lib/formatters/dateFormatters";
 
 // Hooks
-import useSpecialtyForm from "@/hooks/useSpecialtiesForm";
+import useSpecialtyForm from "@/hooks/user/useSpecialtiesForm";
 import { Specialty } from "@/lib/schemas/user/specialty";
 
 //Props

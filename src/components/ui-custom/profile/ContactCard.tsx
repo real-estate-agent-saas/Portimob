@@ -24,7 +24,7 @@ import {
   getFieldValueOrFallback,
   whatsappFormatter,
   phoneFormatter
-} from "@/lib/utils/formatters/UIformatters";
+} from "@/lib/formatters/UIformatters";
 
 // Interface
 interface ContactCardProps {

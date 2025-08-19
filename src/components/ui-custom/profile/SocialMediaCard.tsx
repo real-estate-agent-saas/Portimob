@@ -15,7 +15,7 @@ import {
 // Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
 import { profileFormValues } from "@/lib/schemas/user/profileForm";
-import { getFieldValueOrFallback } from "@/lib/utils/formatters/UIformatters";
+import { getFieldValueOrFallback } from "@/lib/formatters/UIformatters";
 
 interface SocialMediaCardProps {
   form: UseFormReturn<profileFormValues>;

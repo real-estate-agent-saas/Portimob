@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn } from "@/lib/utils/utils"
+import { cn } from "@/lib/utils"
 
 function Textarea({ className, value, ...props }: React.ComponentProps<"textarea">) {
   // Garante que o valor seja uma string vazia em vez de null
