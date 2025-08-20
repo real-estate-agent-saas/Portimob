@@ -1,33 +1,48 @@
 import api from "@/services/axios";
-import { profileAPIResponse, profileFormValues } from "@/lib/schemas/user/profileForm";
+import {
+  profileAPIResponse,
+  profileFormValues,
+} from "@/lib/schemas/user/profileForm";
 import { Specialty } from "@/lib/schemas/user/specialty";
+import { UserSlug } from "@/lib/schemas/user/slug";
 import { handleApiCall } from "../apiWrapper";
 
 // Updates User based on his JWT Token
 export async function updateUserProfile(data: profileFormValues) {
-  return handleApiCall<profileAPIResponse>(api.patch('/user/', data));
+  return handleApiCall<profileAPIResponse>(api.patch("/user", data));
 }
 
 // Updates user image and stores it on cloudinary
 export async function updateUserImage(profileImage: string) {
-  return handleApiCall<string>(api.patch('/user', {profileImage}));
+  return handleApiCall<String>(api.patch("/user", { profileImage }));
 }
 
 // Gets User based on his JWT Token
 export async function getUserProfile() {
-  return handleApiCall<profileAPIResponse>(api.get('/user'));
+  return handleApiCall<profileAPIResponse>(api.get("/user"));
 }
 
 // Eliminates user cookie to finish the session
 export async function logout() {
-  return handleApiCall<string>(api.post('/logout'));
+  return handleApiCall<String>(api.post("/logout"));
 }
 
 // Gets specialties related to the user
 export async function getAllSpecialties() {
-  return handleApiCall<Specialty[]>(api.get('/user/specialties'));
+  return handleApiCall<Specialty[]>(api.get("/user/specialties"));
 }
 
+// Checks if the slug the user wants to update is available
+export async function checkSlugAvailability(slug: UserSlug) {
+  return handleApiCall<boolean>(api.post("/user/slug/isAvailable", slug ))
+}
+
+// Gets user slug
 export async function getSlug() {
-  return handleApiCall<String>(api.get('user/slug'));
+  return handleApiCall<UserSlug>(api.get("/user/slug"));
+}
+
+// Updates user slug
+export async function updateSlug(slug: UserSlug) {
+  return handleApiCall<UserSlug>(api.patch("/user/slug", slug));
 }

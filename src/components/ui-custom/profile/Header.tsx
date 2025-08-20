@@ -112,6 +112,7 @@ export default function Header({
                     sizes="100vw"
                     className="object-cover"
                     alt="Foto de Perfil"
+                    priority
                   />
                 ) : (
                   <AvatarImage

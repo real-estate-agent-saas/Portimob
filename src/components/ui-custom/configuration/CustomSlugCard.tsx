@@ -13,84 +13,197 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 // Next / React
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Zod
 import { z } from "zod";
 
 // Icons
-import { AlertCircle, Check, ExternalLink, Globe } from "lucide-react";
+import {
+  AlertCircle,
+  ExternalLink,
+  Globe,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
 
 // Hooks
 import { toast } from "@/hooks/use-toast";
 
+// Contants
+import { RESERVED_SLUGS } from "@/lib/constants/reservedSlugs";
+
+// Services
+import {
+  getSlug,
+  updateSlug,
+  checkSlugAvailability,
+} from "@/services/user/profile";
+
 // Slug card component
 export function CustomSlugCard() {
-  const [slug, setSlug] = useState(""); // Slug to be updated
+  const [slug, setSlug] = useState<string>(""); // Slug to be updated
+  const [currentSlug, setCurrentSlug] = useState<string>(""); // Current slug
+  const [checkingAvailability, setCheckingAvailability] =
+    useState<boolean>(false); // Availability check status
+  const [validationError, setValidationError] = useState<string>(""); // Validation error message
   const [isSlugAvailable, setIsSlugAvailable] = useState<boolean | null>(null); // Slug availability status
-  const [isChecking, setIsChecking] = useState(false); // Slug checking status
-  const [currentSlug, setCurrentSlug] = useState<string>("nao-definido"); // Current slug
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSlugChange = (value: string) => {
-    // Remove caracteres especiais e espaços, converte para lowercase
-    const cleanSlug = value
-      .toLowerCase()
-      .replace(/[^a-z0-9-]/g, "")
-      .replace(/--+/g, "-");
-    setSlug(cleanSlug);
-
-    if (cleanSlug !== value) {
-      // Mostra formatação automática
-      toast.info(
-        "Slug formatado automaticamente",
-        "O slug foi formatado automaticamente para seguir as regras de URL"
-      );
-    }
-  };
-
-  const handleSaveSlug = () => {
-    if (!isSlugAvailable || !slug) return;
-
-    // Aqui seria feita a chamada para a API
-    setCurrentSlug(slug);
-    toast.success(
-      "Slug atualizado com sucesso!",
-      `Sua página agora está disponível em: ${slug}.imovelpro.com`
-    );
-    setSlug("");
-    setIsSlugAvailable(null);
-  };
-
-  const getSlugStatus = () => {
-    if (!slug) return null;
-    if (isChecking)
-      return {
-        icon: AlertCircle,
-        text: "Verificando...",
-        variant: "secondary" as const,
-      };
-    if (isSlugAvailable)
-      return { icon: Check, text: "Disponível", variant: "default" as const };
-    return {
-      icon: AlertCircle,
-      text: "Indisponível",
-      variant: "destructive" as const,
+  //------------------------------------------ (1) When page loads fetches user slug --------------------------------------
+  useEffect(() => {
+    const fetchSlug = async () => {
+      setLoading(true);
+      try {
+        const response = await getSlug();
+        setCurrentSlug(response?.slug ?? "nao-definido");
+      } catch (e) {
+        console.log("Não foi possível buscar o slug", e);
+        toast.error("Erro", "Não foi possível carregar o slug atual");
+      } finally {
+        setLoading(false);
+      }
     };
-  };
-  const slugStatus = getSlugStatus();
+    fetchSlug();
+  }, []);
 
-  // Zod Validation Schema
+  //---------------------------------------------------- (2) Zod Validation Schema --------------------------------------
   const slugSchema = z
     .string()
     .min(3, "O slug deve ter pelo menos 3 caracteres")
-    .max(50, "O slug pode ter no máximo 50 caracteres")
+    .max(20, "O slug pode ter no máximo 20 caracteres")
     .regex(
       /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
       "Use apenas letras minúsculas, números e hífens, sem começar/terminar com hífen"
     )
-    .refine((val) => !["admin", "api", "www"].includes(val), {
+    .refine((val) => !RESERVED_SLUGS.includes(val), {
       message: "Esse slug é uma palavra reservada",
     });
+
+  //-------------------------------------------------------- (3) Checks Availability ---------------------------------------------
+
+  const checkAvailability = async () => {
+    try {
+      const isAvailable = await checkSlugAvailability({ slug: slug });
+      setIsSlugAvailable(isAvailable);
+      console.log(isAvailable);
+    } catch (error) {
+      console.error("Erro ao verificar disponibilidade:", error);
+      setIsSlugAvailable(false);
+    } finally {
+      setCheckingAvailability(false);
+    }
+  };
+
+  // useEffect(() => {
+  //   const checkAvailability = async () => {
+  //     if (!slug || validationError) {
+  //       setIsSlugAvailable(null);
+  //       return;
+  //     }
+
+  //     setCheckingAvailability(true);
+  //     try {
+  //       const isAvailable = await checkSlugAvailability({slug: slug});
+  //       setIsSlugAvailable(isAvailable);
+  //     } catch (error) {
+  //       console.error("Erro ao verificar disponibilidade:", error);
+  //       setIsSlugAvailable(false);
+  //     } finally {
+  //       setCheckingAvailability(false);
+  //     }
+  //   };
+
+  //   const timeoutId = setTimeout(checkAvailability, 500);
+  //   return () => clearTimeout(timeoutId);
+  // }, [slug, validationError]);
+
+  //-------------------------------------------------------- (4) Saves new slug ---------------------------------------------
+  const handleSaveSlug = async () => {
+    setLoading(true);
+    try {
+      console.log(slug);
+
+      const isAvailable = await checkSlugAvailability({ slug: slug });
+
+      if (isAvailable === false) {
+
+         toast.error(
+        "Slug já em uso",
+        `Não é possível utilizar esse Slug`
+      );
+        return;
+      }
+
+      const updatedSlug = await updateSlug({ slug: slug });
+      toast.success(
+        "Slug atualizado com sucesso!",
+        `Sua página agora está disponível em: https://${updatedSlug.slug}.imovelpro.com`
+      );
+      setCurrentSlug(updatedSlug.slug);
+      setSlug(""); // Clear input after successful update
+      setIsSlugAvailable(null);
+      setValidationError("");
+    } catch (e: any) {
+      console.error("Erro ao atualizar slug", e);
+      toast.error(
+        "Erro ao atualizar",
+        e.response?.data?.message || "Não foi possível atualizar o slug"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSlugChange = (value: string) => {
+    setSlug(value);
+
+    // Reset validation and availability when input changes
+    setIsSlugAvailable(null);
+
+    // Validate with zod
+    const result = slugSchema.safeParse(value);
+    if (!result.success) {
+      setValidationError(result.error.errors[0].message);
+    } else {
+      setValidationError("");
+    }
+  };
+
+  // Slug status based on validation and availability
+  const getSlugStatus = () => {
+    if (validationError) {
+      return {
+        text: "Inválido",
+        variant: "destructive" as const,
+        icon: XCircle,
+      };
+    }
+
+    if (isSlugAvailable === false) {
+      return {
+        text: "Indisponível",
+        variant: "destructive" as const,
+        icon: XCircle,
+      };
+    }
+
+    if (isSlugAvailable === true) {
+      return {
+        text: "Disponível",
+        variant: "default" as const,
+        icon: CheckCircle,
+      };
+    }
+
+    return {
+      text: "Digite um slug",
+      variant: "secondary" as const,
+      icon: Globe,
+    };
+  };
+
+  const slugStatus = getSlugStatus();
 
   return (
     <Card>
@@ -134,7 +247,14 @@ export function CustomSlugCard() {
             <span className="text-sm text-muted-foreground">
               .imovelpro.com
             </span>
-            <Button variant="ghost" size="sm" className="ml-auto h-6 w-6 p-0">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="ml-auto h-6 w-6 p-0"
+              onClick={() =>
+                window.open(`localhost:3000/${currentSlug}.imovelpro.com`, "_blank")
+              }
+            >
               <ExternalLink className="h-3 w-3" />
             </Button>
           </div>
@@ -155,32 +275,47 @@ export function CustomSlugCard() {
                   value={slug}
                   onChange={(e) => handleSlugChange(e.target.value)}
                   placeholder="meu-slug-personalizado"
-                  className="font-mono"
-                  maxLength={50}
+                  className="font-mono pr-20"
+                  maxLength={20}
+                  disabled={loading}
                 />
-                {slugStatus && (
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                    <Badge variant={slugStatus.variant} className="text-xs">
-                      <slugStatus.icon className="h-3 w-3 mr-1" />
-                      {slugStatus.text}
-                    </Badge>
-                  </div>
-                )}
+                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <Badge
+                    variant={slugStatus.variant}
+                    className="text-xs flex items-center gap-1"
+                  >
+                    <slugStatus.icon className="h-3 w-3" />
+                    {checkingAvailability ? "Verificando..." : slugStatus.text}
+                  </Badge>
+                </div>
               </div>
               <span className="text-sm text-muted-foreground">
                 .imovelpro.com
               </span>
             </div>
 
-            {slug && (
-              <Button
-                onClick={handleSaveSlug}
-                disabled={!isSlugAvailable || isChecking}
-                className="w-full sm:w-auto"
-              >
-                {isChecking ? "Verificando..." : "Salvar URL"}
-              </Button>
+            {/* Error messages */}
+            {(validationError || isSlugAvailable === false) && (
+              <Alert variant="destructive" className="py-2">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-sm">
+                  {validationError || "Este slug já está em uso. Tente outro."}
+                </AlertDescription>
+              </Alert>
             )}
+
+            <Button
+              onClick={handleSaveSlug}
+              disabled={
+                !slug ||
+                !!validationError ||
+                isSlugAvailable === false ||
+                loading
+              }
+              className="w-full sm:w-auto"
+            >
+              {loading ? "Salvando..." : "Salvar URL"}
+            </Button>
           </div>
         </div>
       </CardContent>

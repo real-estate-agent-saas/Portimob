@@ -15,7 +15,10 @@ import {
 import { getUserProfile, updateUserProfile } from "@/services/user/profile";
 
 // Utils
-import { extractDateFromISO, convertDateToISO } from "@/lib/formatters/dateFormatters";
+import {
+  extractDateFromISO,
+  convertDateToISO,
+} from "@/lib/formatters/dateFormatters";
 import { convertEmptyStringsToNull } from "@/lib/formatters/apiFormatters";
 
 // Custom Hook
@@ -34,11 +37,12 @@ export default function useProfileForm() {
   // Fetch user profile
   useEffect(() => {
     async function fetchProfile() {
+      setLoading(true);
       try {
         const response = await getUserProfile();
         setUserData(response);
-      } catch (error) {
-        console.error("Erro ao buscar perfil do usuário:", error);
+      } catch (e) {
+        console.error("Erro ao buscar perfil do usuário:", e);
       } finally {
         setLoading(false);
       }
@@ -100,6 +104,6 @@ export default function useProfileForm() {
     setIsEditing,
     onSubmit,
     handleCancel,
-    profileImage
+    profileImage,
   };
 }

@@ -55,8 +55,8 @@ export default function useSpecialtyForm(
       try {
         const response = await getAllSpecialties();
         setAllSpecialties(response);
-      } catch (error) {
-        console.error("Erro ao buscar especialidades:", error);
+      } catch (e) {
+        console.error("Erro ao buscar especialidades:", e);
       } finally {
         setLoading(false);
       }
