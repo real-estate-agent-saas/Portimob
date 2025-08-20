@@ -38,7 +38,7 @@ export function AppSidebar() {
 
   // Define the account navigation items on the footer
   const accountNav = {
-    configuration: ROUTES.private.configuration,
+    configuration: ROUTES.private.settings,
     logout: ROUTES.private.logout,
   };
 

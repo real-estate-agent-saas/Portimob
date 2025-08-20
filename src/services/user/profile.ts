@@ -4,7 +4,7 @@ import {
   profileFormValues,
 } from "@/lib/schemas/user/profileForm";
 import { Specialty } from "@/lib/schemas/user/specialty";
-import { UserSlug } from "@/lib/schemas/user/slug";
+import { UserSlug, SlugAvailabilityResponse } from "@/lib/schemas/user/slug";
 import { handleApiCall } from "../apiWrapper";
 
 // Updates User based on his JWT Token
@@ -34,7 +34,7 @@ export async function getAllSpecialties() {
 
 // Checks if the slug the user wants to update is available
 export async function checkSlugAvailability(slug: UserSlug) {
-  return handleApiCall<boolean>(api.post("/user/slug/isAvailable", slug ))
+  return handleApiCall<SlugAvailabilityResponse>(api.post("/user/slug/isAvailable", slug ))
 }
 
 // Gets user slug

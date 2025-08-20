@@ -30,7 +30,7 @@ export const ROUTES = {
     messages: { title: "Mensagens", path: "/dashboard", icon: MessageSquare },
     agenda: { title: "Agenda", path: "/dashboard", icon: Calendar },
     search: { title: "Buscar", path: "/dashboard", icon: Search },
-    configuration: { title: "Configurações", path: "/configuration", icon: Settings },
+    settings: { title: "Configurações", path: "/settings", icon: Settings },
     logout: { title: "Sair", path: "/login", icon: LogOut },
     property: (id: string) => ({
       title: "Imóvel",
