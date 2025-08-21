@@ -12,183 +12,25 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-// Next / React
-import { useState, useEffect, useRef } from "react";
-
-// Zod
-import { z } from "zod";
-
 // Icons
-import {
-  AlertCircle,
-  ExternalLink,
-  Globe,
-  CheckCircle,
-  XCircle,
-  LucideIcon,
-} from "lucide-react";
+import { AlertCircle, ExternalLink, Globe } from "lucide-react";
 
-// Hooks
-import { toast } from "@/hooks/use-toast";
+// Custom Hook
+import useSlug from "@/hooks/user/useSlug";
 
-// Contants
-import { RESERVED_SLUGS } from "@/lib/constants/reservedSlugs";
-
-// Services
-import {
-  getSlug,
-  updateSlug,
-  checkSlugAvailability,
-} from "@/services/user/profile";
-
-// Slug card component
 export function CustomSlugCard() {
-  //------------------------------------------------------- States ----------------------------------------------------
-  const [currentSlug, setCurrentSlug] = useState<string>(""); // Current slug
-  const [slug, setSlug] = useState<string>(""); // Slug to be updated
-  const [isSlugAvailable, setIsSlugAvailable] = useState<boolean | null>(null); // Slug availability status
-  const [validationError, setValidationError] = useState<string>(""); // Validation error messages
-  const [checkingAvailability, setCheckingAvailability] =
-    useState<boolean>(false); // For loading control
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const initialSlugStatus = {
-    text: "Digite um slug",
-    variant: "secondary" as const,
-    icon: Globe,
-  };
-
-  const [slugStatus, setSlugStatus] = useState<{
-    text: string;
-    variant: "default" | "secondary" | "destructive" | "outline";
-    icon: LucideIcon;
-  }>(initialSlugStatus);
-
-  // For setTimeout
-  const DEBOUNCE_DELAY = 1.5 * 1000;
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
-
-  //-------------------------------------------- (1) When page loads fetches user slug -----------------------------------
-  useEffect(() => {
-    const fetchSlug = async () => {
-      setLoading(true);
-      try {
-        const response = await getSlug();
-        setCurrentSlug(response?.slug ?? "nao-definido");
-      } catch (e) {
-        console.log("Não foi possível buscar o slug", e);
-        toast.error("Erro", "Não foi possível carregar o slug atual");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSlug();
-  }, []);
-
-  //---------------------------------------------------- (2) Zod Validation Schema --------------------------------------
-  const slugSchema = z
-    .string()
-    .min(1, "")
-    .min(3, "O slug deve ter pelo menos 3 caracteres")
-    .max(20, "O slug pode ter no máximo 20 caracteres")
-    .regex(
-      /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/,
-      "O slug deve conter apenas letras minúsculas, números e hífens, não podendo começar com número ou hífen, nem terminar com hífen"
-    )
-    .refine((val) => !RESERVED_SLUGS.includes(val), {
-      message: "Esse slug é uma palavra reservada",
-    })
-    .refine((val) => val !== currentSlug, {
-      message: "Esse já é o seu slug",
-    });
-
-  //-------------------------------------------------------- (3) Checks Conditions ---------------------------------------------
-  const handleSlugChange = (value: string) => {
-    setSlug(value); // Sets new slug
-    setCheckingAvailability(true); // For verifying message
-    setIsSlugAvailable(null);
-
-    // Resets timer
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-    // If any error on zod return before contact database
-    const result = slugSchema.safeParse(value);
-    if (!result.success) {
-      setValidationError(result.error.errors[0].message);
-      setCheckingAvailability(false);
-      return;
-    }
-
-    // Clean validation error message
-    setValidationError("");
-
-    // Executes after time finishes
-    debounceRef.current = setTimeout(async () => {
-      try {
-        const isAvailable = await checkSlugAvailability({ slug: value });
-        if (isAvailable.available === false) {
-          setValidationError("Este slug já está em uso. Tente outro.");
-        }
-        setIsSlugAvailable(isAvailable.available);
-      } catch (e) {
-        console.error("Erro ao verificar disponibilidade:", e);
-        setIsSlugAvailable(false);
-      } finally {
-        setCheckingAvailability(false);
-      }
-    }, DEBOUNCE_DELAY);
-  };
-
-  //-------------------------------------------------------- (4) Message Logic ---------------------------------------------
-
-  useEffect(() => {
-    if (checkingAvailability === true && !validationError) {
-      return setSlugStatus({
-        text: "Verificando...",
-        variant: "default",
-        icon: XCircle,
-      });
-    }
-
-    if (isSlugAvailable === false) {
-      return setSlugStatus({
-        text: "Indisponível",
-        variant: "destructive",
-        icon: XCircle,
-      });
-    }
-
-    if (isSlugAvailable === true) {
-      return setSlugStatus({
-        text: "Disponível",
-        variant: "default",
-        icon: CheckCircle,
-      });
-    }
-
-    if (checkingAvailability === false) {
-      return setSlugStatus(initialSlugStatus);
-    }
-  }, [validationError, checkingAvailability, isSlugAvailable]);
-
-  //-------------------------------------------------------- (5) Saves new slug ---------------------------------------------
-  const handleSaveSlug = async () => {
-    setLoading(true);
-    try {
-      const updatedSlug = await updateSlug({ slug: slug });
-      toast.success("Slug atualizado com sucesso!");
-      setCurrentSlug(updatedSlug.slug);
-      setSlug(""); // Clear input after successful update
-      setIsSlugAvailable(null);
-      setValidationError("");
-    } catch (e) {
-      console.error("Erro ao atualizar slug", e);
-      toast.error("Erro ao atualizar slug");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Custom Hook data
+  const {
+    handleSaveSlug,
+    handleSlugChange,
+    currentSlug,
+    slug,
+    loading,
+    slugStatus,
+    validationError,
+    isSlugAvailable,
+    checkingAvailability,
+  } = useSlug();
 
   return (
     <Card>
@@ -237,10 +79,7 @@ export function CustomSlugCard() {
               size="sm"
               className="ml-auto h-6 w-6 p-0"
               onClick={() =>
-                window.open(
-                  `localhost:3000/${currentSlug}.imovelpro.com`,
-                  "_blank"
-                )
+                window.open(`http://localhost:3000/${currentSlug}`, "_blank")
               }
             >
               <ExternalLink className="h-3 w-3" />
