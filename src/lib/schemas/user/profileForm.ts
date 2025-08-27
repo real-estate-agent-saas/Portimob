@@ -2,7 +2,7 @@ import { Specialty } from "./specialty";
 import { z } from "zod";
 
 // API Response for user data
-export type profileAPIResponse = {
+export type ProfileAPIResponse = {
   name: string;
   careerStartDate?: string | null;
   publicEmail?: string | null;
@@ -37,4 +37,4 @@ export const profileFormSchema = z.object({
   specialties: z.array(z.number()).optional(),
 });
 
-export type profileFormValues = z.infer<typeof profileFormSchema>;
+export type ProfileFormValues = z.infer<typeof profileFormSchema>;

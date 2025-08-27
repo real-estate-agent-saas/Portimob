@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "@/styles/global.css";
 
-import { AppSidebar } from "@/components/ui-custom/layout/private/Sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar"; 
+import { AppSidebar } from "@/components/ui-custom/private/layout/Sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"; 
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,11 +15,11 @@ export default function privateLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-      <SidebarProvider>
-        <AppSidebar />
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
         <main className="flex-1">{children}</main>
-      </SidebarProvider>
-    </div>
-  );
+      </SidebarInset>
+    </SidebarProvider>
+  )
 }

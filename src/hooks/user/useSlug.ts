@@ -17,8 +17,8 @@ import { RESERVED_SLUGS } from "@/lib/constants/reservedSlugs";
 import {
   getSlug,
   updateSlug,
-  checkSlugAvailability,
 } from "@/services/user/profile";
+import { checkSlugAvailability } from "@/services/tenant/website";
 
 export default function useSlug() {
   //------------------------------------------------------- States ----------------------------------------------------
@@ -71,7 +71,7 @@ export default function useSlug() {
     .max(20, "O slug pode ter no máximo 20 caracteres")
     .regex(
       /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/,
-      "O slug deve conter apenas letras minúsculas, números e hífens, não podendo começar com número ou hífen, nem terminar com hífen"
+      "Use apenas letras minúsculas, números e hífens. Não pode começar com número ou hífen, nem terminar com hífen"
     )
     .refine((val) => !RESERVED_SLUGS.includes(val), {
       message: "Esse slug é uma palavra reservada",

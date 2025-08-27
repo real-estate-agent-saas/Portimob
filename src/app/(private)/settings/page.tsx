@@ -1,9 +1,9 @@
 "use client";
 
 // Custom components
-import { Header } from "@/components/ui-custom/configuration/Header";
-import { CustomSlugCard } from "@/components/ui-custom/configuration/CustomSlugCard";
-import { ConfigurationCard } from "@/components/ui-custom/configuration/ConfigurationCard";
+import { Header } from "@/components/ui-custom/private/settings/Header";
+import { CustomSlugCard } from "@/components/ui-custom/private/settings/CustomSlugCard";
+import { ConfigurationCard } from "@/components/ui-custom/private/settings/SettingsCard";
 
 export default function Settings() {
   return (

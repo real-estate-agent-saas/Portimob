@@ -6,9 +6,9 @@ import { toast } from "sonner";
 
 // Types
 import {
-  profileAPIResponse,
+  ProfileAPIResponse,
   profileFormSchema,
-  profileFormValues,
+  ProfileFormValues,
 } from "@/lib/schemas/user/profileForm";
 
 // Services
@@ -23,15 +23,15 @@ import { convertEmptyStringsToNull } from "@/lib/formatters/apiFormatters";
 
 // Custom Hook
 export default function useProfileForm() {
-  const [userData, setUserData] = useState<profileAPIResponse>();
+  const [userData, setUserData] = useState<ProfileAPIResponse>();
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState<string>("");
 
   // React Hook Form with zod validation
-  const form = useForm<profileFormValues>({
+  const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues: {} as profileFormValues,
+    defaultValues: {} as ProfileFormValues,
   });
 
   // Fetch user profile
@@ -72,9 +72,9 @@ export default function useProfileForm() {
   }, [userData, form]);
 
   // Submit
-  const onSubmit = async (data: profileFormValues) => {
+  const onSubmit = async (data: ProfileFormValues) => {
     try {
-      const payload: profileFormValues = {
+      const payload: ProfileFormValues = {
         ...convertEmptyStringsToNull(data),
         name: data.name,
         careerStartDate: convertDateToISO(data.careerStartDate),

@@ -4,7 +4,10 @@ import {
   type NextRequest,
 } from "next/server";
 
-import { ROUTES } from "@/config/routes";
+import {
+  ADMIN_ROUTES,
+  GUEST_ROUTES,
+} from "@/config/routes";
 import { jwtDecode } from "jwt-decode";
 
 type JwtPayload = {
@@ -13,21 +16,30 @@ type JwtPayload = {
 
 // Free access routes
 const publicRoutes = [
-  { path: ROUTES.public.signIn.path, whenAuthenticated: "redirect" }, //Redirect to home if authenticated
-  { path: ROUTES.public.signUp.path, whenAuthenticated: "redirect" },
-  { path: ROUTES.public.pricing.path, whenAuthenticated: "next" }, // Allow access to pricing page when authenticated
-  { path: ROUTES.public.home.path, whenAuthenticated: "next" },
+  { path: GUEST_ROUTES.signIn.path, whenAuthenticated: "redirect" }, //Redirect to dashboard if authenticated
+  { path: GUEST_ROUTES.signUp.path, whenAuthenticated: "redirect" },
+  { path: GUEST_ROUTES.home.path, whenAuthenticated: "next" },
 ] as const; // Says to typeScript that the objects inside publicRoutes wont change their values so it can assume a more specific type to them
 
+// All private routes
+const adminRoutesList = Object.values(ADMIN_ROUTES);
+const privateRoutes = adminRoutesList.map((route) => route.path);
+
 // Redirect page when not authenticated
-const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = ROUTES.public.signIn.path;
+const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = GUEST_ROUTES.signIn.path;
 
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname; // Get the current request path
   const publicRoute = publicRoutes.find((route) => route.path === path); // Check if the current path is public
+  const privateRoute = privateRoutes.some((route) => route.startsWith(path)); // Check if the current path is private
   const authToken = request.cookies.get("access_token"); // Get the access_token from de user cookies
 
-  // If user doesn't have token but wants to access a public route, he can
+  // For Tenant pages
+  if (!publicRoute && !privateRoute) {
+    return NextResponse.next();
+  }
+
+  // If user doesn't have token but wants to access a public route, he is able to
   if (!authToken && publicRoute) {
     return NextResponse.next();
   }
@@ -47,7 +59,7 @@ export function middleware(request: NextRequest) {
     publicRoute.whenAuthenticated === "redirect"
   ) {
     const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = ROUTES.private.dashboard.path;
+    redirectUrl.pathname = ADMIN_ROUTES.dashboard.path;
     return NextResponse.redirect(redirectUrl);
   }
 
@@ -106,6 +118,6 @@ export const config: MiddlewareConfig = {
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt/).*)",
   ],
 };

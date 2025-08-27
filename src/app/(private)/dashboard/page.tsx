@@ -1,13 +1,5 @@
-import { Link } from "lucide-react";
-import { ROUTES } from "@/config/routes";
-
-export default function Dashboard() {
+export default function Home() {
   return (
-    <>
-      <h1>Página de Dashboard</h1>
-      <a href="/profile" className="primary-text hover:underline">
-        Perfil
-      </a>
-    </>
+    <h1 className="text-7xl"> Dashboard Page</h1>
   );
 }

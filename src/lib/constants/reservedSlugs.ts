@@ -16,5 +16,5 @@ export const RESERVED_SLUGS = [
   'new', 'create', 'edit', 'update', 'delete', 'list', 'search', 'filter',
 
   // Others
-  'property', 'broker', 'www', 'page', 'server', 'support', 'help', 'status', 'docs', 'teste', 'blog', 'post', 'config'
+  'property', 'broker', 'www', 'page', 'server', 'support', 'help', 'status', 'docs', 'teste', 'blog', 'post', 'config', 'nao-definido'
 ];

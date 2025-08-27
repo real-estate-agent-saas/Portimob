@@ -1,11 +1,11 @@
 "use client";
 
 // Components
-import Header from "@/components/ui-custom/profile/Header";
-import ContactCard from "@/components/ui-custom/profile/ContactCard";
-import ProfessionalInfoCard from "@/components/ui-custom/profile/ProfessionalInfoCard";
-import SocialMediaCard from "@/components/ui-custom/profile/SocialMediaCard";
-import PersonalInfoCard from "@/components/ui-custom/profile/PersonalInfoCard";
+import Header from "@/components/ui-custom/private/profile/Header";
+import ContactCard from "@/components/ui-custom/private/profile/ContactCard";
+import ProfessionalInfoCard from "@/components/ui-custom/private/profile/ProfessionalInfoCard";
+import SocialMediaCard from "@/components/ui-custom/private/profile/SocialMediaCard";
+import PersonalInfoCard from "@/components/ui-custom/private/profile/PersonalInfoCard";
 
 // Custom Hook
 import useProfileForm from "@/hooks/user/useProfileForm";
