@@ -54,7 +54,6 @@ export default function useSlug() {
         const response = await getSlug();
         setCurrentSlug(response?.slug ?? "nao-definido");
       } catch (e) {
-        console.log("Não foi possível buscar o slug", e);
         toast.error("Erro", "Não foi possível carregar o slug atual");
       } finally {
         setLoading(false);

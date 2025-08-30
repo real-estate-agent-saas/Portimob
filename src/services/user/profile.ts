@@ -34,7 +34,7 @@ export async function getAllSpecialties() {
 
 // Gets user slug
 export async function getSlug() {
-  return handleApiCall<UserSlug>(api.get("/dinamic-website/slug"));
+  return handleApiCall<UserSlug>(api.get("/dinamic-website/slug/currentSlug"));
 }
 
 // Updates user slug

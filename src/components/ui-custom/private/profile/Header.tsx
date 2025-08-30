@@ -130,7 +130,7 @@ export default function Header({
               <CldUploadButton
                 onSuccess={handleUploadSuccess}
                 uploadPreset="uploadProfilePicture"
-                className="absolute bottom-0 right-0 rounded-full w-10 h-10 flex items-center justify-center bg-secondary hover:bg-secondary/80 transition cursor-pointer"
+                className="absolute bottom-0 right-0 rounded-full w-10 h-10 flex items-center justify-center bg-zinc-200 hover:bg-zinc-300 transition cursor-pointer border-2 border-white"
               >
                 <Camera className="w-4 h-4" />
               </CldUploadButton>

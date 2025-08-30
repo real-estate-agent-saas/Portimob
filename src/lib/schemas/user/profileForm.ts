@@ -4,18 +4,18 @@ import { z } from "zod";
 // API Response for user data
 export type ProfileAPIResponse = {
   name: string;
-  careerStartDate?: string | null;
-  publicEmail?: string | null;
-  whatsapp?: string | null;
-  phone?: string | null;
-  instagram?: string | null;
-  facebook?: string | null;
-  linkedin?: string | null;
-  creci?: string | null;
-  bio?: string | null;
-  gender?: string | null;
-  profileImage?: string | null;
-  specialties?: Specialty[] | [];
+  careerStartDate: string | null;
+  publicEmail: string | null;
+  whatsapp: string | null;
+  phone: string | null;
+  instagram: string | null;
+  facebook: string | null;
+  linkedin: string | null;
+  creci: string | null;
+  bio: string | null;
+  gender: string | null;
+  profileImage: string | null;
+  specialties: Specialty[] | [];
 };
 
 // Zod form for update user profile
@@ -24,7 +24,9 @@ export const profileFormSchema = z.object({
     .string()
     .trim()
     .regex(/^((?!\p{Extended_Pictographic}).)*$/u, "Emojis não são permitidos"),
-  publicEmail: z.union([z.string().email({ message: "Email inválido" }), z.literal("")]).optional(),
+  publicEmail: z
+    .union([z.string().email({ message: "Email inválido" }), z.literal("")])
+    .optional(),
   careerStartDate: z.string().optional(),
   whatsapp: z.string().optional(),
   phone: z.union([z.string(), z.literal("")]).optional(),
