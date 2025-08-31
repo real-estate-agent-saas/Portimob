@@ -40,10 +40,10 @@ import { whatsappFormatter } from "@/lib/formatters/UIformatters";
 interface NavbarProps {
   slug: string;
   navbarInfo: {
-    logo: string;
-    whatsapp: string;
-    facebook: string;
-    instagram: string;
+    logo: string | null;
+    whatsapp: string | null;
+    facebook: string | null;
+    instagram: string | null;
     name: string;
   };
 }
@@ -61,14 +61,16 @@ export function Navbar({ slug, navbarInfo }: NavbarProps) {
       <div className="w-[90%] max-w-7xl flex justify-between items-center">
         {/* Logo */}
         <div>
-          <CldImage
-            width={80}
-            height={80}
-            src={navbarInfo.logo}
-            className="object-cover w-auto"
-            alt="Logo da Navbar"
-            priority
-          />
+          {navbarInfo.logo && (
+            <CldImage
+              width={80}
+              height={80}
+              src={navbarInfo.logo}
+              className="object-cover w-auto"
+              alt="Logo da Navbar"
+              priority
+            />
+          )}
         </div>
 
         {/* Menu Desktop */}
@@ -96,21 +98,26 @@ export function Navbar({ slug, navbarInfo }: NavbarProps) {
 
         {/* Ações (Whats + redes) - escondo no mobile */}
         <div className="hidden xl:flex items-center gap-8">
-          <a href={`https://wa.me/${navbarInfo.whatsapp}?text=Olá%20${navbarInfo.name},`} className={`flex items-center gap-3`}>
-            <p className="font-medium text-[15px]">
-              {whatsappFormatter(navbarInfo.whatsapp)}
-            </p>
-            <Image
-              className="w-[19px] h-[19px]"
-              src="/whatsappIcon.png"
-              alt="Whatsapp Icon"
-              width={19}
-              height={19}
-            />
-          </a>
-
+          {navbarInfo.whatsapp && (
+            <a
+              href={`https://wa.me/${navbarInfo.whatsapp}?text=Olá%20${navbarInfo.name},`}
+              className={`flex items-center gap-3`}
+            >
+              <p className="font-medium text-[15px]">
+                {whatsappFormatter(navbarInfo.whatsapp)}
+              </p>
+              <Image
+                className="w-[19px] h-[19px]"
+                src="/whatsappIcon.png"
+                alt="Whatsapp Icon"
+                width={19}
+                height={19}
+              />
+            </a>
+          )}
+          
           <div className="flex gap-4">
-            <a href={navbarInfo.facebook} target="_blank">
+            <a href={navbarInfo.facebook ?? ""} target="_blank">
               <Image
                 src="/facebookIcon.png"
                 alt="Facebook"
@@ -118,7 +125,7 @@ export function Navbar({ slug, navbarInfo }: NavbarProps) {
                 height={21}
               />
             </a>
-            <a href={navbarInfo.instagram} target="_blank">
+            <a href={navbarInfo.instagram ?? ""} target="_blank">
               <Image
                 src="/instagramIcon.png"
                 alt="Instagram"

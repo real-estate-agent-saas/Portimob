@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { findDinamicWebsite } from "@/services/tenant/website";
-import { FindDinamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
+import { findDynamicWebsite } from "@/services/tenant/website";
+import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
 
 export default async function TenantDynamicPage({
   params,
@@ -10,9 +10,9 @@ export default async function TenantDynamicPage({
   const { slug, page } = await params;
 
   // Verifies if the slug existes to use in the dynamic route
-  let website: FindDinamicWebsiteResponse;
+  let website: FindDynamicWebsiteResponse;
   try {
-    website = await findDinamicWebsite(slug);
+    website = await findDynamicWebsite(slug);
   } catch (error: any) {
     if (error?.status === 404) notFound();
     throw error;
@@ -31,7 +31,7 @@ export default async function TenantDynamicPage({
     ).default;
 
     // Returns the dynamic page inside the dynamic layout
-    return <TemplatePage/>;
+    return <TemplatePage />;
   } catch (err) {
     notFound();
   }

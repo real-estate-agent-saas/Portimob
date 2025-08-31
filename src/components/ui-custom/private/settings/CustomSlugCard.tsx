@@ -76,6 +76,7 @@ export function CustomSlugCard() {
             </span>
             <Button
               variant="ghost"
+              disabled={currentSlug === 'nao-definido'}
               size="sm"
               className="ml-auto h-6 w-6 p-0"
               onClick={() =>
