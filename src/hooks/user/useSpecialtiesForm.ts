@@ -4,7 +4,7 @@ import { UseFormReturn } from "react-hook-form";
 import { useWatch } from "react-hook-form";
 
 // Types
-import { profileFormValues } from "@/lib/schemas/user/profileForm";
+import { ProfileFormValues } from "@/lib/schemas/user/profileForm";
 import { Specialty } from "@/lib/schemas/user/specialty";
 
 // Services
@@ -12,7 +12,7 @@ import { getAllSpecialties } from "@/services/user/profile";
 
 // Custom Hook
 export default function useSpecialtyForm(
-  form: UseFormReturn<profileFormValues>,
+  form: UseFormReturn<ProfileFormValues>,
   setLoading: (state: boolean) => void
 ) {
   // Recives all specialties from database

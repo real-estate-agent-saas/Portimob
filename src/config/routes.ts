@@ -14,31 +14,6 @@ import {
   KeyRound,
 } from "lucide-react";
 
-export const TENANT_ROUTES = {
-  home: { title: "Início", path: "/" },
-  about: { title: "Sobre", path: "/about" },
-  contact: { title: "Contato", path: "/contact" },
-  propertiesList: { title: "Imóveis", path: "/properties" },
-  announceProperty: {
-    title: "Anunciar Imóvel",
-    path: "/announce",
-  },
-  favorites: { title: "Favoritos", path: "/favorites" },
-} as const;
-
-export function getTenantRoutes(slug: string) {
-  return Object.fromEntries(
-    Object.entries(TENANT_ROUTES).map(([key, value]) => [
-      key,
-      {
-        ...value,
-        path: `/${slug}${value.path === "/" ? "" : value.path}`,
-      },
-    ])
-  ) as typeof TENANT_ROUTES;
-}
-
-
 export const GUEST_ROUTES = {
   home: { title: "Início", path: "/", icon: Home },
   signUp: { title: "Cadastrar", path: "/signUp", icon: CircleUserRound },

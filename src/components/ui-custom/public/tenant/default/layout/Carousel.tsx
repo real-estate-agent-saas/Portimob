@@ -1,7 +1,8 @@
 "use client"
+// Next / React
+import { useState, useEffect } from "react"
 
-import * as React from "react"
-
+// Shadcnui
 import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
@@ -12,12 +13,15 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 
-export function FeaturedCarousel() {
-  const [api, setApi] = React.useState<CarouselApi>()
-  const [current, setCurrent] = React.useState(0)
-  const [count, setCount] = React.useState(0)
+// Services
+import { } from "@/services/tenant/website"
 
-  React.useEffect(() => {
+export function FeaturedCarousel() {
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
     if (!api) return
 
     setCount(api.scrollSnapList().length)

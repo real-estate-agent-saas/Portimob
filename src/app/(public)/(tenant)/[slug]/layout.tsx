@@ -1,22 +1,33 @@
 import { notFound } from "next/navigation";
-import { findDinamicWebsite } from "@/services/tenant/website";
+import { findDynamicWebsite } from "@/services/tenant/website";
+import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
 
 export default async function TenantLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const slug = (await params).slug;
+  const { slug } = await params;
+  let website: FindDynamicWebsiteResponse;
 
-  const website = await findDinamicWebsite(slug);
+  try {
+    website = await findDynamicWebsite(slug);
+  } catch (error: any) {
+    if (error.status === 404) {
+      notFound();
+    }
+    throw error;
+  }
 
   const TemplateLayout = (
     await import(`../templates/${website.template.name}/layout`)
   ).default;
 
-  if (!website) notFound();
-
-  return <TemplateLayout slug={slug}>{children}</TemplateLayout>;
+  return (
+    <TemplateLayout slug={slug} website={website}>
+      {children}
+    </TemplateLayout>
+  );
 }

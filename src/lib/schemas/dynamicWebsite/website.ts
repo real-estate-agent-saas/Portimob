@@ -1,7 +1,9 @@
+import { User } from "@/lib/schemas/user/user";
+
 // Expected format for backend
 export interface UserSlug {
   slug: string;
-};
+}
 
 // Response from slug availability
 export interface SlugAvailabilityResponse {
@@ -9,17 +11,18 @@ export interface SlugAvailabilityResponse {
   reason?: string;
 }
 
-// Response from find dinamic website
-export interface FindDinamicWebsiteResponse {
+// Response from find dynamic website
+export interface FindDynamicWebsiteResponse {
   id: number;
   userId: number;
   templateId: number;
-  logoUrl: string;
+  logo: string;
   slug: string;
   customDomain: string;
   createdAt: string;
   updatedAt: string;
   template: Template;
+  user: User;
 }
 
 export interface Template {

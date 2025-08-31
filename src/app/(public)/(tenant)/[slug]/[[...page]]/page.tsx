@@ -1,27 +1,38 @@
 import { notFound } from "next/navigation";
 import { findDinamicWebsite } from "@/services/tenant/website";
+import { FindDinamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
 
 export default async function TenantDynamicPage({
   params,
 }: {
-  params: { slug: string; page: string[] };
+  params: Promise<{ slug: string; page?: string[] }>;
 }) {
-  const slug = (await params).slug;
-  const website = await findDinamicWebsite(slug);
+  const { slug, page } = await params;
 
-  const pageName = params.page?.[0];
+  // Verifies if the slug existes to use in the dynamic route
+  let website: FindDinamicWebsiteResponse;
+  try {
+    website = await findDinamicWebsite(slug);
+  } catch (error: any) {
+    if (error?.status === 404) notFound();
+    throw error;
+  }
 
-  const pagePath = pageName ? `${pageName}/page` : `page`;
+  // If there is any value in the page catch-all mounts the dynamic path to the page
+  const dynamicPath = page && page.length ? page.join("/") : "";
 
+  // If dynamicPath gets mounted adds the complement to it or only complent
+  const pagePath = dynamicPath ? `${dynamicPath}/page` : "page";
+
+  // Executes a dynamic import of the page
   try {
     const TemplatePage = (
       await import(`../../templates/${website.template.name}/${pagePath}`)
     ).default;
-    if (!TemplatePage) notFound();
 
-    return <TemplatePage />;
+    // Returns the dynamic page inside the dynamic layout
+    return <TemplatePage/>;
   } catch (err) {
-    console.error("Erro ao importar TemplatePage:", err);
     notFound();
   }
 }

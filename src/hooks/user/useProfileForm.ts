@@ -6,10 +6,13 @@ import { toast } from "sonner";
 
 // Types
 import {
-  ProfileAPIResponse,
   profileFormSchema,
   ProfileFormValues,
 } from "@/lib/schemas/user/profileForm";
+
+import {
+  User
+} from "@/lib/schemas/user/user";
 
 // Services
 import { getUserProfile, updateUserProfile } from "@/services/user/profile";
@@ -23,7 +26,7 @@ import { convertEmptyStringsToNull } from "@/lib/formatters/apiFormatters";
 
 // Custom Hook
 export default function useProfileForm() {
-  const [userData, setUserData] = useState<ProfileAPIResponse>();
+  const [userData, setUserData] = useState<User>();
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState<string>("");

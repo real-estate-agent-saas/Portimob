@@ -1,15 +1,18 @@
 import api from "@/services/axios";
 import {
-  ProfileAPIResponse,
   ProfileFormValues,
 } from "@/lib/schemas/user/profileForm";
+import {
+  User
+} from "@/lib/schemas/user/user";
+
 import { Specialty } from "@/lib/schemas/user/specialty";
-import { UserSlug, SlugAvailabilityResponse } from "@/lib/schemas/dinamicWebsite/website";
+import { UserSlug } from "@/lib/schemas/dynamicWebsite/website";
 import { handleApiCall } from "../apiWrapper";
 
 // Updates User based on his JWT Token
 export async function updateUserProfile(data: ProfileFormValues) {
-  return handleApiCall<ProfileAPIResponse>(api.patch("/user", data));
+  return handleApiCall<User>(api.patch("/user", data));
 }
 
 // Updates user image and stores it on cloudinary
@@ -19,7 +22,7 @@ export async function updateUserImage(profileImage: string) {
 
 // Gets User based on his JWT Token
 export async function getUserProfile() {
-  return handleApiCall<ProfileAPIResponse>(api.get("/user"));
+  return handleApiCall<User>(api.get("/user"));
 }
 
 // Eliminates user cookie to finish the session
@@ -34,10 +37,10 @@ export async function getAllSpecialties() {
 
 // Gets user slug
 export async function getSlug() {
-  return handleApiCall<UserSlug>(api.get("/dinamic-website/slug/currentSlug"));
+  return handleApiCall<UserSlug>(api.get("/dynamic-website/slug/currentSlug"));
 }
 
 // Updates user slug
 export async function updateSlug(slug: UserSlug) {
-  return handleApiCall<UserSlug>(api.patch("/dinamic-website/slug", slug));
+  return handleApiCall<UserSlug>(api.patch("/dynamic-website/slug", slug));
 }

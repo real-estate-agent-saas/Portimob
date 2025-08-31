@@ -2,7 +2,7 @@ import { FeaturedCarousel } from "@/components/ui-custom/public/tenant/default/l
 
 export default function Home() {
   return (
-    <div className="w-100">
+    <div>
       <div>
         <FeaturedCarousel />
       </div>
@@ -10,7 +10,7 @@ export default function Home() {
       <section>
         <h1 className="text-center font-semibold text-4xl mt-10 text-[var(--navlink)]">
             Studios para morar ou investir
-        </h1>
+        </h1>        
       </section>
     </div>
   );
