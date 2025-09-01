@@ -53,6 +53,7 @@ export function Navbar({ slug, navbarInfo }: NavbarProps) {
   const navList = Object.values(
     getTemplateRoutes(slug, DEFFAULT_TEMPLATE_ROUTES)
   );
+  const homeLink = navList[0].path;
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -62,14 +63,16 @@ export function Navbar({ slug, navbarInfo }: NavbarProps) {
         {/* Logo */}
         <div>
           {navbarInfo.logo && (
-            <CldImage
-              width={80}
-              height={80}
-              src={navbarInfo.logo}
-              className="object-cover w-auto"
-              alt="Logo da Navbar"
-              priority
-            />
+            <Link href={homeLink}>
+              <CldImage
+                width={80}
+                height={80}
+                src={navbarInfo.logo}
+                className="object-cover w-auto"
+                alt="Logo da Navbar"
+                priority
+              />
+            </Link>
           )}
         </div>
 
@@ -97,7 +100,7 @@ export function Navbar({ slug, navbarInfo }: NavbarProps) {
         </NavigationMenu>
 
         {/* Ações (Whats + redes) - escondo no mobile */}
-        <div className="hidden xl:flex items-center gap-8">
+        <div className="hidden xl:flex items-center gap-10">
           {navbarInfo.whatsapp && (
             <a
               href={`https://wa.me/${navbarInfo.whatsapp}?text=Olá%20${navbarInfo.name},`}
@@ -115,7 +118,7 @@ export function Navbar({ slug, navbarInfo }: NavbarProps) {
               />
             </a>
           )}
-          
+
           <div className="flex gap-4">
             <a href={navbarInfo.facebook ?? ""} target="_blank">
               <Image

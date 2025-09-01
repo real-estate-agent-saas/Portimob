@@ -38,3 +38,13 @@ export type Property = {
   floorPlanGallery: FloorPlanGallery[];
   propertyLeisure: Leisure[];
 };
+
+export type FeaturedProperty = {
+  id: number;
+  title: string;
+  price: number | null;
+  coverImage: string | null;
+  address: {
+    city: string | null;
+  };
+};
