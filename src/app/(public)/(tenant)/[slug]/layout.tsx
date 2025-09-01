@@ -1,6 +1,14 @@
+// Not Found page
 import { notFound } from "next/navigation";
+
+// Service
 import { findDynamicWebsite } from "@/services/tenant/website";
+
+// Schema
 import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
+
+// Context
+import { TenantProvider } from "@/contexts/TenantContext";
 
 export default async function TenantLayout({
   children,
@@ -27,7 +35,9 @@ export default async function TenantLayout({
 
   return (
     <TemplateLayout slug={slug} website={website}>
-      {children}
+      <TenantProvider userId={website.userId} slug={slug}>
+        {children}
+      </TenantProvider>
     </TemplateLayout>
   );
 }

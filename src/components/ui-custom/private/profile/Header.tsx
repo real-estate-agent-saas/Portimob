@@ -21,7 +21,7 @@ import { toast } from "sonner";
 // React / Next
 import { useEffect, useState } from "react";
 
-// Cloudinary imports
+// Cloudinary
 import {
   CldUploadButton,
   CldImage,

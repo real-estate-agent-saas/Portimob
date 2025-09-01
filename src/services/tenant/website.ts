@@ -2,9 +2,19 @@ import api from "../axios";
 import {
   UserSlug,
   SlugAvailabilityResponse,
-  FindDynamicWebsiteResponse
+  FindDynamicWebsiteResponse,
 } from "@/lib/schemas/dynamicWebsite/website";
 import { handleApiCall } from "../apiWrapper";
+
+// Gets user slug
+export async function getSlug() {
+  return handleApiCall<UserSlug>(api.get("/dynamic-website/slug/currentSlug"));
+}
+
+// Updates user slug
+export async function updateSlug(slug: UserSlug) {
+  return handleApiCall<UserSlug>(api.patch("/dynamic-website/slug", slug));
+}
 
 // Checks if the slug is available
 export async function checkSlugAvailability(slug: UserSlug) {

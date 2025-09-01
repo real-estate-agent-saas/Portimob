@@ -1,5 +1,10 @@
+// NotFound page
 import { notFound } from "next/navigation";
+
+// Services
 import { findDynamicWebsite } from "@/services/tenant/website";
+
+// Schema
 import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
 
 export default async function TenantDynamicPage({

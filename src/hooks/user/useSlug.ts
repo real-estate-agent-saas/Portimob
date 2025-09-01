@@ -17,7 +17,7 @@ import { RESERVED_SLUGS } from "@/lib/constants/reservedSlugs";
 import {
   getSlug,
   updateSlug,
-} from "@/services/user/profile";
+} from "@/services/tenant/website";
 import { checkSlugAvailability } from "@/services/tenant/website";
 
 export default function useSlug() {

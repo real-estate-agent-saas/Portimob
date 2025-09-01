@@ -34,13 +34,3 @@ export async function logout() {
 export async function getAllSpecialties() {
   return handleApiCall<Specialty[]>(api.get("/user/specialties"));
 }
-
-// Gets user slug
-export async function getSlug() {
-  return handleApiCall<UserSlug>(api.get("/dynamic-website/slug/currentSlug"));
-}
-
-// Updates user slug
-export async function updateSlug(slug: UserSlug) {
-  return handleApiCall<UserSlug>(api.patch("/dynamic-website/slug", slug));
-}
