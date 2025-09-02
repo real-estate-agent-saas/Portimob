@@ -87,8 +87,8 @@ export function Navbar({ slug, navbarInfo }: NavbarProps) {
                     <Link
                       href={item.path}
                       className={`${
-                        isActive ? "text-[var(--navlink)]" : ""
-                      } font-semibold text-sm hover:text-[var(--hover-navlink)]`}
+                        isActive ? "text-[var(--default-navlink)]" : ""
+                      } font-semibold text-sm hover:text-[var(--default-hover-navlink)]`}
                     >
                       {item.title}
                     </Link>

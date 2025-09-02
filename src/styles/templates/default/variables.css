@@ -1,5 +1,6 @@
 :root {
   /* Default Template */
-  --navlink: #447c9c;
-  --hover-navlink: #79c6d7;
+  --default-navlink: #447c9c;
+  --default-hover-navlink: #79c6d7;
+  --default-secondary-background: #f7f8f9;
 }
