@@ -48,7 +48,6 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
       try {
         const response = await getFeaturedProperties(userId);
         setFeaturedProperties(response);
-        console.log(response);
       } catch (e) {
         console.log("erro", e);
       }
@@ -75,35 +74,35 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
           {featuredProperties.map((property, index) => (
             <CarouselItem key={index} className="w-full">
               <Card className="h-[310px] sm:h-[470px] lg:h-[635px] 2xl:h-[750px] w-full p-0">
-                <CardContent className="relative h-full w-full flex items-center justify-center">
-                  <Link href={`${slug}/property/${property.id}`}>
+                <CardContent className="h-full w-full flex items-center justify-center p-0 m-0">
+                  <Link className="relative w-full h-full" href={`/${slug}/`}>
                     {property.coverImage && (
                       <CldImage
                         alt="Foto capa do imóvel destaque"
                         fill
                         className="object-cover"
                         src={property.coverImage}
+                        priority
                       />
                     )}
-                    <motion.div
-                      key={current}
-                      initial={{ opacity: 0, y: 100 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 1, ease: "easeOut" }}
-                      className="absolute bottom-2 sm:left-50 sm:bottom-6 md:left-8 md:bottom-10 2xl:left-16 2xl:bottom-16 bg-black/70 w-fit h-fit px-4 py-2 sm:p-0 sm:min-w-[280px] sm:min-h-[110px] md:min-w-[300px] md:min-h-[130px] lg:min-w-[380px] lg:min-h-[150px] rounded-2xl text-white flex items-center justify-center"
-                    >
-                      <div className="min-w-fit min-h-fit w-4/5 flex flex-col items-start justify-center md:gap-2">
-                        <p className="text-[15px] md:text-[20px] font-light">
-                          {property.address.city}
-                        </p>
-                        <h2 className="text-[18px] sm:text-[21px] lg:text-3xl font-semibold">
-                          {property.title}
-                        </h2>
-                        <p className="text-[13px] sm:text-[15px] lg:text-[19px] font-normal mt-1 md:mt-0">
-                          A partir de: R$ {priceFormatter(property.price)}
-                        </p>
-                      </div>
-                    </motion.div>
+                    <div className="w-full h-full flex items-end justify-center lg:justify-start">
+                      <motion.div className="
+                      bg-black/80 text-white rounded-2xl 
+                      w-fit h-fit py-2 px-6 sm:py-3 lg:px-10 lg:py-5 z-10 ml-0 mb-4 lg:mb-8 lg:ml-10 2xl:mb-14 2xl:ml-20               
+                      min-w-[210px] min-h-[80px] sm:min-w-[280px] sm:min-h-[110px] md:min-w-[340px] md:min-h-[110px] lg:min-w-[380px] lg:min-h-[150px]">
+                        <div className="min-w-fit min-h-fit w-4/5 flex flex-col items-start justify-center md:gap-1">
+                          <p className="text-[13px] sm:text-[15px] md:text-[20px] font-light">
+                            {property.address.city}
+                          </p>
+                          <h2 className="text-[16px] sm:text-[21px] lg:text-3xl font-semibold">
+                            {property.title}
+                          </h2>
+                          <p className="text-[13px] sm:text-[18px] lg:text-[19px] font-normal mt-1 md:mt-0">
+                            A partir de: R$ {priceFormatter(property.price)}
+                          </p>
+                        </div>
+                      </motion.div>
+                    </div>
                   </Link>
                 </CardContent>
               </Card>
@@ -115,10 +114,6 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
         <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md" />
         <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md" />
       </Carousel>
-
-      <div className="text-muted-foreground py-2 text-center text-sm">
-        Slide {current} de {count}
-      </div>
     </div>
   );
 }
