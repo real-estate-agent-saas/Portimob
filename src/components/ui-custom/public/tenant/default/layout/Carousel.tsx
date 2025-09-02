@@ -35,10 +35,23 @@ import { useTenant } from "@/contexts/TenantContext";
 
 export function FeaturedCarousel({ userId }: { userId: number }) {
   const [api, setApi] = useState<CarouselApi>(); // Gives carousel its mechanics
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [count, setCount] = useState(0);
   const slug = useTenant().slug;
   const [featuredProperties, setFeaturedProperties] = useState<
     FeaturedProperty[]
   >([]);
+
+  useEffect(() => {
+    if (!api) return;
+
+    setCount(api.scrollSnapList().length);
+    setCurrentSlide(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrentSlide(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   // Requests featured properties
   useEffect(() => {
@@ -74,6 +87,10 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
                     )}
                     <div className="w-full h-full flex items-end justify-center lg:justify-start">
                       <motion.div
+                        key={currentSlide}
+                        initial={{ opacity: 0, y: 100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, ease: "easeOut" }}
                         className="
                       bg-black/80 text-white rounded-2xl 
                       w-fit h-fit py-2 px-6 sm:py-3 lg:px-10 lg:py-5 z-10 ml-0 mb-4 lg:mb-8 lg:ml-10 2xl:mb-14 2xl:ml-20               
