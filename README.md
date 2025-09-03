@@ -1,4 +1,4 @@
-<h1 align="center" style="font-weight: bold;">Real Estate SaaS - Frontend</h1>
+<h1 align="center" style="font-weight: bold;">Real Estate SaaS - Frontend 💻</h1>
 
 <p align="center">
  <a href="#technologies">Technologies</a> • 
@@ -18,8 +18,7 @@
 <h2 id="layout">🎨 Layout</h2>
 
 <p align="center">
-    <img src="../.github/example.png" alt="Image Example" width="400px">
-    <img src="../.github/example.png" alt="Image Example" width="400px">
+    <img src="https://media.licdn.com/dms/image/v2/D4D22AQGjn14VTcYxJA/feedshare-shrink_2048_1536/B4DZkK5lU_IcCM-/0/1756824495273?e=1759968000&v=beta&t=LR5iqSQX8rXMgeerRkcaNiKpRrSxe4-rRx_5z7YVEdA" alt="Image Example" width="400px">
 </p>
 
 <h2 id="technologies">Technologies</h2>
@@ -41,8 +40,10 @@ Here are some instructions to run locally this project.
 
 <h3>Cloning</h3>
 
-````bash
+```bash
 git clone https://github.com/real-estate-agent-saas/frontend.git
+```
+
 
 
 <h3>Config .env variables</h2>
@@ -55,7 +56,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=""
 NEXT_PUBLIC_CLOUDINARY_API_KEY=""
 CLOUDINARY_API_SECRET=""
-````
+```
 
 <h2 id="colab">🤝 Collaborators</h2>
 
@@ -83,7 +84,7 @@ Special thank you for all people that contributed for this project.
       <a href="https://github.com/nhengler">
         <img src="https://avatars.githubusercontent.com/u/111945954?v=4" width="100px;" alt="Foto do Steve Jobs"/><br>
         <sub>
-          <b>Steve Jobs</b>
+          <b>Nicolas Hengler</b>
         </sub>
       </a>
     </td>
