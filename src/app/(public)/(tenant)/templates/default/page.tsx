@@ -1,7 +1,7 @@
 "use client"; // Necessary to get slug
 
 // Components
-import { FeaturedCarousel } from "@/components/ui-custom/public/tenant/default/layout/Carousel";
+import { FeaturedCarousel } from "@/components/ui-custom/public/tenant/default/home/Carousel";
 
 // Context to get the slug
 import { useTenant } from "@/contexts/TenantContext";
@@ -14,6 +14,7 @@ export default function Home() {
       {/* Carousel section with its message cards */}
       <section>
         <FeaturedCarousel userId={userId} />
+        
         <div className="hidden w-full lg:flex justify-center 2xl:mt-[-30px] relative">
           <div className="flex justify-around w-full px-6 2xl:px-0 2xl:w-11/12 gap-4 2xl:gap-16 absolute mt-8 2xl:mt-0">
             <div className="flex-1 flex flex-col items-center justify-center px-3 h-[200px] rounded-3xl bg-white">
