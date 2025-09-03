@@ -15,7 +15,7 @@
      <a href="PROJECT__URL">📱 Visit this Project</a>
 </p>
 
-<h2 id="layout">🎨 Tempalte</h2>
+<h2 id="layout">🎨 Template </h2>
 
 <h2 align="center" style="font-weight: semi-bold; margin-bottom: 8px;"> Template Default </h2>
 <p align="center">
