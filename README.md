@@ -15,8 +15,9 @@
      <a href="PROJECT__URL">📱 Visit this Project</a>
 </p>
 
-<h2 id="layout">🎨 Layout</h2>
+<h2 id="layout">🎨 Tempalte</h2>
 
+<h2 align="center" style="font-weight: semi-bold; margin-bottom: 8px;"> Template Default </h2>
 <p align="center">
     <img src="https://media.licdn.com/dms/image/v2/D4D22AQGjn14VTcYxJA/feedshare-shrink_2048_1536/B4DZkK5lU_IcCM-/0/1756824495273?e=1759968000&v=beta&t=LR5iqSQX8rXMgeerRkcaNiKpRrSxe4-rRx_5z7YVEdA" alt="Image Example" width="400px">
 </p>
