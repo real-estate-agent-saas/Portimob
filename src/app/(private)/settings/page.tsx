@@ -7,14 +7,15 @@ import { ConfigurationCard } from "@/components/ui-custom/private/settings/Setti
 
 export default function Settings() {
   return (
-      <div className="container mx-auto p-6 max-w-4xl">
-        <div className="space-y-6">
-          <Header />
+    <div className="container mx-auto p-6 max-w-4xl">
+      <div className="space-y-6">
+        <Header />
 
-          <CustomSlugCard />
+        {/* Logic to change custom slug */}
+        <CustomSlugCard />
 
-          <ConfigurationCard />
-        </div>
+        <ConfigurationCard />
       </div>
+    </div>
   );
 }

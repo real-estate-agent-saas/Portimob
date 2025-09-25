@@ -7,7 +7,6 @@ import {
 } from "@/lib/schemas/user/user";
 
 import { Specialty } from "@/lib/schemas/user/specialty";
-import { UserSlug } from "@/lib/schemas/dynamicWebsite/website";
 import { handleApiCall } from "../apiWrapper";
 
 // Updates User based on his JWT Token

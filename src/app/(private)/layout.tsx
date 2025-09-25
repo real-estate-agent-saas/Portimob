@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "@/styles/global.css";
+import { Toaster } from "sonner";
+
 
 import { AppSidebar } from "@/components/ui-custom/private/layout/Sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"; 
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,8 +20,9 @@ export default function privateLayout({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
+        <Toaster richColors position="top-right" />
         <main className="flex-1">{children}</main>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }
