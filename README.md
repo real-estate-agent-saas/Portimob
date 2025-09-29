@@ -1,7 +1,7 @@
 <h1 align="center" style="font-weight: bold;">Real Estate SaaS - Frontend 💻</h1>
 
 <p align="center">
- <a href="#technologies">Technologies</a> • 
+ <a href="#Stack">Stack</a> • 
  <a href="#started">Getting Started</a> • 
  <a href="#colab">Collaborators</a> •
  <a href="#contribute">Contribute</a>
@@ -22,7 +22,7 @@
     <img src="https://media.licdn.com/dms/image/v2/D4D22AQGjn14VTcYxJA/feedshare-shrink_2048_1536/B4DZkK5lU_IcCM-/0/1756824495273?e=1759968000&v=beta&t=LR5iqSQX8rXMgeerRkcaNiKpRrSxe4-rRx_5z7YVEdA" alt="Image Example" width="400px">
 </p>
 
-<h2 id="technologies">Technologies</h2>
+<h2 id="Stack">Our Stack</h2>
 
 - [Next.js](https://nextjs.org/) — Frontend
 - [TypeScript](https://www.typescriptlang.org/) — Language
