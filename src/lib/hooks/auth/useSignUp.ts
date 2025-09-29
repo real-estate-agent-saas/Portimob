@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // Service
-import { Register } from "@/services/auth/auth";
+import { Register } from "@/api/auth/route";
 
 // Routes
 import { GUEST_ROUTES } from "@/config/routes";

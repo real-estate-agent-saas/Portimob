@@ -1,10 +1,10 @@
-import api from "../axios";
+import api from "@/api/axios";
 import {
   UserSlug,
   SlugAvailabilityResponse,
   FindDynamicWebsiteResponse,
 } from "@/lib/schemas/dynamicWebsite/website";
-import { handleApiCall } from "../apiWrapper";
+import { handleApiCall } from "@/api/apiWrapper";
 
 // Gets user slug
 export async function getSlug() {

@@ -8,7 +8,7 @@ import SocialMediaCard from "@/components/ui-custom/private/profile/SocialMediaC
 import PersonalInfoCard from "@/components/ui-custom/private/profile/PersonalInfoCard";
 
 // Custom Hook
-import useProfileForm from "@/hooks/user/useProfileForm";
+import useProfileForm from "@/lib/hooks/user/useProfileForm";
 
 // ---------------------------- Profile Component ----------------------------
 export default function Profile() {

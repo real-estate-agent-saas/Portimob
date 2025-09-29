@@ -20,7 +20,7 @@ import {
 import { CldImage } from "next-cloudinary";
 
 // Services
-import { getFeaturedProperties } from "@/services/tenant/property";
+import { getFeaturedProperties } from "@/api/tenant/property/route";
 
 // Schema
 import { FeaturedProperty } from "@/lib/schemas/property/property";
@@ -32,7 +32,7 @@ import { priceFormatter } from "@/lib/formatters/UIformatters";
 import { motion } from "framer-motion";
 
 // Context
-import { useTenant } from "@/contexts/TenantContext";
+import { useTenant } from "@/lib/contexts/TenantContext";
 
 export function FeaturedCarousel({ userId }: { userId: number }) {
   const [api, setApi] = useState<CarouselApi>(); // Gives carousel its mechanics

@@ -27,7 +27,7 @@ import { useState } from "react";
 import { ADMIN_ROUTES, GUEST_ROUTES } from "@/config/routes";
 
 // Service
-import { logout } from "@/services/user/profile";
+import { logout } from "@/api/user/route";
 
 export function AppSidebar() {
   // Returns the current pathname

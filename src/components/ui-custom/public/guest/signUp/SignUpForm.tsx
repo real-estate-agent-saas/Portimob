@@ -14,7 +14,7 @@ import { Home, Eye, EyeOff } from "lucide-react";
 import { GUEST_ROUTES } from "@/config/routes";
 
 // Custom Hook
-import useSignUp from "@/hooks/auth/useSignUp";
+import useSignUp from "@/lib/hooks/auth/useSignUp";
 
 export function SignUpForm() {
   const {

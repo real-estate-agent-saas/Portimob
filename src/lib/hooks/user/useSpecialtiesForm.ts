@@ -8,7 +8,7 @@ import { ProfileFormValues } from "@/lib/schemas/user/profileForm";
 import { Specialty } from "@/lib/schemas/user/specialty";
 
 // Services
-import { getAllSpecialties } from "@/services/user/profile";
+import { getAllSpecialties } from "@/api/user/route";
 
 // Custom Hook
 export default function useSpecialtyForm(

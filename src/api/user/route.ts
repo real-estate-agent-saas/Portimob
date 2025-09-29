@@ -1,4 +1,4 @@
-import api from "@/services/axios";
+import api from "@/api/axios";
 import {
   ProfileFormValues,
 } from "@/lib/schemas/user/profileForm";

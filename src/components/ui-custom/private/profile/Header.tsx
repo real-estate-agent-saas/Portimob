@@ -42,7 +42,7 @@ import { calculateExperienceTime } from "@/lib/formatters/dateFormatters";
 import blankProfilePicture from "@/assets/profile/blankProfilePicture.png";
 
 // Services
-import { updateUserImage } from "@/services/user/profile";
+import { updateUserImage } from "@/api/user/route";
 
 // Interface for component props
 interface ProfileHeaderProps {

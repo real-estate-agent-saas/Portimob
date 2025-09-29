@@ -8,7 +8,7 @@ import { z } from "zod";
 import { Globe, CheckCircle, XCircle, LucideIcon } from "lucide-react";
 
 // Hooks
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/lib/hooks/use-toast";
 
 // Contants
 import { RESERVED_SLUGS } from "@/lib/constants/reservedSlugs";
@@ -17,8 +17,8 @@ import { RESERVED_SLUGS } from "@/lib/constants/reservedSlugs";
 import {
   getSlug,
   updateSlug,
-} from "@/services/tenant/website";
-import { checkSlugAvailability } from "@/services/tenant/website";
+} from "@/api/tenant/website/route";
+import { checkSlugAvailability } from "@/api/tenant/website/route";
 
 export default function useSlug() {
   //------------------------------------------------------- States ----------------------------------------------------

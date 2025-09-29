@@ -15,7 +15,7 @@ import {
 } from "@/lib/schemas/user/user";
 
 // Services
-import { getUserProfile, updateUserProfile } from "@/services/user/profile";
+import { getUserProfile, updateUserProfile } from "@/api/user/route";
 
 // Utils
 import {

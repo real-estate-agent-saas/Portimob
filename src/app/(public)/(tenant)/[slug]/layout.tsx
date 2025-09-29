@@ -2,13 +2,13 @@
 import { notFound } from "next/navigation";
 
 // Service
-import { findDynamicWebsite } from "@/services/tenant/website";
+import { findDynamicWebsite } from "@/api/tenant/website/route";
 
 // Schema
 import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
 
 // Context
-import { TenantProvider } from "@/contexts/TenantContext";
+import { TenantProvider } from "@/lib/contexts/TenantContext";
 
 export default async function TenantLayout({
   children,

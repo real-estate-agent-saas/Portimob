@@ -16,7 +16,7 @@ import { Home, Eye, EyeOff } from "lucide-react";
 import { GUEST_ROUTES, ADMIN_ROUTES } from "@/config/routes";
 
 // Custom Hook
-import useSignIn from "@/hooks/auth/useSignIn";
+import useSignIn from "@/lib/hooks/auth/useSignIn";
 
 export function SignInForm() {
   const {

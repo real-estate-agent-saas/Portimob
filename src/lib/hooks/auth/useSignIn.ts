@@ -10,7 +10,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // Services
-import { Login } from "@/services/auth/auth";
+import { Login } from "@/api/auth/route";
 
 // Routes
 import { ADMIN_ROUTES } from "@/config/routes";

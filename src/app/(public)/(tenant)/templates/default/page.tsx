@@ -4,7 +4,7 @@
 import { FeaturedCarousel } from "@/components/ui-custom/public/tenant/default/home/Carousel";
 
 // Context to get the slug
-import { useTenant } from "@/contexts/TenantContext";
+import { useTenant } from "@/lib/contexts/TenantContext";
 
 export default function Home() {
   const userId = useTenant().userId;

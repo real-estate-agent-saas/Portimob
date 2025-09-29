@@ -1,7 +1,6 @@
-import api from "@/services/axios";
+import api from "@/api/axios";
 import { LoginData, RegisterData } from "@/lib/schemas/user/auth";
-import { handleApiCall } from "@/services/apiWrapper";
-
+import { handleApiCall } from "@/api/apiWrapper";
 
 export async function Login(data: LoginData) {
   const response = await handleApiCall(api.post("/login", data));

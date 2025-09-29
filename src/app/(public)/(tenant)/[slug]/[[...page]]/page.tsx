@@ -2,7 +2,7 @@
 import { notFound } from "next/navigation";
 
 // Services
-import { findDynamicWebsite } from "@/services/tenant/website";
+import { findDynamicWebsite } from "@/api/tenant/website/route";
 
 // Schema
 import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
@@ -26,7 +26,7 @@ export default async function TenantDynamicPage({
   // If there is any value in the page catch-all mounts the dynamic path to the page
   const dynamicPath = page && page.length ? page.join("/") : "";
 
-  // If dynamicPath gets mounted adds the complement to it or only complent
+  // If dynamic Path gets mounted, adds the complement to it or only the complement
   const pagePath = dynamicPath ? `${dynamicPath}/page` : "page";
 
   // Executes a dynamic import of the page

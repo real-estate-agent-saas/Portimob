@@ -16,7 +16,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, ExternalLink, Globe } from "lucide-react";
 
 // Custom Hook
-import useSlug from "@/hooks/user/useSlug";
+import useSlug from "@/lib/hooks/user/useSlug";
 
 export function CustomSlugCard() {
   // Custom Hook data

@@ -37,7 +37,7 @@ import { ProfileFormValues } from "@/lib/schemas/user/profileForm";
 import { dateFormatterOrFallback } from "@/lib/formatters/dateFormatters";
 
 // Hooks
-import useSpecialtyForm from "@/hooks/user/useSpecialtiesForm";
+import useSpecialtyForm from "@/lib/hooks/user/useSpecialtiesForm";
 
 //Props
 interface ProfessionalInfoCardProps {
