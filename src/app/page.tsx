@@ -7,6 +7,7 @@ export default function Page() {
   return (
     <section className="w-full h-screen flex">
         <Navigation />
+      
       <main>
        
       </main>

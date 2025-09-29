@@ -26,12 +26,6 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side="left" className="w-[300px] sm:w-[400px]">
         <nav className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <span className="text-lg font-bold">Portimob</span>
-            <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
-              <X className="h-5 w-5" />
-            </Button>
-          </div>
           <ul className="flex flex-col gap-3 mt-8">
             {navItems.map((item) => (
               <li key={item.name}>
