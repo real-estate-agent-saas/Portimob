@@ -19,19 +19,19 @@ export function MobileNav() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden">
-          <Menu className="h-5 w-5" />
+        <Button variant="ghost" size="icon" className="flex justify-start md:hidden">
+          <Menu className="h-5 w-5 "/>
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-        <nav className="flex flex-col gap-4">
-          <ul className="flex flex-col gap-3 mt-8">
+      <SheetContent side="right">
+        <nav className="flex flex-col items-center">
+          <ul className="flex flex-col gap-10 mt-8">
             {navItems.map((item) => (
               <li key={item.name}>
                 <a
                   href={item.href}
-                  className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary transition-colors"
+                  className="block px-3 py-2 text-xl font-normal text-foreground hover:text-primary transition-colors"
                   onClick={() => setOpen(false)}
                 >
                   {item.name}
