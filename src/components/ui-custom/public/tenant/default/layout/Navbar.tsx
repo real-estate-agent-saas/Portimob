@@ -22,7 +22,7 @@ import { Menu } from "lucide-react";
 
 // Routes
 import { DEFFAULT_TEMPLATE_ROUTES } from "@/config/tenant/default/routes";
-import { getTemplateRoutes } from "@/lib/tenant/utils";
+import { getTemplateRoutes } from "@/lib/tenant/templateRoutes";
 
 // Next / React
 import { usePathname } from "next/navigation";
@@ -38,8 +38,8 @@ import { whatsappFormatter } from "@/lib/formatters/UIformatters";
 
 // Props
 interface NavbarProps {
-  slug: string;
   navbarInfo: {
+    slug: string;
     logo: string | null;
     whatsapp: string | null;
     facebook: string | null;
@@ -48,12 +48,14 @@ interface NavbarProps {
   };
 }
 
-export function Navbar({ slug, navbarInfo }: NavbarProps) {
+export function Navbar({ navbarInfo }: NavbarProps) {
   const pathname = usePathname();
   const navList = Object.values(
-    getTemplateRoutes(slug, DEFFAULT_TEMPLATE_ROUTES)
+    getTemplateRoutes(navbarInfo.slug, DEFFAULT_TEMPLATE_ROUTES)
   );
-  const homeLink = navList[0].path;
+
+  // The first link gotta be the Home one
+  const homeLink: string = navList[0].path;
 
   const [open, setOpen] = useState<boolean>(false);
 

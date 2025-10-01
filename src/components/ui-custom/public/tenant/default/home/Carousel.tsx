@@ -38,7 +38,7 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>(); // Gives carousel its mechanics
   const [currentSlide, setCurrentSlide] = useState(0);
   const [count, setCount] = useState(0);
-  const slug = useTenant().slug;
+  const slug = useTenant().website.slug;
   const [featuredProperties, setFeaturedProperties] = useState<
     FeaturedProperty[]
   >([]);
@@ -78,7 +78,11 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
               <CarouselItem key={index} className="w-full">
                 <Card className="h-[310px] sm:h-[470px] lg:h-[635px] 2xl:h-[750px] w-full p-0 border-none">
                   <CardContent className="h-full w-full flex items-center justify-center p-0 m-0">
-                    <Link className="relative w-full h-full" href={`/${slug}/properties/${property.id}`}>
+                    <Link
+                      className="relative w-full h-full"
+                      key={property.id}
+                      href={`/${slug}/properties/${property.id}`}
+                    >
                       {property.coverImage ? (
                         <CldImage
                           alt="Foto capa do imóvel destaque"

@@ -1,5 +1,6 @@
-// NotFound page
+// Next
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
 
 // Services
 import { findDynamicWebsite } from "@/api/tenant/website/route";
@@ -31,9 +32,12 @@ export default async function TenantDynamicPage({
 
   // Executes a dynamic import of the page
   try {
-    const TemplatePage = (
-      await import(`@/app/(public)/(tenant)/templates/${website.template.name}/${pagePath}`)
-    ).default;
+    const TemplatePage = dynamic(
+      () =>
+        import(
+          `@/app/(public)/(tenant)/templates/${website.template.name}/${pagePath}`
+        )
+    );
 
     // Returns the dynamic page inside the dynamic layout
     return <TemplatePage />;

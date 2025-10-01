@@ -2,22 +2,22 @@
 
 // React
 import { createContext, useContext } from "react";
+//Schema
+import { FindDynamicWebsiteResponse } from "../schemas/dynamicWebsite/website";
 
 interface TenantContextData {
-  userId: number;
-  slug: string;
+  website: FindDynamicWebsiteResponse;
 }
 
 // Creates context that assumes string for slug and null if none value is provided
 const TenantContext = createContext<TenantContextData | null>(null);
 
 export function TenantProvider ({
-  userId,
-  slug,
-  children,
+  website,
+  children
 }: TenantContextData & { children: React.ReactNode }) {
   return (
-    <TenantContext.Provider value={{ userId, slug }}>
+    <TenantContext.Provider value={{ website }}>
       {children}
     </TenantContext.Provider>
   );

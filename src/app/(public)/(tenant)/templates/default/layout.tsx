@@ -1,20 +1,28 @@
+// Components
 import { Navbar } from "@/components/ui-custom/public/tenant/default/layout/Navbar";
+
+// Styles
 import { Poppins } from "next/font/google";
 import "@/styles/templates/default/variables.css";
+
+// Schema
 import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
 
+// Font
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-interface TemplateDefaultProps {
+// Props for this layout
+type TemplateDefaultProps = {
   children: React.ReactNode;
-  slug: string;
   website: FindDynamicWebsiteResponse;
 }
 
+// Navbar data do be displayed
 type NavbarInfo = {
+  slug: string;
   logo: string | null;
   whatsapp: string | null;
   facebook: string | null;
@@ -24,10 +32,10 @@ type NavbarInfo = {
 
 export default async function TemplateDefault({
   children,
-  slug,
   website,
 }: TemplateDefaultProps) {
   const navbarInfo: NavbarInfo = {
+    slug: website.slug,
     logo: website.logo,
     whatsapp: website.user.whatsapp,
     facebook: website.user.facebook,
@@ -37,7 +45,7 @@ export default async function TemplateDefault({
 
   return (
     <div className={poppins.className}>
-      <Navbar slug={slug} navbarInfo={navbarInfo} />
+      <Navbar navbarInfo={navbarInfo} />
       {children}
     </div>
   );

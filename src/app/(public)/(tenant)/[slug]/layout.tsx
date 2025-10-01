@@ -1,39 +1,20 @@
-// Not Found page
-import { notFound } from "next/navigation";
-// Service
-import { findDynamicWebsite } from "@/api/tenant/website/route";
-// Schema
-import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
-// Context
+// Context Provider
 import { TenantProvider } from "@/lib/contexts/TenantContext";
+
 // Next | React
 import { Metadata } from "next";
-import { cache } from "react";
+
+// Lib - Verifies if the website exists based on the slug. If it doesn't exist throw not found page
+import { getWebsiteOrNotFound } from "@/lib/tenant/website"
 
 // Type for params
 type Props = {
   params: { slug: string };
 };
 
-// Verifies if the website exists based on the slug. If it doesn't exist throw not found page
-const getWebsiteOrNotFound = cache(async (slug: string): Promise<FindDynamicWebsiteResponse> => {
-  try {
-    return await findDynamicWebsite(slug);
-  } catch (error: any) {
-    if (error.status === 404) {
-      notFound();
-    }
-    throw error;
-  }
-});
-
 // Generates dynamic metadata based on the slug
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const website = await getWebsiteOrNotFound(
-    (
-      await params
-    ).slug
-  );
+  const website = await getWebsiteOrNotFound((await params).slug);
 
   return {
     title: website.name || website.slug,
@@ -52,14 +33,16 @@ export default async function TenantLayout({
   const website = await getWebsiteOrNotFound((await params).slug);
 
   const TemplateLayout = (
-    await import(`@/app/(public)/(tenant)/templates/${website.template.name}/layout`)
+    await import(
+      `@/app/(public)/(tenant)/templates/${website.template.name}/layout`
+    )
   ).default;
 
   return (
-    <TemplateLayout slug={website.slug} website={website}>
-      <TenantProvider userId={website.userId} slug={website.slug}>
+    <TenantProvider website={website}>
+      <TemplateLayout website={website}>
         {children}
-      </TenantProvider>
-    </TemplateLayout>
+      </TemplateLayout>
+    </TenantProvider>
   );
 }
