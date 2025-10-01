@@ -28,14 +28,14 @@ import { FeaturedProperty } from "@/lib/schemas/property/property";
 // Formatter
 import { priceFormatter } from "@/lib/formatters/UIformatters";
 
-// Animation
+// Animation inside de Carousel
 import { motion } from "framer-motion";
 
 // Context
 import { useTenant } from "@/lib/contexts/TenantContext";
 
 export function FeaturedCarousel({ userId }: { userId: number }) {
-  const [api, setApi] = useState<CarouselApi>(); // Gives carousel its mechanics
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>(); // Gives carousel its mechanics
   const [currentSlide, setCurrentSlide] = useState(0);
   const [count, setCount] = useState(0);
   const slug = useTenant().slug;
@@ -44,15 +44,15 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
   >([]);
 
   const bannerDefaultImage = useEffect(() => {
-    if (!api) return;
+    if (!carouselApi) return;
 
-    setCount(api.scrollSnapList().length);
-    setCurrentSlide(api.selectedScrollSnap() + 1);
+    setCount(carouselApi.scrollSnapList().length);
+    setCurrentSlide(carouselApi.selectedScrollSnap() + 1);
 
-    api.on("select", () => {
-      setCurrentSlide(api.selectedScrollSnap() + 1);
+    carouselApi.on("select", () => {
+      setCurrentSlide(carouselApi.selectedScrollSnap() + 1);
     });
-  }, [api]);
+  }, [carouselApi]);
 
   // Requests featured properties
   useEffect(() => {
@@ -71,14 +71,14 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
 
   return (
     <div className="relative w-full">
-      <Carousel setApi={setApi} className="w-full">
+      <Carousel setApi={setCarouselApi} className="w-full">
         <CarouselContent>
           {featuredProperties.length > 0 ? (
             featuredProperties.map((property, index) => (
               <CarouselItem key={index} className="w-full">
                 <Card className="h-[310px] sm:h-[470px] lg:h-[635px] 2xl:h-[750px] w-full p-0 border-none">
                   <CardContent className="h-full w-full flex items-center justify-center p-0 m-0">
-                    <Link className="relative w-full h-full" href={`/${slug}/`}>
+                    <Link className="relative w-full h-full" href={`/${slug}/properties/${property.id}`}>
                       {property.coverImage ? (
                         <CldImage
                           alt="Foto capa do imóvel destaque"

@@ -23,7 +23,7 @@ export default async function TenantDynamicPage({
     throw error;
   }
 
-  // If there is any value in the page catch-all mounts the dynamic path to the page
+  // If there is any value in the page, catch them all and mounts the dynamic path to the page
   const dynamicPath = page && page.length ? page.join("/") : "";
 
   // If dynamic Path gets mounted, adds the complement to it or only the complement
@@ -32,7 +32,7 @@ export default async function TenantDynamicPage({
   // Executes a dynamic import of the page
   try {
     const TemplatePage = (
-      await import(`../../templates/${website.template.name}/${pagePath}`)
+      await import(`@/app/(public)/(tenant)/templates/${website.template.name}/${pagePath}`)
     ).default;
 
     // Returns the dynamic page inside the dynamic layout

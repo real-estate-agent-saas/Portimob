@@ -72,7 +72,7 @@ export function CustomSlugCard() {
               {currentSlug}
             </Badge>
             <span className="text-sm text-muted-foreground">
-              .imovelpro.com
+              .portimob.com
             </span>
             <Button
               variant="ghost"

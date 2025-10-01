@@ -5,15 +5,16 @@ export interface UserSlug {
   slug: string;
 }
 
-// Response from slug availability
+// Response from (slug availability)
 export interface SlugAvailabilityResponse {
   available: boolean;
   reason?: string;
 }
 
-// Response from find dynamic website
+// Response from (find dynamic website)
 export interface FindDynamicWebsiteResponse {
   id: number;
+  name: string;
   userId: number;
   templateId: number;
   logo: string;

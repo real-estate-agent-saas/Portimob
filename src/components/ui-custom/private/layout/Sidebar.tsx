@@ -20,6 +20,7 @@ import { Home } from "lucide-react";
 
 // Next / React
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -69,10 +70,10 @@ export function AppSidebar() {
         </div>
         <div className="flex items-center gap-2 p-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-1">
           <div className="w-8 h-8 bg-primary-gradient rounded-lg flex items-center justify-center shrink-0">
-            <Home className="w-5 h-5 text-white" aria-hidden="true" />
+            <Image src="/logo_app.png" alt="App logo" width={32} height={32}/>
           </div>
           <span className="font-semibold truncate group-data-[collapsible=icon]:hidden">
-            Meu App
+            Portimob
           </span>
         </div>
       </SidebarHeader>
