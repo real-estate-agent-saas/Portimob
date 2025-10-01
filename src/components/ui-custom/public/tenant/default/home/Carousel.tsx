@@ -60,7 +60,6 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
       try {
         const response = await getFeaturedProperties(userId);
         setFeaturedProperties(response);
-        console.log(response);
       } catch (e: any) {
         console.log("Erro", e);
       }
@@ -81,7 +80,7 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
                     <Link
                       className="relative w-full h-full"
                       key={property.id}
-                      href={`/${slug}/properties/${property.id}`}
+                      href={`/${slug}/property/${property.id}`}
                     >
                       {property.coverImage ? (
                         <CldImage

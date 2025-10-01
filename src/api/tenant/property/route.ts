@@ -12,6 +12,9 @@ export async function getFeaturedProperties(userId: number) {
 // Gets data from a property to show in a separated page
 export async function getProperty(userId: number, propertyId: number) {
   return handleApiCall<Property>(
-    api.post("/property/findOneBySlug", { userId, propertyId })
+    api.post("/property/findOneBySlug", {
+      userId: Number(userId),
+      propertyId: Number(propertyId),
+    })
   );
 }

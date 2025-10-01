@@ -22,7 +22,7 @@ export default function PropertyPage({ propertyId }: PropertyProps) {
         const response = await getProperty(userId, propertyId);
         setProperty(response);
       } catch (error) {
-        console.error("Erro ao buscar imóvel:", error);
+        console.log("Erro ao buscar imóvel:", error);
       } finally {
         setLoading(false);
       }
@@ -47,7 +47,7 @@ export default function PropertyPage({ propertyId }: PropertyProps) {
         priority
       />
       <p>Nome: {property.title}</p>
-      <p>ID: {propertyId}</p>
+      <p>ID: {property.id}</p>
       <p>Descrição: {property.description}</p>
       <p>Preço: {property.price}</p>
     </div>
