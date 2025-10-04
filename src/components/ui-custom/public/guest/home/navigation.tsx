@@ -13,8 +13,8 @@ const navItems = [
 
 export function Navigation() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 ml-2 items-center justify-between">
+    <header className="top-0 z-200 w-full max-h-fit border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 ml-2 items-center justify-between w-full">
         <div className="flex items-center gap-6">
           <a href="#" className="flex items-center space-x-2">
             <span className="text-xl font-bold">Portimob</span>

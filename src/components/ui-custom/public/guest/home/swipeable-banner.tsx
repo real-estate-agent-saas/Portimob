@@ -9,39 +9,39 @@ import { Button } from "@/components/ui/button"
 const bannerSlides = [
   {
     id: 1,
-    title: "Transform Your Digital Presence",
-    subtitle: "Create stunning websites that captivate your audience",
+    title: "Lorem Ipsum",
+    subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     description:
       "Build modern, responsive websites with cutting-edge technology and beautiful design that converts visitors into customers.",
     cta: "Start Building",
-    image: "/modern-website-design.png",
+    image: "/placeholder.svg"
   },
   {
     id: 2,
-    title: "Powerful Analytics Dashboard",
-    subtitle: "Track your success with real-time insights",
+    title: "Lorem Ipsum",
+    subtitle: "Proin nec arcu rhoncus, eleifend augue eget, rutrum neque.",
     description:
       "Monitor your website performance, user engagement, and conversion rates with our comprehensive analytics platform.",
     cta: "View Analytics",
-    image: "/analytics-dashboard.png",
+  
   },
   {
     id: 3,
-    title: "Mobile-First Development",
-    subtitle: "Optimized for every device and screen size",
+    title: "Lorem Ipsum",
+    subtitle: "Nam nec nisi volutpat, interdum tortor in, sagittis mauris.",
     description:
       "Ensure your website looks perfect on smartphones, tablets, and desktops with our responsive design approach.",
     cta: "Learn More",
-    image: "/mobile-responsive-design.png",
+    
   },
   {
     id: 4,
-    title: "24/7 Expert Support",
-    subtitle: "Get help whenever you need it",
+    title: "Lorem Ipsum",
+    subtitle: "Nullam posuere molestie ante, sed suscipit tellus dapibus eu.",
     description:
       "Our dedicated support team is available around the clock to help you succeed with your digital projects.",
     cta: "Contact Support",
-    image: "/customer-support-team.png",
+   
   },
 ]
 
@@ -166,7 +166,7 @@ export function SwipeableBanner() {
                   <img
                     src={slide.image || "/placeholder.svg"}
                     alt={slide.title}
-                    className="w-full h-auto rounded-lg shadow-2xl"
+                    className="w-full h-2/4 rounded-lg shadow-2xl z-100"
                     draggable={false}
                   />
                 </div>
@@ -180,18 +180,18 @@ export function SwipeableBanner() {
       <Button
         variant="outline"
         size="icon"
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80"
         onClick={prevSlide}
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="hidden md:block h-4 w-4" />
       </Button>
       <Button
         variant="outline"
         size="icon"
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/80"
         onClick={nextSlide}
       >
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className="hidden md:block h-4 w-4" />
       </Button>
 
       {/* Dots Indicator */}
