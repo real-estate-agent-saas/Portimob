@@ -1,7 +1,7 @@
 "use client";
 
 // UI Components
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Camera, Edit, Save, X, Award } from "lucide-react";
@@ -65,17 +65,21 @@ export default function Header({
   loading,
   profileImage,
 }: ProfileHeaderProps) {
-  //Form values to show
+  // Form values to show
   const { creci, realtorName, gender, careerStartDate } = form.watch();
 
-  // Clounary Image Identifier
+  // Cloudinary Image Identifier
   const [cloudinaryImage, setCloudinaryImage] = useState<string | undefined>(
     profileImage
   );
 
-  // Starts cloudnary image with a DB value
+  // Controla erro de imagem (fallback)
+  const [imageError, setImageError] = useState(false);
+
+  // Starts cloudinary image with a DB value
   useEffect(() => {
     setCloudinaryImage(profileImage);
+    setImageError(false); // reseta o erro quando a imagem muda
   }, [profileImage]);
 
   const handleUploadSuccess = async (result: CloudinaryUploadWidgetResults) => {
@@ -91,6 +95,7 @@ export default function Header({
       try {
         await updateProfileImage(cloudinaryImageId);
         setCloudinaryImage(cloudinaryImageId);
+        setImageError(false);
         toast.success("Imagem atualizada com sucesso!");
       } catch (error) {
         console.error("Erro ao atualizar a imagem de perfil:", error);
@@ -109,9 +114,9 @@ export default function Header({
             ) : (
               <div className="relative group w-32 h-32 mb-4">
                 <Avatar className="w-full h-full ring-4 ring-neutral-300">
-                  {cloudinaryImage ? (
+                  {cloudinaryImage && !imageError ? (
                     <>
-                      {/* Imagem de perfil */}
+                      {/* Imagem de perfil com fallback em caso de erro */}
                       <CldImage
                         width="960"
                         height="600"
@@ -120,28 +125,37 @@ export default function Header({
                         className="object-cover rounded-full w-full h-full"
                         alt="Foto de Perfil"
                         priority
+                        onError={() => {
+                          console.warn(
+                            "Erro ao carregar imagem Cloudinary. Exibindo fallback."
+                          );
+                          setImageError(true);
+                        }}
                       />
                     </>
                   ) : (
-                    <AvatarImage
+                    <img
                       src={blankProfilePicture.src}
                       alt="Foto padrão"
+                      className="object-cover rounded-full w-full h-full"
                     />
                   )}
                 </Avatar>
+
+                {/* Botão de Upload Cloudinary */}
                 <CldUploadButton
                   onSuccess={handleUploadSuccess}
                   uploadPreset="uploadProfilePicture"
                   className="
-                absolute bottom-1 right-1
-                rounded-full w-9 h-9
-                flex items-center justify-center
-                bg-zinc-200/90 hover:bg-zinc-300
-                cursor-pointer border-2 border-white shadow-sm
-                opacity-0 group-hover:opacity-100
-                pointer-events-none group-hover:pointer-events-auto
-                transition-opacity duration-200 ease-in-out
-              "
+                    absolute bottom-1 right-1
+                    rounded-full w-9 h-9
+                    flex items-center justify-center
+                    bg-zinc-200/90 hover:bg-zinc-300
+                    cursor-pointer border-2 border-white shadow-sm
+                    opacity-0 group-hover:opacity-100
+                    pointer-events-none group-hover:pointer-events-auto
+                    transition-opacity duration-200 ease-in-out
+                  "
                 >
                   <Camera className="w-4 h-4 text-zinc-800" />
                 </CldUploadButton>

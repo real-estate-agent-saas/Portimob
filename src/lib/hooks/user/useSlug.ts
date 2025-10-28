@@ -15,21 +15,23 @@ import { RESERVED_SLUGS } from "@/lib/constants/reservedSlugs";
 
 // Services
 import {
-  getSlug,
+  getCurrentSlug,
+  checkSlugAvailability,
   updateSlug,
-} from "@/api/tenant/website/website.api";
-import { checkSlugAvailability } from "@/api/tenant/website/website.api";
+} from "@/api/website/user-website/website";
 
 export default function useSlug() {
   //------------------------------------------------------- States ----------------------------------------------------
   const [currentSlug, setCurrentSlug] = useState<string>(""); // Current slug
-  const [slug, setSlug] = useState<string>(""); // Slug to be updated
+  const [slug, setSlug] = useState<string>(""); // Form value to be updated
   const [isSlugAvailable, setIsSlugAvailable] = useState<boolean | null>(null); // Slug availability status
   const [validationError, setValidationError] = useState<string>(""); // Validation error messages
   const [checkingAvailability, setCheckingAvailability] =
     useState<boolean>(false); // While consulting the database
   const [loading, setLoading] = useState<boolean>(false); // For UI loading control
 
+
+  // Message card
   const initialSlugStatus = {
     text: "Digite um slug",
     variant: "secondary" as const,
@@ -51,8 +53,8 @@ export default function useSlug() {
     const fetchSlug = async () => {
       setLoading(true);
       try {
-        const response = await getSlug();
-        setCurrentSlug(response?.slug ?? "nao-definido");
+        const slugReponse = await getCurrentSlug();
+        setCurrentSlug(slugReponse === "" ? "nao-definido" : slugReponse);
       } catch (e) {
         toast.error("Erro", "Não foi possível carregar o slug atual");
       } finally {
@@ -67,7 +69,7 @@ export default function useSlug() {
     .string()
     .min(1, "")
     .min(3, "O slug deve ter pelo menos 3 caracteres")
-    .max(20, "O slug pode ter no máximo 20 caracteres")
+    .max(26, "O slug pode ter no máximo 26 caracteres")
     .regex(
       /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/,
       "Use apenas letras minúsculas, números e hífens. Não pode começar com número ou hífen, nem terminar com hífen"
@@ -103,11 +105,11 @@ export default function useSlug() {
     // Executes after time finishes
     debounceRef.current = setTimeout(async () => {
       try {
-        const isAvailable = await checkSlugAvailability({ slug: value });
-        if (isAvailable.available === false) {
+        const isAvailable = await checkSlugAvailability(value);
+        if (isAvailable === false) {
           setValidationError("Este slug já está em uso. Tente outro.");
         }
-        setIsSlugAvailable(isAvailable.available);
+        setIsSlugAvailable(isAvailable);
       } catch (e) {
         console.error("Erro ao verificar disponibilidade:", e);
         setIsSlugAvailable(false);
@@ -153,9 +155,9 @@ export default function useSlug() {
   const handleSaveSlug = async () => {
     setLoading(true);
     try {
-      const updatedSlug = await updateSlug({ slug: slug });
+      const updatedSlug = await updateSlug(slug);
       toast.success("Slug atualizado com sucesso!");
-      setCurrentSlug(updatedSlug.slug);
+      setCurrentSlug(updatedSlug);
       setSlug(""); // Clear input after successful update
       setIsSlugAvailable(null);
       setValidationError("");

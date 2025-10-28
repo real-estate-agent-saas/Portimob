@@ -52,7 +52,7 @@ export function CustomSlugCard() {
           <AlertDescription>
               <strong>Regras para o slug:</strong>
               <ul className="mt-2 space-y-1 text-sm">
-                <li>• Mínimo de 3 caracteres</li>
+                <li>• Mínimo 3 e Máximo 26 caracteres</li>
                 <li>• Apenas letras minúsculas, números e hífens</li>
                 <li>• Não pode começar ou terminar com hífen</li>
                 <li>
