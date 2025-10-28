@@ -23,12 +23,12 @@ import { UserRound } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 
 // Types and Utils
-import { ProfileFormValues } from "@/lib/schemas/user/profileForm";
+import { WebsiteFormValues } from "@/lib/schemas/website/website.schema";
 import { formatGender } from "@/lib/formatters/apiFormatters";
 import { getFieldValueOrFallback } from "@/lib/formatters/UIformatters";
 
 interface PersonalInfoCardProps {
-  form: UseFormReturn<ProfileFormValues>;
+  form: UseFormReturn<WebsiteFormValues>;
   isEditing: boolean;
   loading: boolean;
 }
@@ -99,9 +99,9 @@ export default function PersonalInfoCard({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="MASCULINO">Masculino</SelectItem>
-                        <SelectItem value="FEMININO">Feminino</SelectItem>
-                        <SelectItem value="OUTROS">Outros</SelectItem>
+                        <SelectItem value="Masculino">Masculino</SelectItem>
+                        <SelectItem value="Feminino">Feminino</SelectItem>
+                        <SelectItem value="Outro">Outro</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

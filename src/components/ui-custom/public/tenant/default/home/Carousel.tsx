@@ -43,7 +43,7 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
     FeaturedProperty[]
   >([]);
 
-  const bannerDefaultImage = useEffect(() => {
+  useEffect(() => {
     if (!carouselApi) return;
 
     setCount(carouselApi.scrollSnapList().length);
@@ -70,7 +70,11 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
 
   return (
     <div className="relative w-full">
-      <Carousel setApi={setCarouselApi} className="w-full">
+      <Carousel
+        setApi={setCarouselApi}
+        className="w-full"
+        opts={{ loop: true }}
+      >
         <CarouselContent>
           {featuredProperties.length > 0 ? (
             featuredProperties.map((property, index) => (

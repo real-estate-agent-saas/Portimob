@@ -33,7 +33,7 @@ import {
 import { UseFormReturn } from "react-hook-form";
 
 // Types / Schemas
-import { ProfileFormValues } from "@/lib/schemas/user/profileForm";
+import { WebsiteFormValues } from "@/lib/schemas/website/website.schema";
 
 // Utils
 import { calculateExperienceTime } from "@/lib/formatters/dateFormatters";
@@ -46,10 +46,10 @@ import { updateUserImage } from "@/api/user/route";
 
 // Interface for component props
 interface ProfileHeaderProps {
-  form: UseFormReturn<ProfileFormValues>;
+  form: UseFormReturn<WebsiteFormValues>;
   isEditing: boolean;
   setIsEditing: (val: boolean) => void;
-  onSubmit: (values: ProfileFormValues) => void;
+  onSubmit: (values: WebsiteFormValues) => void;
   handleCancel: () => void;
   loading: boolean;
   profileImage?: string;
@@ -66,7 +66,7 @@ export default function Header({
   profileImage,
 }: ProfileHeaderProps) {
   //Form values to show
-  const { creci, name, gender, careerStartDate } = form.watch();
+  const { creci, realtorName, gender, careerStartDate } = form.watch();
 
   const [profileImageId, setProfileImageId] = useState<string | undefined>(
     profileImage
@@ -120,9 +120,6 @@ export default function Header({
                     alt="Foto padrão"
                   />
                 )}
-                <AvatarFallback>
-                  <img src={blankProfilePicture.src} alt="Foto padrão" />
-                </AvatarFallback>
               </Avatar>
             )}
 
@@ -152,7 +149,7 @@ export default function Header({
               ) : (
                 <>
                   <h1 className="text-3xl font-bold text-foreground mb-2">
-                    {name}
+                    {realtorName}
                   </h1>
                   <p className="text-xl text-muted-foreground mb-4 text-neutral-500">
                     {`${
@@ -190,7 +187,7 @@ export default function Header({
               >
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="realtorName"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Nome</FormLabel>

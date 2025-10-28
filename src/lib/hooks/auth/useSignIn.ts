@@ -10,7 +10,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // Services
-import { Login } from "@/api/auth/route";
+import { signIn } from "@/api/auth/auth";
 
 // Routes
 import { ADMIN_ROUTES } from "@/config/routes";
@@ -53,7 +53,7 @@ export default function SignInForm() {
     setError("");
     try {
       setLoading(true);
-      await Login(data);
+      await signIn(data);
       router.push(ADMIN_ROUTES.dashboard.path);
     } catch (err: any) {
       setError(err.message || Messages.auth.signInError);

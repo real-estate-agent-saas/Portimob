@@ -17,8 +17,8 @@ import { RESERVED_SLUGS } from "@/lib/constants/reservedSlugs";
 import {
   getSlug,
   updateSlug,
-} from "@/api/tenant/website/route";
-import { checkSlugAvailability } from "@/api/tenant/website/route";
+} from "@/api/tenant/website/website.api";
+import { checkSlugAvailability } from "@/api/tenant/website/website.api";
 
 export default function useSlug() {
   //------------------------------------------------------- States ----------------------------------------------------

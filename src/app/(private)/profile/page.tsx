@@ -8,7 +8,7 @@ import SocialMediaCard from "@/components/ui-custom/private/profile/SocialMediaC
 import PersonalInfoCard from "@/components/ui-custom/private/profile/PersonalInfoCard";
 
 // Custom Hook
-import useProfileForm from "@/lib/hooks/user/useProfileForm";
+import useWebsiteUpdateForm from "@/lib/hooks/website/useWebsiteUpdateForm";
 
 // ---------------------------- Profile Component ----------------------------
 export default function Profile() {
@@ -22,7 +22,7 @@ export default function Profile() {
     onSubmit,
     handleCancel,
     profileImage,
-  } = useProfileForm();
+  } = useWebsiteUpdateForm();
 
   return (
     <div className="min-h-screen bg-background">

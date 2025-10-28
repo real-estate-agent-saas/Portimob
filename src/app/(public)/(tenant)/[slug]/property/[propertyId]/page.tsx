@@ -1,3 +1,6 @@
+// This file is responsible to be a more specific route compared to [[...page]]
+// So in this way is possible to access dynamic properties based on the realtor template
+
 // Next
 import dynamic from "next/dynamic";
 

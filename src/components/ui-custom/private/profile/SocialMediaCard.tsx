@@ -14,11 +14,11 @@ import {
 
 // Hooks, Types and Utils
 import { UseFormReturn } from "react-hook-form";
-import { ProfileFormValues } from "@/lib/schemas/user/profileForm";
+import { WebsiteFormValues } from "@/lib/schemas/website/website.schema";
 import { getFieldValueOrFallback } from "@/lib/formatters/UIformatters";
 
 interface SocialMediaCardProps {
-  form: UseFormReturn<ProfileFormValues>;
+  form: UseFormReturn<WebsiteFormValues>;
   isEditing: boolean;
   loading: boolean;
 }

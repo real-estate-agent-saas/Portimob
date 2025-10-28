@@ -6,6 +6,42 @@ import {
 } from "@/lib/schemas/dynamicWebsite/website";
 import { handleApiCall } from "@/api/apiWrapper";
 
+
+
+
+// Gets realtor's website data
+export async function getWebsiteData() {
+  return handleApiCall(api.get("/dynamic-website"));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Gets user slug
 export async function getSlug() {
   return handleApiCall<UserSlug>(api.get("/dynamic-website/slug/currentSlug"));

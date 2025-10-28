@@ -18,7 +18,14 @@ export const websiteFormSchema = z.object({
   creci: z.union([z.string().trim(), z.literal("")]).optional(),
   bio: z.union([z.string().trim(), z.literal("")]).optional(),
   gender: z.union([z.string(), z.literal("")]).optional(),
-  specialties: z.array(z.string()).optional(),
+  specialties: z
+    .array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+      })
+    )
+    .optional(),
 });
 
 export type WebsiteFormValues = z.infer<typeof websiteFormSchema>;

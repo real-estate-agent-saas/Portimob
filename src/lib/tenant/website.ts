@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { notFound } from "next/navigation";
-import { findDynamicWebsite } from "@/api/tenant/website/route";
+import { findDynamicWebsite } from "@/api/tenant/website/website.api";
 import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
 
 export const getWebsiteOrNotFound = cache(

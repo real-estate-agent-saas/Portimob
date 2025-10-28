@@ -17,7 +17,7 @@ import { Phone, Mail, MessageCircle } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 
 // Schema
-import { ProfileFormValues } from "@/lib/schemas/user/profileForm";
+import { WebsiteFormValues } from "@/lib/schemas/website/website.schema";
 
 // Formatters
 import {
@@ -28,7 +28,7 @@ import {
 
 // Interface
 interface ContactCardProps {
-  form: UseFormReturn<ProfileFormValues>;
+  form: UseFormReturn<WebsiteFormValues>;
   isEditing: boolean;
   loading: boolean;
 }

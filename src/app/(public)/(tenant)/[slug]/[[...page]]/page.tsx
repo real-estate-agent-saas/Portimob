@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 
 // Services
-import { findDynamicWebsite } from "@/api/tenant/website/route";
+import { findDynamicWebsite } from "@/api/tenant/website/website.api";
 
 // Schema
 import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";

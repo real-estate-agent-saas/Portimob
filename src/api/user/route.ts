@@ -23,13 +23,3 @@ export async function updateUserImage(profileImage: string) {
 export async function getUserProfile() {
   return handleApiCall<User>(api.get("/user"));
 }
-
-// Eliminates user cookie to finish the session
-export async function logout() {
-  return handleApiCall<String>(api.post("/logout"));
-}
-
-// Gets specialties related to the user
-export async function getAllSpecialties() {
-  return handleApiCall<Specialty[]>(api.get("/user/specialties"));
-}

@@ -1,54 +1,45 @@
-// Next, React
+// Next | React
 import { useEffect, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { useWatch } from "react-hook-form";
+import { UseFormReturn, useWatch } from "react-hook-form";
 
-// Types
-import { ProfileFormValues } from "@/lib/schemas/user/profileForm";
-import { Specialty } from "@/lib/schemas/user/specialty";
+// Types | Schemas
+import { WebsiteFormValues } from "@/lib/schemas/website/website.schema";
+import { Specialty } from "@/lib/models/website/value-objects/specialty";
 
 // Services
-import { getAllSpecialties } from "@/api/user/route";
+import { getAllSpecialties } from "@/api/website/user-website/website";
 
 // Custom Hook
 export default function useSpecialtyForm(
-  form: UseFormReturn<ProfileFormValues>,
+  form: UseFormReturn<WebsiteFormValues>,
   setLoading: (state: boolean) => void
 ) {
-  // Recives all specialties from database
+  // All specialties available
   const [allSpecialties, setAllSpecialties] = useState<Specialty[]>([]);
 
-  // Specialty IDs selected by user
-  const [selectedSpecialtyIds, setSelectedSpecialtyIds] = useState<number[]>(
+  // Selected specialties by the user
+  const [selectedSpecialties, setSelectedSpecialties] = useState<Specialty[]>(
     []
   );
 
   // Open and close specialties list
   const [openSpecialtiesList, setOpenSpecialtiesList] = useState(false);
 
-  // Specialties to display on frontend
-  const [selectedSpecialties, setSelectedSpecialties] = useState<Specialty[]>(
-    []
-  );
-
-  // Watches a specific form field for changes and gets it values
+  // Gets specialties watched in the form (to sync with selectedSpecialties state)
   const specialtiesWatched = useWatch({
     control: form.control,
     name: "specialties",
   });
 
-  // Initialize specialty list of IDs with the previously ones related to the user
+  // Initialize specialty list with the previously ones related to the user
   useEffect(() => {
     if (!specialtiesWatched) return;
 
-    const initialSpecialtyIds = specialtiesWatched.map((s) => s);
-    setSelectedSpecialtyIds(initialSpecialtyIds);
+    // Syncs selectedSpecialties state with the form watched value
+    setSelectedSpecialties(specialtiesWatched);
+  }, [specialtiesWatched]);
 
-    const initialSpecialties = allSpecialties.filter((s) => initialSpecialtyIds.includes(s.id));
-    setSelectedSpecialties(initialSpecialties);
-  }, [specialtiesWatched, allSpecialties]);
-
-  // Busca todas as especialidades disponíveis
+  // Fetches all specialties from API
   useEffect(() => {
     const fetchAllSpecialties = async () => {
       setLoading(true);
@@ -64,49 +55,45 @@ export default function useSpecialtyForm(
     fetchAllSpecialties();
   }, []);
 
-  const addSpecialty = (specialtyId: number) => {
+  const updateFormSpecialties = (specialties: Specialty[]) => {
+    form.setValue("specialties", specialties);
+  };
+
+  // Adds a specialty to the form
+  const addSpecialty = (specialtyId: string) => {
     // Verifies if the ID provided is valid
     const specialty = allSpecialties.find((s) => s.id === specialtyId);
     if (!specialty) return;
 
-    // Verifies if the ID is already selected
-    const alreadySelected = selectedSpecialtyIds.some((s) => s === specialtyId);
-    if (!alreadySelected) {
-      // Updates the ID array
-      const updatedSpecialtyIds = [...selectedSpecialtyIds, specialtyId];
-      setSelectedSpecialtyIds(updatedSpecialtyIds);
+    // Verifies if the specialty is already selected
+    const alreadySelected = selectedSpecialties.some(
+      (s) => s.id === specialtyId
+    );
+    if (alreadySelected) return;
 
-      // Updates the Specialty object array
-      const newSpecialty = allSpecialties.find((s) => s.id === specialtyId);
-      if (!newSpecialty) return; // garante que não adicionamos undefined
-      const updatedSpecialties = [...selectedSpecialties, newSpecialty];
-      setSelectedSpecialties(updatedSpecialties);
+    // Updates the array adding the new Specialty selected
+    const updatedSpecialties = [...selectedSpecialties, specialty];
+    setSelectedSpecialties(updatedSpecialties);
 
-      form.setValue("specialties", updatedSpecialtyIds);
-    }
+    // Updates the form with complete Specialty objects
+    updateFormSpecialties(updatedSpecialties);
   };
 
   // Removes a specialty based on its ID
-  const removeSpecialty = (specialtyId: number) => {
-    // Updates the ID array
-    const updatedSpecialtyIds = selectedSpecialtyIds.filter(
-      (s) => s !== specialtyId
-    );
-    setSelectedSpecialtyIds(updatedSpecialtyIds);
-
-    // Updates the Specialty object array
+  const removeSpecialty = (specialtyId: string) => {
+    // Updates the array removing the Specialty selected
     const updatedSpecialties = selectedSpecialties.filter(
       (s) => s.id !== specialtyId
     );
     setSelectedSpecialties(updatedSpecialties);
 
-    form.setValue("specialties", updatedSpecialtyIds);
+    // Updates form
+    updateFormSpecialties(updatedSpecialties);
   };
 
   return {
     allSpecialties,
     selectedSpecialties,
-    selectedSpecialtyIds,
     addSpecialty,
     removeSpecialty,
     openSpecialtiesList,

@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // Service
-import { Register } from "@/api/auth/route";
+import { signUp } from "@/api/auth/auth";
 
 // Routes
 import { GUEST_ROUTES } from "@/config/routes";
@@ -61,7 +61,7 @@ export default function useSignUp() {
       setLoading(true);
       // Removes confirmPassword before sending data to the API
       const { confirmPassword, ...registerData } = data;
-      await Register(registerData);
+      await signUp(registerData);
       router.push(GUEST_ROUTES.signIn.path);
     } catch (err: any) {
       setError(err.message || Messages.auth.signUpError);

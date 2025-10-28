@@ -28,7 +28,7 @@ import { useState } from "react";
 import { ADMIN_ROUTES, GUEST_ROUTES } from "@/config/routes";
 
 // Service
-import { logout } from "@/api/user/route";
+import { signOut } from "@/api/auth/auth";
 
 export function AppSidebar() {
   // Returns the current pathname
@@ -52,7 +52,7 @@ export function AppSidebar() {
   const handleLogout = async () => {
     try {
       setLoading(true);
-      await logout();
+      await signOut();
       router.push(GUEST_ROUTES.signIn.path);
     } catch (e) {
       console.error("Erro ao fazer logout:", e);

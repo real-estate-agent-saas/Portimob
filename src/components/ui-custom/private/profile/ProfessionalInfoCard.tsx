@@ -25,13 +25,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Calendar, Award, X, ChevronsUpDown, Check } from "lucide-react";
+import { Calendar, Award, X, ChevronsUpDown } from "lucide-react";
 
 //Next
 import { UseFormReturn } from "react-hook-form";
 
-// Types
-import { ProfileFormValues } from "@/lib/schemas/user/profileForm";
+// Schemas
+import { WebsiteFormValues } from "@/lib/schemas/website/website.schema";
 
 // Utils
 import { dateFormatterOrFallback } from "@/lib/formatters/dateFormatters";
@@ -41,13 +41,12 @@ import useSpecialtyForm from "@/lib/hooks/user/useSpecialtiesForm";
 
 //Props
 interface ProfessionalInfoCardProps {
-  form: UseFormReturn<ProfileFormValues>;
+  form: UseFormReturn<WebsiteFormValues>;
   isEditing: boolean;
   loading: boolean;
   setLoading: (state: boolean) => void;
 }
 
-//Component
 export default function ProfessionalInfoCard({
   form,
   isEditing,

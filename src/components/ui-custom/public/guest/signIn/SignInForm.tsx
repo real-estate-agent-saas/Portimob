@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Home, Eye, EyeOff } from "lucide-react";
 
 // Routes
-import { GUEST_ROUTES, ADMIN_ROUTES } from "@/config/routes";
+import { GUEST_ROUTES } from "@/config/routes";
 
 // Custom Hook
 import useSignIn from "@/lib/hooks/auth/useSignIn";
