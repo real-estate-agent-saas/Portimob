@@ -16,6 +16,16 @@ export async function updateWebsite(
   return await handleApiCall(api.patch("/websites/user", data));
 }
 
+// Gets all specialties to user select wich one to add to website
 export async function getAllSpecialties(): Promise<Specialty[] | []> {
   return await handleApiCall(api.get("/websites/user/specialties"));
+}
+
+// Updates profile image for the current user
+export async function updateProfileImage(
+  profileImage: string
+): Promise<string> {
+  return await handleApiCall(
+    api.patch("/websites/user/update-profile-image", { profileImage })
+  );
 }

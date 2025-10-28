@@ -40,11 +40,7 @@ export default function Profile() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Contact Info */}
-          <ContactCard 
-          form={form} 
-          isEditing={isEditing} 
-          loading={loading} 
-          />
+          <ContactCard form={form} isEditing={isEditing} loading={loading} />
 
           {/* Professional Info */}
           <ProfessionalInfoCard

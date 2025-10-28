@@ -42,7 +42,7 @@ import { calculateExperienceTime } from "@/lib/formatters/dateFormatters";
 import blankProfilePicture from "@/assets/profile/blankProfilePicture.png";
 
 // Services
-import { updateUserImage } from "@/api/user/route";
+import { updateProfileImage } from "@/api/website/user-website/website";
 
 // Interface for component props
 interface ProfileHeaderProps {
@@ -68,12 +68,14 @@ export default function Header({
   //Form values to show
   const { creci, realtorName, gender, careerStartDate } = form.watch();
 
-  const [profileImageId, setProfileImageId] = useState<string | undefined>(
+  // Clounary Image Identifier
+  const [cloudinaryImage, setCloudinaryImage] = useState<string | undefined>(
     profileImage
   );
 
+  // Starts cloudnary image with a DB value
   useEffect(() => {
-    setProfileImageId(profileImage);
+    setCloudinaryImage(profileImage);
   }, [profileImage]);
 
   const handleUploadSuccess = async (result: CloudinaryUploadWidgetResults) => {
@@ -82,11 +84,13 @@ export default function Header({
       typeof result.info !== "string" &&
       result.info?.public_id
     ) {
-      const publicId = (result.info as CloudinaryUploadWidgetInfo).public_id;
+      const cloudinaryImageId = (result.info as CloudinaryUploadWidgetInfo)
+        .public_id;
 
+      // Updates profile image ID on DB and already sets it to the page
       try {
-        await updateUserImage(publicId);
-        setProfileImageId(publicId);
+        await updateProfileImage(cloudinaryImageId);
+        setCloudinaryImage(cloudinaryImageId);
         toast.success("Imagem atualizada com sucesso!");
       } catch (error) {
         console.error("Erro ao atualizar a imagem de perfil:", error);
@@ -103,34 +107,45 @@ export default function Header({
             {loading ? (
               <Skeleton className="w-32 h-32 mb-4 rounded-full ring-4 ring-primary/20" />
             ) : (
-              <Avatar className="w-32 h-32 mb-4 ring-4 ring-neutral-300">
-                {profileImageId ? (
-                  <CldImage
-                    width="960"
-                    height="600"
-                    src={profileImageId}
-                    sizes="100vw"
-                    className="object-cover"
-                    alt="Foto de Perfil"
-                    priority
-                  />
-                ) : (
-                  <AvatarImage
-                    src={blankProfilePicture.src}
-                    alt="Foto padrão"
-                  />
-                )}
-              </Avatar>
-            )}
-
-            {isEditing && (
-              <CldUploadButton
-                onSuccess={handleUploadSuccess}
-                uploadPreset="uploadProfilePicture"
-                className="absolute bottom-0 right-0 rounded-full w-10 h-10 flex items-center justify-center bg-zinc-200 hover:bg-zinc-300 transition cursor-pointer border-2 border-white"
-              >
-                <Camera className="w-4 h-4" />
-              </CldUploadButton>
+              <div className="relative group w-32 h-32 mb-4">
+                <Avatar className="w-full h-full ring-4 ring-neutral-300">
+                  {cloudinaryImage ? (
+                    <>
+                      {/* Imagem de perfil */}
+                      <CldImage
+                        width="960"
+                        height="600"
+                        src={cloudinaryImage}
+                        sizes="100vw"
+                        className="object-cover rounded-full w-full h-full"
+                        alt="Foto de Perfil"
+                        priority
+                      />
+                    </>
+                  ) : (
+                    <AvatarImage
+                      src={blankProfilePicture.src}
+                      alt="Foto padrão"
+                    />
+                  )}
+                </Avatar>
+                <CldUploadButton
+                  onSuccess={handleUploadSuccess}
+                  uploadPreset="uploadProfilePicture"
+                  className="
+                absolute bottom-1 right-1
+                rounded-full w-9 h-9
+                flex items-center justify-center
+                bg-zinc-200/90 hover:bg-zinc-300
+                cursor-pointer border-2 border-white shadow-sm
+                opacity-0 group-hover:opacity-100
+                pointer-events-none group-hover:pointer-events-auto
+                transition-opacity duration-200 ease-in-out
+              "
+                >
+                  <Camera className="w-4 h-4 text-zinc-800" />
+                </CldUploadButton>
+              </div>
             )}
           </div>
 
@@ -154,7 +169,7 @@ export default function Header({
                   <p className="text-xl text-muted-foreground mb-4 text-neutral-500">
                     {`${
                       gender === "FEMININO" ? "Corretora" : "Corretor"
-                    } de Imóveis `}
+                    } de Imóveis`}
                   </p>
                   <div className="flex gap-2 mb-6">
                     <Badge variant="secondary" className="px-3 py-1">
