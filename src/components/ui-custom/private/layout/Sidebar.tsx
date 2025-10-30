@@ -35,7 +35,7 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   // Define the main navigation items
-  const mainNav = [ADMIN_ROUTES.dashboard, ADMIN_ROUTES.profile];
+  const mainNav = [ADMIN_ROUTES.dashboard, ADMIN_ROUTES.profile, ADMIN_ROUTES.templates];
 
   // Define the account navigation items on the footer
   const accountNav = {

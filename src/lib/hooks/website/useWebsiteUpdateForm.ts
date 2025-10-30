@@ -9,10 +9,10 @@ import {
   websiteFormSchema,
   WebsiteFormValues
 } from "@/lib/schemas/website/website.schema";
-import { WebsiteResponse } from "@/lib/models/website/user-website/website";
+import { WebsiteUserResponse } from "@/lib/models/websites/website.model";
 
 // Services
-import { getWebsiteByUserId, updateWebsite } from "@/api/website/user-website/website";
+import { getWebsiteByUserId, updateWebsite } from "@/api/websites/user-website/website";
 
 // Utils
 import {
@@ -23,7 +23,7 @@ import { convertEmptyStringsToNull } from "@/lib/formatters/apiFormatters";
 
 // Custom Hook
 export default function useWebsiteUpdateForm() {
-  const [websiteData, setWebsiteData] = useState<WebsiteResponse>();
+  const [websiteData, setWebsiteData] = useState<WebsiteUserResponse>();
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState<string>("");

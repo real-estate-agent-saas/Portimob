@@ -24,7 +24,7 @@ export default async function DynamicPropertyPage({ params }: Props) {
   const DynamicPropertyPage = dynamic<DynamicPropertyComponentProps>(
     () =>
       import(
-        `@/app/(public)/(tenant)/templates/${website.template.name}/property/page`
+        `@/app/(public)/(tenant)/templates/${website.templateCode}/property/page`
       )
   );
 

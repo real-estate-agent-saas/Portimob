@@ -7,14 +7,12 @@ import { FeaturedCarousel } from "@/components/ui-custom/public/tenant/default/h
 import { useTenant } from "@/lib/contexts/TenantContext";
 
 export default function Home() {
-  // Website data from the context
-  const userId = useTenant().website.userId;
 
   return (
     <div>
       {/* Carousel section with its message cards */}
       <section>
-        <FeaturedCarousel userId={userId} />
+        <FeaturedCarousel />
 
         {/* Text cards below Carousel */}
         <div className="hidden w-full lg:flex justify-center 2xl:mt-[-30px] relative">

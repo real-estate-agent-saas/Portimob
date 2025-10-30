@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 
 // Services
-import { findDynamicWebsite } from "@/api/tenant/website/website.api";
+import { getWebsiteBySlug } from "@/api/websites/tenant-website/website";
 
-// Schema
-import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
+// Models
+import { WebsiteTenantResponse } from "@/lib/models/websites/website.model";
 
 export default async function TenantDynamicPage({
   params,
@@ -16,9 +16,9 @@ export default async function TenantDynamicPage({
   const { slug, page } = await params;
 
   // Verifies if the slug existes to use in the dynamic route
-  let website: FindDynamicWebsiteResponse;
+  let website: WebsiteTenantResponse;
   try {
-    website = await findDynamicWebsite(slug);
+    website = await getWebsiteBySlug(slug);
   } catch (error: any) {
     if (error?.status === 404) notFound();
     throw error;
@@ -35,7 +35,7 @@ export default async function TenantDynamicPage({
     const TemplatePage = dynamic(
       () =>
         import(
-          `@/app/(public)/(tenant)/templates/${website.template.name}/${pagePath}`
+          `@/app/(public)/(tenant)/templates/${website.templateCode}/${pagePath}`
         )
     );
 

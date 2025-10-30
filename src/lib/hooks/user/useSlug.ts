@@ -18,7 +18,7 @@ import {
   getCurrentSlug,
   checkSlugAvailability,
   updateSlug,
-} from "@/api/website/user-website/website";
+} from "@/api/websites/user-website/website";
 
 export default function useSlug() {
   //------------------------------------------------------- States ----------------------------------------------------

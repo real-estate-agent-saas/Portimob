@@ -4,10 +4,10 @@ import { UseFormReturn, useWatch } from "react-hook-form";
 
 // Types | Schemas
 import { WebsiteFormValues } from "@/lib/schemas/website/website.schema";
-import { Specialty } from "@/lib/models/website/value-objects/specialty";
+import { Specialty } from "@/lib/models/websites/value-objects/specialty";
 
 // Services
-import { getAllSpecialties } from "@/api/website/user-website/website";
+import { getAllSpecialties } from "@/api/websites/user-website/website";
 
 // Custom Hook
 export default function useSpecialtyForm(

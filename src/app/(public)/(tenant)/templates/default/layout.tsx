@@ -6,7 +6,7 @@ import { Poppins } from "next/font/google";
 import "@/styles/templates/default/variables.css";
 
 // Schema
-import { FindDynamicWebsiteResponse } from "@/lib/schemas/dynamicWebsite/website";
+import { WebsiteTenantResponse } from "@/lib/models/websites/website.model";
 
 // Font
 const poppins = Poppins({
@@ -17,8 +17,8 @@ const poppins = Poppins({
 // Props for this layout
 type TemplateDefaultProps = {
   children: React.ReactNode;
-  website: FindDynamicWebsiteResponse;
-}
+  website: WebsiteTenantResponse;
+};
 
 // Navbar data do be displayed
 type NavbarInfo = {
@@ -27,7 +27,7 @@ type NavbarInfo = {
   whatsapp: string | null;
   facebook: string | null;
   instagram: string | null;
-  name: string;
+  realtorName: string;
 };
 
 export default async function TemplateDefault({
@@ -36,11 +36,11 @@ export default async function TemplateDefault({
 }: TemplateDefaultProps) {
   const navbarInfo: NavbarInfo = {
     slug: website.slug,
-    logo: website.logo,
-    whatsapp: website.user.whatsapp,
-    facebook: website.user.facebook,
-    instagram: website.user.instagram,
-    name: website.user.name,
+    logo: website.logoURL,
+    whatsapp: website.whatsapp,
+    facebook: website.facebook,
+    instagram: website.instagram,
+    realtorName: website.realtorName,
   };
 
   return (

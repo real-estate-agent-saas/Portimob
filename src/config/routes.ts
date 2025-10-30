@@ -12,6 +12,7 @@ import {
   LogIn,
   CircleUserRound,
   KeyRound,
+  LayoutTemplate,
 } from "lucide-react";
 
 export const GUEST_ROUTES = {
@@ -32,6 +33,11 @@ export const ADMIN_ROUTES = {
     icon: LayoutDashboard,
   },
   profile: { title: "Perfil", path: "/profile", icon: User },
+  templates: {
+    title: "Templates",
+    path: "/templates",
+    icon: LayoutTemplate,
+  },
   settings: { title: "Configurações", path: "/settings", icon: Settings },
   logout: { title: "Sair", path: "/login", icon: LogOut },
 } as const;

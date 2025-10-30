@@ -44,7 +44,7 @@ interface NavbarProps {
     whatsapp: string | null;
     facebook: string | null;
     instagram: string | null;
-    name: string;
+    realtorName: string;
   };
 }
 
@@ -105,7 +105,7 @@ export function Navbar({ navbarInfo }: NavbarProps) {
         <div className="hidden xl:flex items-center gap-10">
           {navbarInfo.whatsapp && (
             <a
-              href={`https://wa.me/${navbarInfo.whatsapp}?text=Olá%20${navbarInfo.name},`}
+              href={`https://wa.me/${navbarInfo.whatsapp}?text=Olá%20${navbarInfo.realtorName},`}
               className={`flex items-center gap-3`}
             >
               <p className="font-medium text-[15px]">

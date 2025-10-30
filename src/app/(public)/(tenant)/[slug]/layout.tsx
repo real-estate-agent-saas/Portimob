@@ -5,7 +5,7 @@ import { TenantProvider } from "@/lib/contexts/TenantContext";
 import { Metadata } from "next";
 
 // Lib - Verifies if the website exists based on the slug. If it doesn't exist throw not found page
-import { getWebsiteOrNotFound } from "@/lib/tenant/website"
+import { getWebsiteOrNotFound } from "@/lib/tenant/website";
 
 // Type for params
 type Props = {
@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const website = await getWebsiteOrNotFound((await params).slug);
 
   return {
-    title: website.name || website.slug,
+    title: website.websiteName || website.slug,
   };
 }
 
@@ -34,15 +34,13 @@ export default async function TenantLayout({
 
   const TemplateLayout = (
     await import(
-      `@/app/(public)/(tenant)/templates/${website.template.name}/layout`
+      `@/app/(public)/(tenant)/templates/${website.templateCode}/layout`
     )
   ).default;
 
   return (
     <TenantProvider website={website}>
-      <TemplateLayout website={website}>
-        {children}
-      </TemplateLayout>
+      <TemplateLayout website={website}>{children}</TemplateLayout>
     </TenantProvider>
   );
 }

@@ -1,18 +1,18 @@
 import api from "@/api/axios";
 import { handleApiCall } from "@/api/apiWrapper";
-import { WebsiteResponse } from "@/lib/models/website/user-website/website";
+import { WebsiteUserResponse } from "@/lib/models/websites/website.model";
 import { WebsiteFormValues } from "@/lib/schemas/website/website.schema";
-import { Specialty } from "@/lib/models/website/value-objects/specialty";
+import { Specialty } from "@/lib/models/websites/value-objects/specialty";
 
 // Gets website data for the current user
-export async function getWebsiteByUserId(): Promise<WebsiteResponse> {
+export async function getWebsiteByUserId(): Promise<WebsiteUserResponse> {
   return await handleApiCall(api.get("/websites/user"));
 }
 
 // Updates website data for the current user
 export async function updateWebsite(
   data: WebsiteFormValues
-): Promise<WebsiteResponse> {
+): Promise<WebsiteUserResponse> {
   return await handleApiCall(api.patch("/websites/user", data));
 }
 

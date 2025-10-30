@@ -34,7 +34,7 @@ import { motion } from "framer-motion";
 // Context
 import { useTenant } from "@/lib/contexts/TenantContext";
 
-export function FeaturedCarousel({ userId }: { userId: number }) {
+export function FeaturedCarousel() {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>(); // Gives carousel its mechanics
   const [currentSlide, setCurrentSlide] = useState(0);
   const [count, setCount] = useState(0);
@@ -55,18 +55,18 @@ export function FeaturedCarousel({ userId }: { userId: number }) {
   }, [carouselApi]);
 
   // Requests featured properties
-  useEffect(() => {
-    const fetchFeaturedProperties = async () => {
-      try {
-        const response = await getFeaturedProperties(userId);
-        setFeaturedProperties(response);
-      } catch (e: any) {
-        console.log("Erro", e);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchFeaturedProperties = async () => {
+  //     try {
+  //       const response = await getFeaturedProperties();
+  //       setFeaturedProperties(response);
+  //     } catch (e: any) {
+  //       console.log("Erro", e);
+  //     }
+  //   };
 
-    fetchFeaturedProperties();
-  }, []);
+  //   fetchFeaturedProperties();
+  // }, []);
 
   return (
     <div className="relative w-full">
