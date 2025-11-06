@@ -20,7 +20,7 @@ import {
 import { CldImage } from "next-cloudinary";
 
 // Services
-import { getFeaturedProperties } from "@/api/tenant/property/route";
+// import { getFeaturedProperties } from "@/api/tenant/property/route";
 
 // Schema
 import { FeaturedProperty } from "@/lib/schemas/property/property";

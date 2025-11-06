@@ -26,7 +26,6 @@ const Templates = () => {
     queryFn: getAllTemplates,
   });
 
-  console.log(templates);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
 
   const handleSelectTemplate = (templateId: string) => {

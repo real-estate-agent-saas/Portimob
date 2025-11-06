@@ -35,6 +35,7 @@ export interface WebsiteTenantResponse {
   specialties: Specialty[] | [];
   templateCode: string | null;
   slug: string;
+  config: Record<string, any> | null;
 }
 
 export interface WebsiteFormValues {

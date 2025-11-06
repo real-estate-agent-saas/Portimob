@@ -3,10 +3,10 @@
 // React
 import { createContext, useContext } from "react";
 //Schema
-import { WebsiteResponse } from "@/lib/models/websites/website.model";
+import { WebsiteTenantResponse } from "@/lib/models/websites/website.model";
 
 interface TenantContextData {
-  website: WebsiteResponse;
+  website: WebsiteTenantResponse;
 }
 
 // Creates context that assumes string for slug and null if none value is provided

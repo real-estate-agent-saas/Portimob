@@ -7,6 +7,8 @@ import { FeaturedCarousel } from "@/components/ui-custom/public/tenant/default/h
 import { useTenant } from "@/lib/contexts/TenantContext";
 
 export default function Home() {
+  const website = useTenant().website;
+  console.log("Website no contexto:", website);
 
   return (
     <div>
@@ -26,7 +28,10 @@ export default function Home() {
                 comerciais.
               </p>
             </div>
-            <div className="flex-1 flex flex-col items-center justify-center px-3 h-[200px] rounded-3xl bg-white">
+            <div
+              className="flex-1 flex flex-col items-center justify-center px-3 h-[200px] rounded-3xl"
+              style={{ backgroundColor: website.config?.mainColor }}
+            >
               <h2 className="font-semibold text-xl text-center">
                 Acompanhamos você​
               </h2>
@@ -50,7 +55,7 @@ export default function Home() {
         <div className="pt-16 lg:pt-96">
           <div className="flex flex-col items-center">
             <h1 className="text-2xl font-semibold">
-              Studios para Morar ou Investir
+              {website.config?.bannerText ?? "Texto alternativo"}
             </h1>
             <p className="mt-4">
               Seu espaço moderno e rentável no coração de São Paulo

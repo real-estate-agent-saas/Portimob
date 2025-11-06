@@ -182,7 +182,7 @@ export default function Header({
                   </h1>
                   <p className="text-xl text-muted-foreground mb-4 text-neutral-500">
                     {`${
-                      gender === "FEMININO" ? "Corretora" : "Corretor"
+                      gender === "Feminino" ? "Corretora" : "Corretor"
                     } de Imóveis`}
                   </p>
                   <div className="flex gap-2 mb-6">

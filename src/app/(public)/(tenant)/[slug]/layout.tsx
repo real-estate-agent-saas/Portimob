@@ -31,7 +31,7 @@ export default async function TenantLayout({
 }) {
   // This API call uses the cache from the above request because they use the "same key" in their params
   const website = await getWebsiteOrNotFound((await params).slug);
-
+  
   const TemplateLayout = (
     await import(
       `@/app/(public)/(tenant)/templates/${website.templateCode}/layout`
